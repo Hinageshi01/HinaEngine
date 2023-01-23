@@ -3,7 +3,16 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-# User-specific files
+# Files built by Premake
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+Engine/Binary
+Engine/VSConfig
+build
+
+#User-specific files
 *.rsuser
 *.suo
 *.user
