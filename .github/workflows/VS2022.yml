@@ -9,18 +9,18 @@ on:
 jobs:
   build:
     runs-on: windows-latest
-
     steps:
+    - name: Run actions/checkout@v3.
     - uses: actions/checkout@v3
     
-    - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1.0.2
+    - name: Add MSBuild to PATH.
+      uses: microsoft/setup-msbuild@v1.1
 
-    - name: Make project
+    - name: Make project.
       run: ${{github.workspace}}/Make.bat
 
-    - name: Build Debugx64
+    - name: Build x64 Debug.
       run: msbuild ${{github.workspace}}/HinaEngine.sln /p:Configuration=Debug /p:Platform=x64
       
-    - name: Build Releasex64
+    - name: Build x64 Release.
       run: msbuild ${{github.workspace}}/HinaEngine.sln /p:Configuration=Release /p:Platform=x64
