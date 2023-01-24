@@ -8,6 +8,7 @@ echo [ assimp ] path : %ASSIMP_PATH%
 cd %ASSIMP_PATH%
 if not exist build mkdir build
 
+:: https://github.com/assimp/assimp/blob/master/Build.md
 cmake -S %ASSIMP_PATH% -B %ASSIMP_PATH%/build -D BUILD_SHARED_LIBS=OFF -D USE_STATIC_CRT=ON
 cmake -S . -B build
 
