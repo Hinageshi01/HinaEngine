@@ -36,6 +36,8 @@ project("Engine")
 		ThirdPartyPath,
 		path.join(ThirdPartyPath, "glfw/include"),
 		path.join(ThirdPartyPath, "glad/include"),
+		path.join(ThirdPartyPath, "stb"),
+		path.join(ThirdPartyPath, "glm"),
 		path.join(ThirdPartyPath, "assimp/include"),
 		path.join(ThirdPartyPath, "assimp/build/include"),
 
