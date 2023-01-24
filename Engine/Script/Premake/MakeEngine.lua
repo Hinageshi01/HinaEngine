@@ -8,7 +8,7 @@ project("Engine")
 	targetdir(BinaryPath)
 
 	files {
-		path.join(RuntimePath, "**.*"),
+		path.join(RuntimePath, "**.**"),
 
 		path.join(ThirdPartyPath, "glfw/include/**.**"),
         path.join(ThirdPartyPath, "glad/**.**"),
@@ -16,7 +16,7 @@ project("Engine")
 	
 	vpaths {
 		["Source/*"] = { 
-			path.join(RuntimePath, "**.*"),
+			path.join(RuntimePath, "**.**"),
 		},
 	}
 
@@ -26,7 +26,7 @@ project("Engine")
 		path.join(ThirdPartyPath, "glad/include"),
 		path.join(ThirdPartyPath, "assimp/include"),
 		path.join(ThirdPartyPath, "assimp/build/include"),
-		
+
 		RuntimePath,
 	}
 

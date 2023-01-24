@@ -1,4 +1,4 @@
-# Files built by Premake
+# Files built by Premake.
 .vs/
 build/
 Engine/Binary/
@@ -9,6 +9,6 @@ Engine/VSConfig/
 *.vcxproj.filters
 *.vcxproj.user
 
-# assimp example models
+# Assimp example models.
 Engine/Source/ThirdParty/assimp/test/models/*
 Engine/Source/ThirdParty/assimp/test/models-nonbsd/*
