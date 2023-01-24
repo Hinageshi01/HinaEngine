@@ -44,12 +44,12 @@ project("Engine")
     filter {}
 
     -- use /MT /MTd, not /MD /MDd
-	-- staticruntime "on"
-	-- filter { "configurations:Debug" }
-	-- 	runtime "Debug" -- /MTd
-	-- filter { "configurations:Release" }
-	-- 	runtime "Release" -- /MT
-	-- filter {}
+	staticruntime "on"
+	filter { "configurations:Debug" }
+		runtime "Debug" -- /MTd
+	filter { "configurations:Release" }
+		runtime "Release" -- /MT
+	filter {}
 
 	-- Disable these options can reduce the size of compiled binaries.
 	justmycode("Off")
