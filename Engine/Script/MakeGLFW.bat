@@ -2,7 +2,7 @@
 
 set GLFW_PATH=%THIRD_PARTY_PATH%/glfw
 
-echo Generating gltf...
+echo Generating glfw...
 echo [ glfw ] path : %GLFW_PATH%
 
 cd %GLFW_PATH%
