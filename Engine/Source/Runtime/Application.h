@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Core.h"
 #include <iostream>
+
+#include "Core.h"
 
 namespace Hina
 {

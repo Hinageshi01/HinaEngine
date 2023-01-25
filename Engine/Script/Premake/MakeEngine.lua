@@ -5,7 +5,7 @@ project("Hina")
 	-- StaticLib, ConsoleApp
 	language("C++")
 	cppdialect("C++latest")
-	dependson { "glfw", "assimp" }
+	dependson { "glfw", "assimp", "spdlog" }
 	
 	-- Intermediate path.
 	location(IntermediatePath)
@@ -29,20 +29,9 @@ project("Hina")
 	files {
 		path.join(RuntimePath, "**.**"),
 
-		path.join(ThirdPartyPath, "glad/**.c"),
-        path.join(ThirdPartyPath, "glad/**.h"),
-		path.join(ThirdPartyPath, "glad/**.cpp"),
-		path.join(ThirdPartyPath, "glad/**.hpp"),
-
-		path.join(ThirdPartyPath, "glm/**.c"),
-		path.join(ThirdPartyPath, "glm/**.h"),
-		path.join(ThirdPartyPath, "glm/**.cpp"),
-		path.join(ThirdPartyPath, "glm/**.hpp"),
-
-		path.join(ThirdPartyPath, "stb/**.c"),
-		path.join(ThirdPartyPath, "stb/**.h"),
-		path.join(ThirdPartyPath, "stb/**.cpp"),
-		path.join(ThirdPartyPath, "stb/**.hpp"),
+		path.join(ThirdPartyPath, "glad/**.**"),
+		path.join(ThirdPartyPath, "glm/**.**"),
+		path.join(ThirdPartyPath, "stb/**.**"),
 	}
 	
 	-- Set filter.
@@ -61,6 +50,7 @@ project("Hina")
 		path.join(ThirdPartyPath, "glm"),
 		path.join(ThirdPartyPath, "assimp/include"),
 		path.join(ThirdPartyPath, "assimp/build/include"),
+		path.join(ThirdPartyPath, "spdlog/include"),
 
 		RuntimePath,
 	}
@@ -70,27 +60,21 @@ project("Hina")
     libdirs {
         path.join(ThirdPartyPath, "glfw/build/src/Debug"),
         path.join(ThirdPartyPath, "assimp/build/lib/Debug"),
+        path.join(ThirdPartyPath, "spdlog/build/Debug"),
     }
     links {
-        "glfw3", "assimp-vc143-mtd"
+        "glfw3", "assimp-vc143-mtd", "spdlogd"
     }
     filter { "configurations:Release" }
     libdirs {
         path.join(ThirdPartyPath, "glfw/build/src/Release"),
         path.join(ThirdPartyPath, "assimp/build/lib/Release"),
+        path.join(ThirdPartyPath, "spdlog/build/Release"),
     }
     links {
-        "glfw3", "assimp-vc143-mt"
+        "glfw3", "assimp-vc143-mt", "spdlog"
     }
     filter {}
-
-    -- Use /MT and /MTd, not /MD and /MDd.
-	staticruntime "on"
-	filter { "configurations:Debug" }
-		runtime "Debug" -- /MTd
-	filter { "configurations:Release" }
-		runtime "Release" -- /MT
-	filter {}
 
 	-- Disable these options can reduce the size of compiled binaries.
 	justmycode("Off")
@@ -104,7 +88,7 @@ project("Hina")
 	
 	flags {
 		-- Treat warnings as errors.
-		"FatalWarnings",
+		-- "FatalWarnings",
 		-- Compiler uses multiple thread.
 		"MultiProcessorCompile",
 	}

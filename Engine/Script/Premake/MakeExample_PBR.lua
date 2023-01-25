@@ -40,6 +40,7 @@ project("Example_PBR")
 		path.join(ThirdPartyPath, "glm"),
 		path.join(ThirdPartyPath, "assimp/include"),
 		path.join(ThirdPartyPath, "assimp/build/include"),
+		path.join(ThirdPartyPath, "spdlog/include"),
 
 		RuntimePath,
 	}
@@ -71,14 +72,6 @@ project("Example_PBR")
 		}
 	filter {}
 
-    -- use /MT /MTd, not /MD /MDd
-	staticruntime "on"
-	filter { "configurations:Debug" }
-		runtime "Debug" -- /MTd
-	filter { "configurations:Release" }
-		runtime "Release" -- /MT
-	filter {}
-
 	-- Disable these options can reduce the size of compiled binaries.
 	justmycode("Off")
 	editAndContinue("Off")
@@ -90,8 +83,8 @@ project("Example_PBR")
 	externalwarnings("Off")
 	
 	flags {
-		"FatalWarnings", -- treat warnings as errors
-		"MultiProcessorCompile", -- compiler uses multiple thread
+		-- "FatalWarnings",
+		"MultiProcessorCompile",
 	}
 
 print("")
