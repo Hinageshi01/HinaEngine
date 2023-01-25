@@ -4,24 +4,24 @@ project("Engine")
 	cppdialect("C++latest")
 	dependson { "glfw", "assimp" }
 	
-	location(path.join(VSConfigPath, "Engine"))
+	location(IntermediatePath)
 	targetdir(BinaryPath)
 
 	files {
 		path.join(RuntimePath, "**.**"),
 
-        path.join(ThirdPartyPath, "glad/**.h"),
 		path.join(ThirdPartyPath, "glad/**.c"),
+        path.join(ThirdPartyPath, "glad/**.h"),
 		path.join(ThirdPartyPath, "glad/**.cpp"),
 		path.join(ThirdPartyPath, "glad/**.hpp"),
 
-		path.join(ThirdPartyPath, "glm/**.h"),
 		path.join(ThirdPartyPath, "glm/**.c"),
+		path.join(ThirdPartyPath, "glm/**.h"),
 		path.join(ThirdPartyPath, "glm/**.cpp"),
 		path.join(ThirdPartyPath, "glm/**.hpp"),
 
-		path.join(ThirdPartyPath, "stb/**.h"),
 		path.join(ThirdPartyPath, "stb/**.c"),
+		path.join(ThirdPartyPath, "stb/**.h"),
 		path.join(ThirdPartyPath, "stb/**.cpp"),
 		path.join(ThirdPartyPath, "stb/**.hpp"),
 	}

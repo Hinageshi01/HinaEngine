@@ -2,7 +2,7 @@
 .vs/
 build/
 Engine/Binary/
-Engine/VSConfig/
+Engine/Intermediate/
 
 *.sln
 *.vcxproj
