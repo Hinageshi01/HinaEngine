@@ -7,5 +7,5 @@
 		#define HN_API __declspec(dllimport)
 	#endif
 #else
-	#error Hina only support windows!
+	#error Hina only supports windows!
 #endif
