@@ -1,4 +1,4 @@
-print("Generating HinaEngine...")
+print("Generating Hina...")
 
 project("Hina")
 	kind("SharedLib")
