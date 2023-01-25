@@ -4,8 +4,8 @@ CurrentWorkingDirectory = os.getcwd()
 RootPath = string.sub(CurrentWorkingDirectory, 0, string.len(CurrentWorkingDirectory) - string.len("Engine/Script/Premake"))
 EnginePath = path.join(RootPath, "Engine")
 
-BinaryPath = path.join(EnginePath, "Binary")
-IntermediatePath = path.join(EnginePath, "Intermediate")
+BinaryPath = path.join(EnginePath, "bin")
+IntermediatePath = path.join(EnginePath, "int")
 
 SourcePath = path.join(EnginePath, "Source")
 RuntimePath = path.join(SourcePath, "Runtime")

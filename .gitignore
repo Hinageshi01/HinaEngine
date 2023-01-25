@@ -1,8 +1,9 @@
 # Files built by Premake.
 .vs/
+x64/
 build/
-Engine/Binary/
-Engine/Intermediate/
+Engine/bin/
+Engine/int/
 
 *.sln
 *.vcxproj

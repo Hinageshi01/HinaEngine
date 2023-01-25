@@ -1,4 +1,4 @@
-print("Generating HinaEngine...")
+print("Generating HinaEngine solution...")
 
 dofile("path.lua")
 
@@ -8,9 +8,10 @@ workspace(EngineName)
     location(RootPath)
     targetdir(BinariesPath)
 
-    architecture "x64"
+	-- Set platform.
+    architecture ("x64")
 	
-	-- Set build configs
+	-- Set configurations.
 	configurations { "Debug", "Release" }
 	
 	-- No optimization.
@@ -18,12 +19,14 @@ workspace(EngineName)
 		defines { "_DEBUG" }
 		symbols("On")
 		optimize("Off")
+
 	-- Full optimization.
 	filter "configurations:Release"
 		defines { "NDEBUG" }
 		symbols("Off")
 		optimize("Full")
-	-- Avoid compiler warnings about non-utf8 characters
+
+	-- Avoid compiler warnings about non-utf8 characters.
 	filter "system:Windows"
 		systemversion("latest")
 		buildoptions { "/utf-8" }
@@ -33,3 +36,5 @@ workspace(EngineName)
 dofile("MakeThirdParty.lua")
 
 dofile("MakeEngine.lua")
+
+dofile("MakeExamples.lua")

@@ -1,12 +1,31 @@
-project("Engine")
-	kind("ConsoleApp")
+print("Generating HinaEngine...")
+
+project("Hina")
+	kind("SharedLib")
+	-- StaticLib, ConsoleApp
 	language("C++")
 	cppdialect("C++latest")
 	dependson { "glfw", "assimp" }
 	
+	-- Intermediate path.
 	location(IntermediatePath)
-	targetdir(BinaryPath)
 
+	-- Binary path and target name.
+    filter { "configurations:Debug" }
+	targetdir(path.join(BinaryPath, "Debug-x64/Hina"))
+	targetname("Hinad")
+    filter { "configurations:Release" }
+	targetdir(path.join(BinaryPath, "Release-x64/Hina"))
+	targetname("Hina")
+    filter {}
+
+	-- Set definitions.
+	defines {
+		"HN_PLATFORM_WIN",
+		"HN_BUILD_DLL",
+	}
+
+	-- Set files.
 	files {
 		path.join(RuntimePath, "**.**"),
 
@@ -26,12 +45,14 @@ project("Engine")
 		path.join(ThirdPartyPath, "stb/**.hpp"),
 	}
 	
+	-- Set filter.
 	vpaths {
 		["Source/*"] = { 
 			path.join(RuntimePath, "**.**"),
 		},
 	}
 
+	-- Set include paths.
     includedirs {
 		ThirdPartyPath,
 		path.join(ThirdPartyPath, "glfw/include"),
@@ -44,6 +65,7 @@ project("Engine")
 		RuntimePath,
 	}
 
+	-- Link thirdparty libs.
     filter { "configurations:Debug" }
     libdirs {
         path.join(ThirdPartyPath, "glfw/build/src/Debug"),
@@ -62,7 +84,7 @@ project("Engine")
     }
     filter {}
 
-    -- use /MT /MTd, not /MD /MDd
+    -- Use /MT and /MTd, not /MD and /MDd.
 	staticruntime "on"
 	filter { "configurations:Debug" }
 		runtime "Debug" -- /MTd
@@ -81,6 +103,10 @@ project("Engine")
 	externalwarnings("Off")
 	
 	flags {
-		"FatalWarnings", -- treat warnings as errors
-		"MultiProcessorCompile", -- compiler uses multiple thread
+		-- Treat warnings as errors.
+		"FatalWarnings",
+		-- Compiler uses multiple thread.
+		"MultiProcessorCompile",
 	}
+
+print("")
