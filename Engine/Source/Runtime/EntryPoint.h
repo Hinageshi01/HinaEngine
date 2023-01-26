@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
     HN_INFO("The truth is {}.", tmp);
 
     Hina::WindowResizeEvent wre(123, 456);
-    std::cout << wre << std::endl;
+    HN_INFO(wre);
 
     Hina::Application *app = Hina::CreateApplication();
     app->Run();

@@ -57,10 +57,6 @@ public:
 		return GetCategoryFlags() & static_cast<EVT_CAT_TYP>(category);
 	}
 
-	friend std::ostream &operator<<(std::ostream &os, const Event &event) {
-		return os << event.ToString();
-	}
-
 	bool m_isHandled = false;
 };
 
@@ -82,5 +78,9 @@ public:
 private:
 	Event &m_Event;
 };
+
+inline std::ostream &operator<<(std::ostream &os, const Event &event) {
+	return os << event.ToString();
+}
 
 }

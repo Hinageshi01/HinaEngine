@@ -11,7 +11,7 @@ constexpr T BitLeftMove(const uint8_t x) {
 	static_assert(
 		!std::numeric_limits<T>::is_signed && std::numeric_limits<T>::is_integer &&
 		"Only support unsigned integer.");
-		return static_cast<T>(1 << x);
+	return static_cast<T>(1 << x);
 }
 
 #define BIT(x) (1 << x)
