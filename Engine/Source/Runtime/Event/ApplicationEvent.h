@@ -5,6 +5,8 @@
 namespace Hina
 {
 
+#define APPLICATION_CATEGORY static_cast<EVT_CAT_TYP>(EventCategory::Application);
+
 class WindowResizeEvent : public Event
 {
 public:
@@ -29,7 +31,7 @@ public:
 	static EventType GetStaticType() { return EventType::WindowResize; }
 	virtual EventType GetEventType() const override { return GetStaticType(); }
 	virtual const char *GetName() const override { return "WindowResize"; }
-	virtual uint8_t GetCategoryFlags() const override { return EventCategory::Application; }
+	virtual EVT_CAT_TYP GetCategoryFlags() const override { return APPLICATION_CATEGORY; }
 
 private:
 	unsigned int m_width, m_height;
@@ -48,7 +50,7 @@ public:
 	static EventType GetStaticType() { return EventType::WindowClose; }
 	virtual EventType GetEventType() const override { return GetStaticType(); }
 	virtual const char *GetName() const override { return "WindowClose"; }
-	virtual uint8_t GetCategoryFlags() const override { return EventCategory::Application; }
+	virtual EVT_CAT_TYP GetCategoryFlags() const override { return APPLICATION_CATEGORY; }
 };
 
 class AppTickEvent : public Event
@@ -64,7 +66,7 @@ public:
 	static EventType GetStaticType() { return EventType::AppTick; }
 	virtual EventType GetEventType() const override { return GetStaticType(); }
 	virtual const char *GetName() const override { return "AppTick"; }
-	virtual uint8_t GetCategoryFlags() const override { return EventCategory::Application; }
+	virtual EVT_CAT_TYP GetCategoryFlags() const override { return APPLICATION_CATEGORY; }
 };
 
 class AppUpdateEvent : public Event
@@ -80,7 +82,7 @@ public:
 	static EventType GetStaticType() { return EventType::AppUpdate; }
 	virtual EventType GetEventType() const override { return GetStaticType(); }
 	virtual const char *GetName() const override { return "AppUpdate"; }
-	virtual uint8_t GetCategoryFlags() const override { return EventCategory::Application; }
+	virtual EVT_CAT_TYP GetCategoryFlags() const override { return APPLICATION_CATEGORY; }
 };
 
 class AppRenderEvent : public Event
@@ -96,7 +98,7 @@ public:
 	static EventType GetStaticType() { return EventType::AppRender; }
 	virtual EventType GetEventType() const override { return GetStaticType(); }
 	virtual const char *GetName() const override { return "AppRender"; }
-	virtual uint8_t GetCategoryFlags() const override { return EventCategory::Application; }
+	virtual EVT_CAT_TYP GetCategoryFlags() const override { return APPLICATION_CATEGORY; }
 };
 
 }

@@ -18,8 +18,9 @@ public:
 
 	KeyCode GetKeyCode() const { return m_keyCode; }
 
-	virtual uint8_t GetCategoryFlags() const override {
-		return EventCategory::Keyboard | EventCategory::Input;
+	virtual EVT_CAT_TYP GetCategoryFlags() const override {
+		return static_cast<EVT_CAT_TYP>(EventCategory::Keyboard) |
+			static_cast<EVT_CAT_TYP>(EventCategory::Input);
 	}
 
 protected:

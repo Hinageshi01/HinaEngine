@@ -19,7 +19,10 @@ enum class EventType
 	MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled    // Mouse event.
 };
 
-enum EventCategory : uint8_t
+// Event category type.
+using EVT_CAT_TYP = uint8_t;
+
+enum class EventCategory : EVT_CAT_TYP
 {
 	None = 0x00,
 	Application = BIT8(0U),
@@ -47,11 +50,15 @@ public:
 
 	virtual EventType GetEventType() const = 0;
 	virtual const char *GetName() const = 0;
-	virtual uint8_t GetCategoryFlags() const = 0;
+	virtual EVT_CAT_TYP GetCategoryFlags() const = 0;
 	virtual std::string ToString() const { return GetName(); }
 
 	bool IsInCategory(EventCategory category) {
-		return GetCategoryFlags() & category;
+		return GetCategoryFlags() & static_cast<EVT_CAT_TYP>(category);
+	}
+
+	friend std::ostream &operator<<(std::ostream &os, const Event &event) {
+		return os << event.ToString();
 	}
 
 	bool m_isHandled = false;
@@ -75,9 +82,5 @@ public:
 private:
 	Event &m_Event;
 };
-
-inline std::ostream &operator<<(std::ostream &os, const Event &event) {
-	return os << event.ToString();
-}
 
 }

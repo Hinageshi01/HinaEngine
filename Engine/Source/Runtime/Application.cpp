@@ -14,9 +14,6 @@ Application::~Application() {
 }
 
 void Application::Run() {
-	WindowResizeEvent wre{ 123, 456 };
-	std::cout << wre << std::endl;
-
 	while(true) {
 		
 	}

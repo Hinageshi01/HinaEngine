@@ -30,7 +30,10 @@ public:
 	static EventType GetStaticType() { return EventType::MouseMoved; }
 	virtual EventType GetEventType() const override { return GetStaticType(); }
 	virtual const char *GetName() const override { return "MouseMoved"; }
-	virtual uint8_t GetCategoryFlags() const override { return EventCategory::Mouse | EventCategory::Input; }
+	virtual EVT_CAT_TYP GetCategoryFlags() const override {
+		return static_cast<EVT_CAT_TYP>(EventCategory::Mouse) |
+			static_cast<EVT_CAT_TYP>(EventCategory::Input);
+	}
 
 private:
 	float m_positionX, m_positionY;
@@ -60,7 +63,10 @@ public:
 	static EventType GetStaticType() { return EventType::MouseScrolled; }
 	virtual EventType GetEventType() const override { return GetStaticType(); }
 	virtual const char *GetName() const override { return "MouseScrolled"; }
-	virtual uint8_t GetCategoryFlags() const override { return EventCategory::Mouse | EventCategory::Input; }
+	virtual EVT_CAT_TYP GetCategoryFlags() const override {
+		return static_cast<EVT_CAT_TYP>(EventCategory::Mouse) |
+			static_cast<EVT_CAT_TYP>(EventCategory::Input);
+	}
 
 private:
 	float m_offsetX, m_offsetY;
@@ -78,8 +84,10 @@ public:
 
 	MouseCode GetMouseButton() const { return m_button; }
 
-	virtual uint8_t GetCategoryFlags() const override {
-		return EventCategory::Mouse | EventCategory::Input | EventCategory::MouseButton;
+	virtual EVT_CAT_TYP GetCategoryFlags() const override {
+		return static_cast<EVT_CAT_TYP>(EventCategory::Mouse) |
+			static_cast<EVT_CAT_TYP>(EventCategory::Input) |
+			static_cast<EVT_CAT_TYP>(EventCategory::MouseButton);
 	}
 
 protected:
