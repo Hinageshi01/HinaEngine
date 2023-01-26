@@ -3,7 +3,7 @@ print("Generating Example_PBR...")
 project("Example_PBR")
 	kind("ConsoleApp")
     language("C++")
-	cppdialect("C++latest")
+	cppdialect("C++20")
 	dependson { "Hina" }
 	
 	location(IntermediatePath)
@@ -62,15 +62,15 @@ project("Example_PBR")
     filter {}
 
 	-- copy dll into binary folder automatically.
-	filter { "configurations:Debug" }
-		postbuildcommands {
-            "copy \""..path.join(BinaryPath, "Debug-x64\\Hina\\Hinad.dll\" \"")..path.join(BinaryPath, "Debug-x64\\PBR\\Hinad.dll\" /y")
-		}
-	filter { "configurations:Release" }
-		postbuildcommands {
-            "copy \""..path.join(BinaryPath, "Release-x64\\Hina\\Hina.dll\" \"")..path.join(BinaryPath, "Release-x64\\PBR\\Hina.dll\" /y")
-		}
-	filter {}
+	-- filter { "configurations:Debug" }
+	-- 	postbuildcommands {
+    --         "copy \""..path.join(BinaryPath, "Debug-x64\\Hina\\Hinad.dll\" \"")..path.join(BinaryPath, "Debug-x64\\PBR\\Hinad.dll\" /y")
+	-- 	}
+	-- filter { "configurations:Release" }
+	-- 	postbuildcommands {
+    --         "copy \""..path.join(BinaryPath, "Release-x64\\Hina\\Hina.dll\" \"")..path.join(BinaryPath, "Release-x64\\PBR\\Hina.dll\" /y")
+	-- 	}
+	-- filter {}
 
 	-- Disable these options can reduce the size of compiled binaries.
 	justmycode("Off")
@@ -86,5 +86,7 @@ project("Example_PBR")
 		-- "FatalWarnings",
 		"MultiProcessorCompile",
 	}
+
+    exceptionhandling ("On")
 
 print("")

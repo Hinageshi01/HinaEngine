@@ -1,11 +1,11 @@
 print("Generating Hina...")
 
 project("Hina")
-	kind("SharedLib")
-	-- StaticLib, ConsoleApp
+	kind("StaticLib")
+	-- SharedLib, StaticLib, ConsoleApp
 	language("C++")
-	cppdialect("C++latest")
-	dependson { "glfw", "assimp", "spdlog" }
+	cppdialect("C++20")
+	dependson { "glfw", "assimp" }
 	
 	-- Intermediate path.
 	location(IntermediatePath)
@@ -60,19 +60,17 @@ project("Hina")
     libdirs {
         path.join(ThirdPartyPath, "glfw/build/src/Debug"),
         path.join(ThirdPartyPath, "assimp/build/lib/Debug"),
-        path.join(ThirdPartyPath, "spdlog/build/Debug"),
     }
     links {
-        "glfw3", "assimp-vc143-mtd", "spdlogd"
+        "glfw3", "assimp-vc143-mtd",
     }
     filter { "configurations:Release" }
     libdirs {
         path.join(ThirdPartyPath, "glfw/build/src/Release"),
         path.join(ThirdPartyPath, "assimp/build/lib/Release"),
-        path.join(ThirdPartyPath, "spdlog/build/Release"),
     }
     links {
-        "glfw3", "assimp-vc143-mt", "spdlog"
+        "glfw3", "assimp-vc143-mt",
     }
     filter {}
 
@@ -92,5 +90,7 @@ project("Hina")
 		-- Compiler uses multiple thread.
 		"MultiProcessorCompile",
 	}
+	
+	exceptionhandling ("On")
 
 print("")

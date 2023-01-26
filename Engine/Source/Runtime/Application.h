@@ -2,12 +2,10 @@
 
 #include <iostream>
 
-#include "Core.h"
-
 namespace Hina
 {
 
-class HN_API Application
+class Application
 {
 public:
 	Application();

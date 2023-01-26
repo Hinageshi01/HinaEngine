@@ -7,4 +7,6 @@ rem Set projects as static lib.
 
 call %SCRIPT_PATH%/MakeGLFW.bat
 call %SCRIPT_PATH%/MakeAssimp.bat
-call %SCRIPT_PATH%/MakeSpdlog.bat
+
+rem Use spdlog as header only lib.
+rem call %SCRIPT_PATH%/MakeSpdlog.bat

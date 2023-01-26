@@ -16,13 +16,13 @@ group "ThirdParty"
 		location(assimpProjectPath)
 		targetdir(BinaryPath)
 
-local spdlogProjectPath = path.join(ThirdPartyPath, "spdlog/build")
-print("[ spdlog ] project path : "..spdlogProjectPath)
-group "ThirdParty"
-	externalproject("spdlog")
-		kind("StaticLib")
-		location(spdlogProjectPath)
-		targetdir(BinaryPath)
+-- local spdlogProjectPath = path.join(ThirdPartyPath, "spdlog/build")
+-- print("[ spdlog ] project path : "..spdlogProjectPath)
+-- group "ThirdParty"
+-- 	externalproject("spdlog")
+-- 		kind("StaticLib")
+-- 		location(spdlogProjectPath)
+-- 		targetdir(BinaryPath)
 
 group ""
 
