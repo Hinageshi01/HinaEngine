@@ -17,4 +17,4 @@ void Log::Init() {
 	s_clientLogger->set_level(spdlog::level::trace);
 }
 
-}
+} // namespace Hina

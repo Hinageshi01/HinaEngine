@@ -143,4 +143,4 @@ public:
 	virtual const char *GetName() const override { return "MouseButtonReleased"; }
 };
 
-}
+} // namespace Hina

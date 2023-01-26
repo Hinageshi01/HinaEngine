@@ -107,4 +107,4 @@ public:
 	virtual const char *GetName() const override { return "KeyTyped"; }
 };
 
-}
+} // namespace Hina

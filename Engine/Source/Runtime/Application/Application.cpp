@@ -19,4 +19,4 @@ void Application::Run() {
 	}
 }
 
-}
+} // namespace Hina

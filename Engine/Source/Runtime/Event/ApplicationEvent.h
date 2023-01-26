@@ -101,4 +101,4 @@ public:
 	virtual EVT_CAT_TYP GetCategoryFlags() const override { return APPLICATION_CATEGORY; }
 };
 
-}
+} // namespace Hina

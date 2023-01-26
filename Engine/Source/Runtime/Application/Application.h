@@ -17,4 +17,4 @@ public:
 // To be defined in example.
 Application *CreateApplication();
 
-}
+} // namespace Hina
