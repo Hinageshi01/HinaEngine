@@ -7,13 +7,13 @@ project("Example_PBR")
 	dependson { "Hina" }
 	
 	location(IntermediatePath)
+	objdir(path.join(IntermediatePath, "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/%{prj.name}"))
+	targetdir(path.join(BinaryPath, "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/%{prj.name}"))
 
     filter { "configurations:Debug" }
-	targetdir(path.join(BinaryPath, "Debug-x64/PBR"))
-	targetname("PBRd")
+		targetname("%{prj.name}".."d")
     filter { "configurations:Release" }
-	targetdir(path.join(BinaryPath, "Release-x64/PBR"))
-	targetname("PBR")
+		targetname("%{prj.name}")
     filter {}
 
     defines {
@@ -45,23 +45,21 @@ project("Example_PBR")
 		RuntimePath,
 	}
 
+	libdirs {
+        path.join(BinaryPath, "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/Hina"),
+    }
+
     filter { "configurations:Debug" }
-    libdirs {
-        path.join(BinaryPath, "Debug-x64/Hina"),
-    }
-    links {
-        "Hinad"
-    }
+    	links {
+    	    "Hinad",
+    	}
     filter { "configurations:Release" }
-    libdirs {
-        path.join(BinaryPath, "Release-x64/Hina"),
-    }
-    links {
-        "Hina",
-    }
+    	links {
+    	    "Hina",
+    	}
     filter {}
 
-	-- copy dll into binary folder automatically.
+	-- Copy dll into binary folder automatically.
 	-- filter { "configurations:Debug" }
 	-- 	postbuildcommands {
     --         "copy \""..path.join(BinaryPath, "Debug-x64\\Hina\\Hinad.dll\" \"")..path.join(BinaryPath, "Debug-x64\\PBR\\Hinad.dll\" /y")
@@ -72,13 +70,18 @@ project("Example_PBR")
 	-- 	}
 	-- filter {}
 
-	-- Disable these options can reduce the size of compiled binaries.
+	staticruntime "on"
+	filter { "configurations:Debug" }
+		runtime("Debug")
+	filter { "configurations:Release" }
+		runtime("Release")
+	filter {}
+
 	justmycode("Off")
 	editAndContinue("Off")
 	exceptionhandling("Off")
 	rtti("Off")	
 		
-	-- Strict.
 	warnings("Default")
 	externalwarnings("Off")
 	
@@ -87,6 +90,6 @@ project("Example_PBR")
 		"MultiProcessorCompile",
 	}
 
-    exceptionhandling ("On")
+    exceptionhandling("On")
 
 print("")

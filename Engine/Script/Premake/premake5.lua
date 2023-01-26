@@ -9,7 +9,7 @@ workspace(EngineName)
     targetdir(BinariesPath)
 
 	-- Set platform.
-    architecture ("x64")
+    architecture("x64")
 	
 	-- Set configurations.
 	configurations { "Debug", "Release" }

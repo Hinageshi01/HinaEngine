@@ -7,16 +7,16 @@ project("Hina")
 	cppdialect("C++20")
 	dependson { "glfw", "assimp" }
 	
-	-- Intermediate path.
+	-- Intermediate and binary path.
 	location(IntermediatePath)
+	objdir(path.join(IntermediatePath, "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/%{prj.name}"))
+	targetdir(path.join(BinaryPath, "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/%{prj.name}"))
 
-	-- Binary path and target name.
+	-- Target name.
     filter { "configurations:Debug" }
-	targetdir(path.join(BinaryPath, "Debug-x64/Hina"))
-	targetname("Hinad")
+		targetname("%{prj.name}".."d")
     filter { "configurations:Release" }
-	targetdir(path.join(BinaryPath, "Release-x64/Hina"))
-	targetname("Hina")
+		targetname("%{prj.name}")
     filter {}
 
 	-- Set definitions.
@@ -32,6 +32,7 @@ project("Hina")
 		path.join(ThirdPartyPath, "glad/**.**"),
 		path.join(ThirdPartyPath, "glm/**.**"),
 		path.join(ThirdPartyPath, "stb/**.**"),
+		path.join(ThirdPartyPath, "spdlog/include/spdlog/**.**"),
 	}
 	
 	-- Set filter.
@@ -57,22 +58,30 @@ project("Hina")
 
 	-- Link thirdparty libs.
     filter { "configurations:Debug" }
-    libdirs {
-        path.join(ThirdPartyPath, "glfw/build/src/Debug"),
-        path.join(ThirdPartyPath, "assimp/build/lib/Debug"),
-    }
-    links {
-        "glfw3", "assimp-vc143-mtd",
-    }
+    	libdirs {
+    	    path.join(ThirdPartyPath, "glfw/build/src/Debug"),
+    	    path.join(ThirdPartyPath, "assimp/build/lib/Debug"),
+    	}
+    	links {
+    	    "glfw3", "assimp-vc143-mtd",
+    	}
     filter { "configurations:Release" }
-    libdirs {
-        path.join(ThirdPartyPath, "glfw/build/src/Release"),
-        path.join(ThirdPartyPath, "assimp/build/lib/Release"),
-    }
-    links {
-        "glfw3", "assimp-vc143-mt",
-    }
+    	libdirs {
+    	    path.join(ThirdPartyPath, "glfw/build/src/Release"),
+    	    path.join(ThirdPartyPath, "assimp/build/lib/Release"),
+    	}
+    	links {
+    	    "glfw3", "assimp-vc143-mt",
+    	}
     filter {}
+
+	-- Use /MT and /MTd.
+	staticruntime "on"
+	filter { "configurations:Debug" }
+		runtime("Debug") -- /MTd
+	filter { "configurations:Release" }
+		runtime("Release") -- /MT
+	filter {}
 
 	-- Disable these options can reduce the size of compiled binaries.
 	justmycode("Off")
@@ -91,6 +100,7 @@ project("Hina")
 		"MultiProcessorCompile",
 	}
 	
-	exceptionhandling ("On")
+	-- Enable cpp exception.
+	exceptionhandling("On")
 
 print("")
