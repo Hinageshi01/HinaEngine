@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "Hina.h"
 
 class PBR : public Hina::Application
