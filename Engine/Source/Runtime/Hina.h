@@ -3,7 +3,7 @@
 // For use by examples.
 
 #include "Application.h"
-#include "Log.h"
+#include "Log/Log.h"
 
 #include <iostream>
 
