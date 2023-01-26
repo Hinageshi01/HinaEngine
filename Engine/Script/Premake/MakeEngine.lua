@@ -20,10 +20,12 @@ project("Hina")
     filter {}
 
 	-- Set definitions.
-	defines {
-		"HN_PLATFORM_WIN",
-		"HN_BUILD_DLL",
-	}
+	filter { "system:Windows" }
+		defines {
+			"HN_PLATFORM_WIN",
+			"HN_BUILD_DLL",
+		}
+	filter {}
 
 	-- Set files.
 	files {

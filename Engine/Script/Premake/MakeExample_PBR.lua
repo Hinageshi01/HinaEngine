@@ -16,9 +16,11 @@ project("Example_PBR")
 		targetname("%{prj.name}")
     filter {}
 
-    defines {
-		"HN_PLATFORM_WIN",
-	}
+	filter { "system:Windows" }
+		defines {
+			"HN_PLATFORM_WIN",
+		}
+	filter {}
 
     local PBRPath = path.join(SourcePath, "Example_PBR")
 
