@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/Window.h"
+#include "Event/ApplicationEvent.h"
 
 namespace Hina
 {
@@ -13,7 +14,11 @@ public:
 
 	void Run();
 
+	void OnEvent(Event &e);
+
 private:
+	bool OnWindowClose(WindowCloseEvent &e);
+
 	std::unique_ptr<Window> m_window;
 	bool m_isRunning = false;
 };
