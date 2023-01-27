@@ -2,6 +2,7 @@
 
 #include "Core/Window.h"
 #include "Event/ApplicationEvent.h"
+#include "Layer/LayerStack.h"
 
 namespace Hina
 {
@@ -16,11 +17,15 @@ public:
 
 	void OnEvent(Event &e);
 
+	void PushLater(Layer * layer);
+	void PushOverlay(Layer * layer);
+
 private:
 	bool OnWindowClose(WindowCloseEvent &e);
 
 	std::unique_ptr<Window> m_window;
 	bool m_isRunning = false;
+	LayerStack m_layerStack;
 };
 
 // To be defined in example.
