@@ -1,3 +1,5 @@
+#include "hnpch.h"
+
 #include "Hina.h"
 
 class PBR : public Hina::Application

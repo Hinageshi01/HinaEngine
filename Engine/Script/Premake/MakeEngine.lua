@@ -12,6 +12,10 @@ project("Hina")
 	objdir(path.join(IntermediatePath, "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/%{prj.name}"))
 	targetdir(path.join(BinaryPath, "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/%{prj.name}"))
 
+	-- Set pch flie.
+	pchheader("hnpch.h")
+	pchsource(path.join(SourcePath, "hnpch.cpp"))
+
 	-- Target name.
     filter { "configurations:Debug" }
 		targetname("%{prj.name}".."d")
@@ -29,12 +33,12 @@ project("Hina")
 
 	-- Set files.
 	files {
+		path.join(SourcePath, "*.*"),
 		path.join(RuntimePath, "**.**"),
 
-		path.join(ThirdPartyPath, "glad/**.**"),
 		path.join(ThirdPartyPath, "glm/**.**"),
 		path.join(ThirdPartyPath, "stb/**.**"),
-		path.join(ThirdPartyPath, "spdlog/include/spdlog/**.**"),
+		path.join(ThirdPartyPath, "spdlog/include/**.**"),
 	}
 	
 	-- Set filter.
@@ -42,10 +46,15 @@ project("Hina")
 		["Source/*"] = { 
 			path.join(RuntimePath, "**.**"),
 		},
+		["Include/*"] = { 
+			path.join(SourcePath, "*.*"),
+		},
 	}
 
 	-- Set include paths.
     includedirs {
+		SourcePath,
+		RuntimePath,
 		ThirdPartyPath,
 		path.join(ThirdPartyPath, "glfw/include"),
 		path.join(ThirdPartyPath, "glad/include"),
@@ -54,8 +63,6 @@ project("Hina")
 		path.join(ThirdPartyPath, "assimp/include"),
 		path.join(ThirdPartyPath, "assimp/build/include"),
 		path.join(ThirdPartyPath, "spdlog/include"),
-
-		RuntimePath,
 	}
 
 	-- Link thirdparty libs.
@@ -63,17 +70,19 @@ project("Hina")
     	libdirs {
     	    path.join(ThirdPartyPath, "glfw/build/src/Debug"),
     	    path.join(ThirdPartyPath, "assimp/build/lib/Debug"),
+    	    path.join(ThirdPartyPath, "glad/build/Debug"),
     	}
     	links {
-    	    "glfw3", "assimp-vc143-mtd",
+    	    "glfw3", "gladd", "assimp-vc143-mtd",
     	}
     filter { "configurations:Release" }
     	libdirs {
     	    path.join(ThirdPartyPath, "glfw/build/src/Release"),
     	    path.join(ThirdPartyPath, "assimp/build/lib/Release"),
+    	    path.join(ThirdPartyPath, "glad/build/Release"),
     	}
     	links {
-    	    "glfw3", "assimp-vc143-mt",
+    	    "glfw3", "glad", "assimp-vc143-mt",
     	}
     filter {}
 

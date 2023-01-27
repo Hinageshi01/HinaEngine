@@ -10,6 +10,9 @@ project("Example_PBR")
 	objdir(path.join(IntermediatePath, "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/%{prj.name}"))
 	targetdir(path.join(BinaryPath, "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/%{prj.name}"))
 
+	pchheader("hnpch.h")
+	pchsource(path.join(SourcePath, "hnpch.cpp"))
+
     filter { "configurations:Debug" }
 		targetname("%{prj.name}".."d")
     filter { "configurations:Release" }
@@ -25,6 +28,7 @@ project("Example_PBR")
     local PBRPath = path.join(SourcePath, "Example_PBR")
 
 	files {
+		path.join(SourcePath, "*.*"),
 		path.join(PBRPath, "**.**"),
 	}
 	
@@ -32,10 +36,15 @@ project("Example_PBR")
 		["Source/*"] = { 
 			path.join(PBRPath, "**.**"),
 		},
+		["Include/*"] = { 
+			path.join(SourcePath, "*.*"),
+		},
 	}
 
     includedirs {
-        ThirdPartyPath,
+		SourcePath,
+		RuntimePath,
+		ThirdPartyPath,
 		path.join(ThirdPartyPath, "glfw/include"),
 		path.join(ThirdPartyPath, "glad/include"),
 		path.join(ThirdPartyPath, "stb"),
@@ -43,8 +52,6 @@ project("Example_PBR")
 		path.join(ThirdPartyPath, "assimp/include"),
 		path.join(ThirdPartyPath, "assimp/build/include"),
 		path.join(ThirdPartyPath, "spdlog/include"),
-
-		RuntimePath,
 	}
 
 	libdirs {

@@ -5,6 +5,7 @@
 extern Hina::Application *Hina::CreateApplication();
 
 int main(int argc, char **argv) {
+    // Just some test code here.
     Hina::Log::Init();
     HN_CORE_WARN("Initialized Log!");
     int tmp = 42;

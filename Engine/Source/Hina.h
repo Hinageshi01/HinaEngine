@@ -6,8 +6,6 @@
 #include "Event/ApplicationEvent.h"
 #include "Log/Log.h"
 
-#include <iostream>
-
 //////////////////// Entry Point ////////////////////
-#include "EntryPoint.h"
+#include "Core/EntryPoint.h"
 //////////////////// Entry Point ////////////////////
