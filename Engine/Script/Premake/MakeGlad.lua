@@ -6,15 +6,14 @@ project("glad")
 	language("C++")
 	cppdialect("C++20")
 
-    local gladPath = path.join(ThirdPartyPath, "glad/build")
-    print("[ glad ] project path : "..gladPath)
-    location(gladPath)
+    local gladBuildPath = path.join(ThirdPartyPath, "glad/build")
+    location(gladBuildPath)
 
     filter { "configurations:Debug" }
-	    targetdir(path.join(gladPath, "Debug"))
+	    targetdir(path.join(gladBuildPath, "Debug"))
 		targetname("%{prj.name}".."d")
     filter { "configurations:Release" }
-        targetdir(path.join(gladPath, "Release"))
+        targetdir(path.join(gladBuildPath, "Release"))
 		targetname("%{prj.name}")
     filter {}
 
@@ -51,5 +50,4 @@ project("glad")
 		"MultiProcessorCompile",
 	}
 	
-	-- Enable cpp exception.
-	exceptionhandling("On")
+print("")
