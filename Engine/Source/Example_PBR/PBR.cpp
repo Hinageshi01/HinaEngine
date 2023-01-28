@@ -8,11 +8,11 @@ public:
     ExampleLayer() : Layer("Example") {}
 
     void OnUpdate() override {
-        HN_INFO("ExampleLayer::Update()");
+        // HN_TRACE("ExampleLayer::Update()");
     }
 
     void OnEvent(Hina::Event &event) override {
-        HN_INFO("{}", event);
+        // HN_TRACE("{}", event);
     }
 };
 

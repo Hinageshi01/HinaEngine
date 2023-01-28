@@ -16,4 +16,8 @@
 #include <utility>
 #include <vector>
 
+#ifdef HN_PLATFORM_WIN
+	#include <windows.h>
+#endif
+
 #include "Log/Log.h"

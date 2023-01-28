@@ -2,8 +2,6 @@
 
 #include "Event/Event.h"
 
-#include <sstream>
-
 namespace Hina
 {
 

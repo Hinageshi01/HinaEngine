@@ -8,6 +8,9 @@ namespace Hina
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 
 Application::Application() {
+	Hina::Log::Init();
+	HN_CORE_INFO("Initialized Log");
+
 	m_window = Window::Create();
 	m_window->SetEventCallback(BIND_EVENT_FN(OnEvent));
 	m_isRunning = true;

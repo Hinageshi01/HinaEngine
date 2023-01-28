@@ -1,6 +1,6 @@
 #include "hnpch.h"
 
-#include "Core/Window.h"
+#include "Window.h"
 
 #ifdef HN_PLATFORM_WIN
 	#include "Platform/Windows/WindowsWindow.h"

@@ -32,16 +32,29 @@ void WindowsWindow::Init(const WindowProps &props) {
 
 	if(s_GLFWWindowCount == 0) {
 		// Init glfw when the first window create.
-		int success = glfwInit();
+		unsigned int glfwSuccess = glfwInit();
+		assert(glfwSuccess && "Init glfw failed.");
+
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		glfwSetErrorCallback(GLFWErrorCallback);
 	}
 
 	m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
+	assert(m_Window && "Creat glfw window failed");
+
 	++s_GLFWWindowCount;
 	
 	glfwMakeContextCurrent(m_Window);
 	glfwSetWindowUserPointer(m_Window, &m_Data);
+
+	unsigned int gladSuccess = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+	assert(gladSuccess && "Init glad failed");
+
 	SetVSync(true);
+
+	glViewport(0, 0, props.Width, props.Height);
 
 	// Set GLFW callbacks
 	glfwSetWindowSizeCallback(m_Window, [](GLFWwindow *window, int width, int height) {
@@ -137,6 +150,9 @@ void WindowsWindow::Shutdown() {
 
 void WindowsWindow::OnUpdate() {
 	glfwPollEvents();
+	glfwSwapBuffers(m_Window);
+	glClearColor(0.7f, 0.8f, 0.9f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void WindowsWindow::SetVSync(bool enabled) {
