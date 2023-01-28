@@ -18,8 +18,8 @@ project("glad")
     filter {}
 
 	files {
-		path.join(ThirdPartyPath, "glad/include/**.**"),
-		path.join(ThirdPartyPath, "glad/src/**.**"),
+		path.join(ThirdPartyPath, "glad/**.h"),
+		path.join(ThirdPartyPath, "glad/**.c"),
 	}
 	
     includedirs {
@@ -50,5 +50,3 @@ project("glad")
 		-- Compiler uses multiple thread.
 		"MultiProcessorCompile",
 	}
-	
-print("")

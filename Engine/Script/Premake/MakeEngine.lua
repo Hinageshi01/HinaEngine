@@ -63,6 +63,7 @@ project("Hina")
 		path.join(ThirdPartyPath, "assimp/include"),
 		path.join(ThirdPartyPath, "assimp/build/include"),
 		path.join(ThirdPartyPath, "spdlog/include"),
+		path.join(ThirdPartyPath, "imgui"),
 	}
 
 	-- Link thirdparty libs.
@@ -70,19 +71,21 @@ project("Hina")
     	libdirs {
     	    path.join(ThirdPartyPath, "glfw/build/src/Debug"),
     	    path.join(ThirdPartyPath, "glad/build/Debug"),
+    	    path.join(ThirdPartyPath, "imgui/build/Debug"),
     	    path.join(ThirdPartyPath, "assimp/build/lib/Debug"),
     	}
     	links {
-    	    "gladd", "glfw3", "assimp-vc143-mtd",
+    	    "gladd", "glfw3", "imguid", "assimp-vc143-mtd"
     	}
     filter { "configurations:Release" }
     	libdirs {
     	    path.join(ThirdPartyPath, "glfw/build/src/Release"),
     	    path.join(ThirdPartyPath, "glad/build/Release"),
+    	    path.join(ThirdPartyPath, "imgui/build/Release"),
     	    path.join(ThirdPartyPath, "assimp/build/lib/Release"),
-    	}
+		}
     	links {
-    	    "glad", "glfw3", "assimp-vc143-mt",
+    	    "glad", "glfw3", "imgui", "assimp-vc143-mt"
     	}
     filter {}
 

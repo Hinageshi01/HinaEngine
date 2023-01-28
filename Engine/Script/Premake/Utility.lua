@@ -1,5 +1,6 @@
 project("Remake")
 	kind("Utility")
+
 	location(IntermediatePath)
 	objdir(path.join(IntermediatePath, "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/%{prj.name}"))
 	targetdir(path.join(BinaryPath, "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/%{prj.name}"))
@@ -9,7 +10,7 @@ project("Remake")
 		path.join(EnginePath, "Script/**.lua"),
 	}
 
-	prebuildcommands {
+	postbuildcommands {
 		"cd "..RootPath,
 		"Make.bat",
 	}
