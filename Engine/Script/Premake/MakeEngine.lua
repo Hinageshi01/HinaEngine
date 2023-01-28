@@ -73,7 +73,7 @@ project("Hina")
     	    path.join(ThirdPartyPath, "assimp/build/lib/Debug"),
     	}
     	links {
-    	    "glfw3", "gladd", "assimp-vc143-mtd",
+    	    "gladd", "glfw3", "assimp-vc143-mtd",
     	}
     filter { "configurations:Release" }
     	libdirs {
@@ -82,7 +82,7 @@ project("Hina")
     	    path.join(ThirdPartyPath, "assimp/build/lib/Release"),
     	}
     	links {
-    	    "glfw3", "glad", "assimp-vc143-mt",
+    	    "glad", "glfw3", "assimp-vc143-mt",
     	}
     filter {}
 

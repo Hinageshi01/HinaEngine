@@ -38,3 +38,5 @@ dofile("MakeThirdParty.lua")
 dofile("MakeEngine.lua")
 
 dofile("MakeExamples.lua")
+
+dofile("Utility.lua")

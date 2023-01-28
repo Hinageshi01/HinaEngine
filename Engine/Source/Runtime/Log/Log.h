@@ -12,11 +12,11 @@ public:
 	static void Init();
 
 	static std::shared_ptr<spdlog::logger> &GetCoreLogger() { return s_coreLogger; }
-	static std::shared_ptr<spdlog::logger> &GetClientLogger() { return s_clientLogger; }
+	static std::shared_ptr<spdlog::logger> &GetApplicationLogger() { return s_applicationLogger; }
 
 private:
 	static std::shared_ptr<spdlog::logger> s_coreLogger;
-	static std::shared_ptr<spdlog::logger> s_clientLogger;
+	static std::shared_ptr<spdlog::logger> s_applicationLogger;
 };
 
 } // namespace Hina
@@ -31,11 +31,11 @@ private:
 #define HN_CORE_FATAL(...) ::Hina::Log::GetCoreLogger()->critical(__VA_ARGS__)
 
 // Client log macros.
-#define HN_TRACE(...)      ::Hina::Log::GetClientLogger()->trace(__VA_ARGS__)
-#define HN_INFO(...)       ::Hina::Log::GetClientLogger()->info(__VA_ARGS__)
-#define HN_WARN(...)       ::Hina::Log::GetClientLogger()->warn(__VA_ARGS__)
-#define HN_ERROR(...)      ::Hina::Log::GetClientLogger()->error(__VA_ARGS__)
-#define HN_FATAL(...) ::Hina::Log::GetCoreLogger()->critical(__VA_ARGS__)
+#define HN_APP_TRACE(...)  ::Hina::Log::GetApplicationLogger()->trace(__VA_ARGS__)
+#define HN_APP_INFO(...)   ::Hina::Log::GetApplicationLogger()->info(__VA_ARGS__)
+#define HN_APP_WARN(...)   ::Hina::Log::GetApplicationLogger()->warn(__VA_ARGS__)
+#define HN_APP_ERROR(...)  ::Hina::Log::GetApplicationLogger()->error(__VA_ARGS__)
+#define HN_APP_FATAL(...)  ::Hina::Log::GetApplicationLogger()->critical(__VA_ARGS__)
 
 #else
 
