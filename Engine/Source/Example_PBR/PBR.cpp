@@ -21,6 +21,7 @@ class PBR : public Hina::Application
 public:
     PBR() {
         PushLater(new ExampleLayer());
+        PushOverlay(new Hina::ImGuiLayer());
     }
 
     ~PBR() {

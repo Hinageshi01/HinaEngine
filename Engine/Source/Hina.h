@@ -4,8 +4,7 @@
 
 #include "Application/Application.h"
 #include "Event/ApplicationEvent.h"
-#include "Log/Log.h"
-#include "Layer/Layer.h"
+#include "ImGui/ImGuiLayer.h"
 
 //////////////////// Entry Point ////////////////////
 #include "Core/EntryPoint.h"
