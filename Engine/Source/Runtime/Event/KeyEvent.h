@@ -24,8 +24,7 @@ public:
 	}
 
 protected:
-	KeyEvent(const KeyCode keycode)
-		: m_keyCode(keycode) {}
+	KeyEvent(const KeyCode keycode) : m_keyCode(keycode) {}
 
 	KeyCode m_keyCode;
 };
@@ -43,7 +42,7 @@ public:
 	KeyPressedEvent &operator=(KeyPressedEvent &&) = default;
 	~KeyPressedEvent() = default;
 
-	bool IsRepeat() const { return m_isRepeat; }
+	inline bool IsRepeat() const { return m_isRepeat; }
 
 	std::string ToString() const override {
 		std::stringstream ss;
@@ -56,14 +55,13 @@ public:
 	virtual const char *GetName() const override { return "KeyPressed"; }
 
 private:
-	bool m_isRepeat;
+	bool m_isRepeat = false;
 };
 
 class KeyReleasedEvent : public KeyEvent
 {
 public:
-	KeyReleasedEvent(const KeyCode keycode)
-		: KeyEvent(keycode) {}
+	KeyReleasedEvent(const KeyCode keycode) : KeyEvent(keycode) {}
 
 	KeyReleasedEvent() = delete;
 	KeyReleasedEvent(const KeyReleasedEvent &) = default;
@@ -86,8 +84,7 @@ public:
 class KeyTypedEvent : public KeyEvent
 {
 public:
-	KeyTypedEvent(const KeyCode keycode)
-		: KeyEvent(keycode) {}
+	KeyTypedEvent(const KeyCode keycode) : KeyEvent(keycode) {}
 
 	KeyTypedEvent() = delete;
 	KeyTypedEvent(const KeyTypedEvent &) = default;

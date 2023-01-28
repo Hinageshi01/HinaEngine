@@ -149,10 +149,11 @@ void WindowsWindow::Shutdown() {
 }
 
 void WindowsWindow::OnUpdate() {
-	glfwPollEvents();
-	glfwSwapBuffers(m_Window);
 	glClearColor(0.7f, 0.8f, 0.9f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
+
+	glfwPollEvents();
+	glfwSwapBuffers(m_Window);
 }
 
 void WindowsWindow::SetVSync(bool enabled) {

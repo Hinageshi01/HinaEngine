@@ -91,8 +91,7 @@ public:
 	}
 
 protected:
-	MouseButtonEvent(const MouseCode button)
-		: m_button(button) {}
+	MouseButtonEvent(const MouseCode button) : m_button(button) {}
 
 	MouseCode m_button;
 };
@@ -100,8 +99,7 @@ protected:
 class MouseButtonPressedEvent : public MouseButtonEvent
 {
 public:
-	MouseButtonPressedEvent(const MouseCode button)
-		: MouseButtonEvent(button) {}
+	MouseButtonPressedEvent(const MouseCode button) : MouseButtonEvent(button) {}
 	MouseButtonPressedEvent() = delete;
 	MouseButtonPressedEvent(const MouseButtonPressedEvent &) = default;
 	MouseButtonPressedEvent &operator=(const MouseButtonPressedEvent &) = default;
@@ -123,8 +121,7 @@ public:
 class MouseButtonReleasedEvent : public MouseButtonEvent
 {
 public:
-	MouseButtonReleasedEvent(const MouseCode button)
-		: MouseButtonEvent(button) {}
+	MouseButtonReleasedEvent(const MouseCode button) : MouseButtonEvent(button) {}
 	MouseButtonReleasedEvent() = delete;
 	MouseButtonReleasedEvent(const MouseButtonReleasedEvent &) = default;
 	MouseButtonReleasedEvent &operator=(const MouseButtonReleasedEvent &) = default;

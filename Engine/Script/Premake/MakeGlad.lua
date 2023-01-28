@@ -18,7 +18,8 @@ project("glad")
     filter {}
 
 	files {
-		path.join(ThirdPartyPath, "glad/**.**"),
+		path.join(ThirdPartyPath, "glad/include/**.**"),
+		path.join(ThirdPartyPath, "glad/src/**.**"),
 	}
 	
     includedirs {

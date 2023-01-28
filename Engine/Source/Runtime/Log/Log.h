@@ -28,12 +28,14 @@ private:
 #define HN_CORE_INFO(...)  ::Hina::Log::GetCoreLogger()->info(__VA_ARGS__)
 #define HN_CORE_WARN(...)  ::Hina::Log::GetCoreLogger()->warn(__VA_ARGS__)
 #define HN_CORE_ERROR(...) ::Hina::Log::GetCoreLogger()->error(__VA_ARGS__)
+#define HN_CORE_FATAL(...) ::Hina::Log::GetCoreLogger()->critical(__VA_ARGS__)
 
 // Client log macros.
 #define HN_TRACE(...)      ::Hina::Log::GetClientLogger()->trace(__VA_ARGS__)
 #define HN_INFO(...)       ::Hina::Log::GetClientLogger()->info(__VA_ARGS__)
 #define HN_WARN(...)       ::Hina::Log::GetClientLogger()->warn(__VA_ARGS__)
 #define HN_ERROR(...)      ::Hina::Log::GetClientLogger()->error(__VA_ARGS__)
+#define HN_FATAL(...) ::Hina::Log::GetCoreLogger()->critical(__VA_ARGS__)
 
 #else
 

@@ -3,7 +3,7 @@
 set ASSIMP_PATH=%THIRD_PARTY_PATH%/assimp
 
 echo Generating assimp...
-echo [ assimp ] path : %ASSIMP_PATH%
+echo [ assimp ] path: %ASSIMP_PATH%
 
 cd %ASSIMP_PATH%
 if not exist build mkdir build
