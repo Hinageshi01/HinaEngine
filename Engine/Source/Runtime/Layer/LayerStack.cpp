@@ -6,6 +6,7 @@ namespace Hina
 {
 
 LayerStack::~LayerStack() {
+	// A specific layer will only be destroied when the app exit.
 	for(Layer *layer : m_Layers) {
 		layer->OnDetach();
 		delete layer;

@@ -37,11 +37,14 @@ void Application::PushOverlay(Layer *layer) {
 
 void Application::Run() {
 	while(m_isRunning) {
+		m_window->BeginOfFrame();
+
+		m_window->OnUpdate();
 		for(Layer *layer : m_layerStack) {
 			layer->OnUpdate();
 		}
 
-		m_window->OnUpdate();
+		m_window->EndOfFrame();
 	}
 }
 

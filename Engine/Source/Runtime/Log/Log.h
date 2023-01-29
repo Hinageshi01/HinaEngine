@@ -45,10 +45,10 @@ private:
 #define HN_CORE_WARN(...)
 #define HN_CORE_ERROR(...)
 #define HN_CORE_FATAL(...)
-#define HN_TRACE(...)
-#define HN_INFO(...)
-#define HN_WARN(...)
-#define HN_ERROR(...)
-#define HN_FATAL(...)
+#define HN_APP_TRACE(...)
+#define HN_APP_INFO(...)
+#define HN_APP_WARN(...)
+#define HN_APP_ERROR(...)
+#define HN_APP_FATAL(...)
 
 #endif

@@ -7,6 +7,7 @@
 namespace Hina
 {
 
+// Application is a singleton.
 class Application
 {
 public:

@@ -13,24 +13,26 @@ public:
 	WindowsWindow(const WindowProps &props);
 	virtual ~WindowsWindow();
 
+	void BeginOfFrame() override;
 	void OnUpdate() override;
+	void EndOfFrame() override;
 
-	unsigned int GetWidth() const override { return m_Data.Width; }
-	unsigned int GetHeight() const override { return m_Data.Height; }
+	unsigned int GetWidth() const override { return m_data.Width; }
+	unsigned int GetHeight() const override { return m_data.Height; }
 
 	// Window attributes.
-	void SetEventCallback(const EventCallbackFn &callback) override { m_Data.EventCallback = callback; }
+	void SetEventCallback(const EventCallbackFn &callback) override { m_data.EventCallback = callback; }
 	void SetVSync(bool enabled) override;
-	bool IsVSync() const override { return m_Data.VSync; }
+	bool IsVSync() const override { return m_data.VSync; }
 
-	virtual void *GetNativeWindow() const { return m_Window; }
+	void *GetNativeWindow() const override { return m_window; }
 
 private:
 	virtual void Init(const WindowProps &props);
 	virtual void Shutdown();
 
 private:
-	GLFWwindow *m_Window;
+	GLFWwindow *m_window;
 
 	struct WindowData
 	{
@@ -41,7 +43,7 @@ private:
 		EventCallbackFn EventCallback;
 	};
 
-	WindowData m_Data;
+	WindowData m_data;
 };
 
 }

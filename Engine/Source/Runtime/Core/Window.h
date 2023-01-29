@@ -9,14 +9,13 @@ struct WindowProps
 {
 	WindowProps(std::string title = "Hina Engine",
 		uint32_t width = 1280, uint32_t height = 720)
-		: Title(std::move(title)), Width(width), Height(height) {}
+		: Title(std::move(title)), m_width(width), m_height(height) {}
 
 	std::string Title;
-	uint32_t Width;
-	uint32_t Height;
+	uint32_t m_width;
+	uint32_t m_height;
 };
 
-// Interface representing a desktop system based Window
 class Window
 {
 public:
@@ -24,7 +23,9 @@ public:
 
 	virtual ~Window() = default;
 
+	virtual void BeginOfFrame() = 0;
 	virtual void OnUpdate() = 0;
+	virtual void EndOfFrame() = 0;
 
 	virtual uint32_t GetWidth() const = 0;
 	virtual uint32_t GetHeight() const = 0;
@@ -36,6 +37,7 @@ public:
 
 	virtual void *GetNativeWindow() const = 0;
 
+	// Creat a derived class of Window which determined by the platform.
 	static std::unique_ptr<Window> Create(const WindowProps &props = WindowProps());
 };
 
