@@ -24,10 +24,14 @@ project("Hina")
     filter {}
 
 	-- Set definitions.
+	defines {
+		-- We don't want to use any exception in engine.
+		"SPDLOG_NO_EXCEPTIONS",
+		"HN_BUILD_DLL",
+	}
 	filter { "system:Windows" }
 		defines {
 			"HN_PLATFORM_WIN",
-			"HN_BUILD_DLL",
 		}
 	filter {}
 
@@ -107,14 +111,14 @@ project("Hina")
 	warnings("Default")
 	externalwarnings("Off")
 	
+	-- Enable run-time type information for using spdlog.
+	rtti("On")
+
 	flags {
 		-- Treat warnings as errors.
 		-- "FatalWarnings",
 		-- Compiler uses multiple thread.
 		"MultiProcessorCompile",
 	}
-	
-	-- Enable cpp exception.
-	exceptionhandling("On")
 
 print("")

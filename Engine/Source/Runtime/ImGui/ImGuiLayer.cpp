@@ -42,7 +42,7 @@ void ImGuiLayer::OnUpdate() {
 	io.DisplaySize = ImVec2(app.GetWindow().GetWidth(), app.GetWindow().GetHeight());
 
 	float time = (float)glfwGetTime();
-	io.DeltaTime = m_time > 0.0f ? (time = m_time) : (1.0f / 60.0f);
+	io.DeltaTime = m_time > 0.0f ? (time - m_time) : (1.0f / 60.0f);
 	m_time = time;
 
 	ImGui_ImplOpenGL3_NewFrame();

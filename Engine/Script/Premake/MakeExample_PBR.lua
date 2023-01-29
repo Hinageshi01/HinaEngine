@@ -19,6 +19,9 @@ project("Example_PBR")
 		targetname("%{prj.name}")
     filter {}
 
+	defines {
+		"SPDLOG_NO_EXCEPTIONS",
+	}
 	filter { "system:Windows" }
 		defines {
 			"HN_PLATFORM_WIN",
@@ -68,17 +71,6 @@ project("Example_PBR")
     	}
     filter {}
 
-	-- Copy dll into binary folder automatically.
-	-- filter { "configurations:Debug" }
-	-- 	postbuildcommands {
-    --         "copy \""..path.join(BinaryPath, "Debug-x64\\Hina\\Hinad.dll\" \"")..path.join(BinaryPath, "Debug-x64\\PBR\\Hinad.dll\" /y")
-	-- 	}
-	-- filter { "configurations:Release" }
-	-- 	postbuildcommands {
-    --         "copy \""..path.join(BinaryPath, "Release-x64\\Hina\\Hina.dll\" \"")..path.join(BinaryPath, "Release-x64\\PBR\\Hina.dll\" /y")
-	-- 	}
-	-- filter {}
-
 	staticruntime "on"
 	filter { "configurations:Debug" }
 		runtime("Debug")
@@ -94,11 +86,22 @@ project("Example_PBR")
 	warnings("Default")
 	externalwarnings("Off")
 	
+	rtti("On")
+
 	flags {
 		-- "FatalWarnings",
 		"MultiProcessorCompile",
 	}
-
-    exceptionhandling("On")
+	
+	-- Copy dll into binary folder automatically.
+	-- filter { "configurations:Debug" }
+	-- 	postbuildcommands {
+    --         "copy \""..path.join(BinaryPath, "Debug-x64\\Hina\\Hinad.dll\" \"")..path.join(BinaryPath, "Debug-x64\\PBR\\Hinad.dll\" /y")
+	-- 	}
+	-- filter { "configurations:Release" }
+	-- 	postbuildcommands {
+    --         "copy \""..path.join(BinaryPath, "Release-x64\\Hina\\Hina.dll\" \"")..path.join(BinaryPath, "Release-x64\\PBR\\Hina.dll\" /y")
+	-- 	}
+	-- filter {}
 
 print("")
