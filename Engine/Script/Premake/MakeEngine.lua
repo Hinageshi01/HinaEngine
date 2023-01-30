@@ -17,11 +17,11 @@ project("Hina")
 	pchsource(path.join(SourcePath, "hnpch.cpp"))
 
 	-- Target name.
-    filter { "configurations:Debug" }
+	filter { "configurations:Debug" }
 		targetname("%{prj.name}".."d")
-    filter { "configurations:Release" }
+	filter { "configurations:Release" }
 		targetname("%{prj.name}")
-    filter {}
+	filter {}
 
 	-- Set definitions.
 	defines {
@@ -60,7 +60,7 @@ project("Hina")
 	}
 
 	-- Set include paths.
-    includedirs {
+	includedirs {
 		SourcePath,
 		RuntimePath,
 		ThirdPartyPath,
@@ -75,27 +75,27 @@ project("Hina")
 	}
 
 	-- Link thirdparty libs.
-    filter { "configurations:Debug" }
-    	libdirs {
-    	    path.join(ThirdPartyPath, "glfw/build/src/Debug"),
-    	    path.join(ThirdPartyPath, "glad/build/Debug"),
-    	    path.join(ThirdPartyPath, "imgui/build/Debug"),
-    	    path.join(ThirdPartyPath, "assimp/build/lib/Debug"),
-    	}
-    	links {
-    	    "gladd", "glfw3", "imguid", "assimp-vc143-mtd"
-    	}
-    filter { "configurations:Release" }
-    	libdirs {
-    	    path.join(ThirdPartyPath, "glfw/build/src/Release"),
-    	    path.join(ThirdPartyPath, "glad/build/Release"),
-    	    path.join(ThirdPartyPath, "imgui/build/Release"),
-    	    path.join(ThirdPartyPath, "assimp/build/lib/Release"),
+	filter { "configurations:Debug" }
+		libdirs {
+			path.join(ThirdPartyPath, "glfw/build/src/Debug"),
+			path.join(ThirdPartyPath, "glad/build/Debug"),
+			path.join(ThirdPartyPath, "imgui/build/Debug"),
+			path.join(ThirdPartyPath, "assimp/build/lib/Debug"),
 		}
-    	links {
-    	    "glad", "glfw3", "imgui", "assimp-vc143-mt"
-    	}
-    filter {}
+		links {
+			"gladd", "glfw3", "imguid", "assimp-vc143-mtd"
+		}
+	filter { "configurations:Release" }
+		libdirs {
+			path.join(ThirdPartyPath, "glfw/build/src/Release"),
+			path.join(ThirdPartyPath, "glad/build/Release"),
+			path.join(ThirdPartyPath, "imgui/build/Release"),
+			path.join(ThirdPartyPath, "assimp/build/lib/Release"),
+		}
+		links {
+			"glad", "glfw3", "imgui", "assimp-vc143-mt"
+		}
+	filter {}
 
 	-- Use /MT and /MTd.
 	staticruntime "on"

@@ -5,11 +5,11 @@ dofile("path.lua")
 EngineName = "HinaEngine"
 
 workspace(EngineName)
-    location(RootPath)
-    targetdir(BinariesPath)
+	location(RootPath)
+	targetdir(BinariesPath)
 
 	-- Set platform.
-    architecture("x64")
+	architecture("x64")
 	
 	-- Set configurations.
 	configurations { "Debug", "Release" }

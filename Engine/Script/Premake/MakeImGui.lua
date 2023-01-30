@@ -6,23 +6,23 @@ project("imgui")
 	language("C++")
 	cppdialect("C++20")
 
-    local imguiBuildPath = path.join(ThirdPartyPath, "imgui/build")
-    location(imguiBuildPath)
+	local imguiBuildPath = path.join(ThirdPartyPath, "imgui/build")
+	location(imguiBuildPath)
 
-    filter { "configurations:Debug" }
-	    targetdir(path.join(imguiBuildPath, "Debug"))
+	filter { "configurations:Debug" }
+		targetdir(path.join(imguiBuildPath, "Debug"))
 		targetname("%{prj.name}".."d")
-    filter { "configurations:Release" }
-        targetdir(path.join(imguiBuildPath, "Release"))
+	filter { "configurations:Release" }
+		targetdir(path.join(imguiBuildPath, "Release"))
 		targetname("%{prj.name}")
-    filter {}
+	filter {}
 
 	files {
 		path.join(ThirdPartyPath, "imgui/*.h"),
 		path.join(ThirdPartyPath, "imgui/*.cpp"),
 	}
 	
-    includedirs {
+	includedirs {
 		path.join(ThirdPartyPath, "imgui"),
 	}
 

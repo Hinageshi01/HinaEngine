@@ -2,7 +2,7 @@ print("Generating Example_PBR...")
 
 project("Example_PBR")
 	kind("ConsoleApp")
-    language("C++")
+	language("C++")
 	cppdialect("C++20")
 	dependson { "Hina" }
 	
@@ -13,11 +13,11 @@ project("Example_PBR")
 	pchheader("hnpch.h")
 	pchsource(path.join(SourcePath, "hnpch.cpp"))
 
-    filter { "configurations:Debug" }
+	filter { "configurations:Debug" }
 		targetname("%{prj.name}".."d")
-    filter { "configurations:Release" }
+	filter { "configurations:Release" }
 		targetname("%{prj.name}")
-    filter {}
+	filter {}
 
 	defines {
 		"SPDLOG_NO_EXCEPTIONS", "FMT_USE_NONTYPE_TEMPLATE_ARGS=0",
@@ -28,7 +28,7 @@ project("Example_PBR")
 		}
 	filter {}
 
-    local PBRPath = path.join(SourcePath, "Example_PBR")
+	local PBRPath = path.join(SourcePath, "Example_PBR")
 
 	files {
 		path.join(SourcePath, "*.*"),
@@ -44,7 +44,7 @@ project("Example_PBR")
 		},
 	}
 
-    includedirs {
+	includedirs {
 		SourcePath,
 		RuntimePath,
 		ThirdPartyPath,
@@ -58,18 +58,18 @@ project("Example_PBR")
 	}
 
 	libdirs {
-        path.join(BinaryPath, "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/Hina"),
-    }
+		path.join(BinaryPath, "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/Hina"),
+	}
 
-    filter { "configurations:Debug" }
-    	links {
-    	    "Hinad",
-    	}
-    filter { "configurations:Release" }
-    	links {
-    	    "Hina",
-    	}
-    filter {}
+	filter { "configurations:Debug" }
+		links {
+			"Hinad",
+		}
+	filter { "configurations:Release" }
+		links {
+			"Hina",
+		}
+	filter {}
 
 	staticruntime "on"
 	filter { "configurations:Debug" }
@@ -96,11 +96,11 @@ project("Example_PBR")
 	-- Copy dll into binary folder automatically.
 	-- filter { "configurations:Debug" }
 	-- 	postbuildcommands {
-    --         "copy \""..path.join(BinaryPath, "Debug-x64\\Hina\\Hinad.dll\" \"")..path.join(BinaryPath, "Debug-x64\\PBR\\Hinad.dll\" /y")
+	-- 		"copy \""..path.join(BinaryPath, "Debug-x64\\Hina\\Hinad.dll\" \"")..path.join(BinaryPath, "Debug-x64\\PBR\\Hinad.dll\" /y")
 	-- 	}
 	-- filter { "configurations:Release" }
 	-- 	postbuildcommands {
-    --         "copy \""..path.join(BinaryPath, "Release-x64\\Hina\\Hina.dll\" \"")..path.join(BinaryPath, "Release-x64\\PBR\\Hina.dll\" /y")
+	-- 		"copy \""..path.join(BinaryPath, "Release-x64\\Hina\\Hina.dll\" \"")..path.join(BinaryPath, "Release-x64\\PBR\\Hina.dll\" /y")
 	-- 	}
 	-- filter {}
 

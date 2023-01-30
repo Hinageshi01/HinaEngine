@@ -6,23 +6,23 @@ project("glad")
 	language("C++")
 	cppdialect("C++20")
 
-    local gladBuildPath = path.join(ThirdPartyPath, "glad/build")
-    location(gladBuildPath)
+	local gladBuildPath = path.join(ThirdPartyPath, "glad/build")
+	location(gladBuildPath)
 
-    filter { "configurations:Debug" }
-	    targetdir(path.join(gladBuildPath, "Debug"))
+	filter { "configurations:Debug" }
+		targetdir(path.join(gladBuildPath, "Debug"))
 		targetname("%{prj.name}".."d")
-    filter { "configurations:Release" }
-        targetdir(path.join(gladBuildPath, "Release"))
+	filter { "configurations:Release" }
+		targetdir(path.join(gladBuildPath, "Release"))
 		targetname("%{prj.name}")
-    filter {}
+	filter {}
 
 	files {
 		path.join(ThirdPartyPath, "glad/**.h"),
 		path.join(ThirdPartyPath, "glad/**.c"),
 	}
 	
-    includedirs {
+	includedirs {
 		path.join(ThirdPartyPath, "glad/include"),
 	}
 
