@@ -18,8 +18,7 @@ namespace Hina
 ImGuiLayer::ImGuiLayer() : Layer("ImGuiLayer") {}
 
 void ImGuiLayer::OnAttach() {
-	Application &app = Application::Get();
-	GLFWwindow *window = static_cast<GLFWwindow *>(app.GetWindow().GetNativeWindow());
+	GLFWwindow *window = static_cast<GLFWwindow *>(Application::Get().GetWindow().GetNativeWindow());
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -39,6 +38,7 @@ void ImGuiLayer::OnEvent(Event &e) {
 }
 
 void ImGuiLayer::OnUpdate() {
+	// TODO : splat to BeginOfFrame and EndOfFrame.
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
@@ -46,14 +46,6 @@ void ImGuiLayer::OnUpdate() {
 	ImGuiIO &io = ImGui::GetIO(); (void)io;
 	Application &app = Application::Get();
 	GLFWwindow *window = static_cast<GLFWwindow *>(app.GetWindow().GetNativeWindow());
-
-	io.DisplaySize = ImVec2(
-		static_cast<float>(app.GetWindow().GetWidth()),
-		static_cast<float>(app.GetWindow().GetHeight()));
-
-	float time = (float)glfwGetTime();
-	io.DeltaTime = m_time > 0.0f ? (time - m_time) : (1.0f / 60.0f);
-	m_time = time;
 
 	static bool show = true;
 	ImGui::ShowDemoWindow(&show);

@@ -5,7 +5,7 @@
 namespace Hina
 {
 
-#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
+#define BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
 
 Application *Application::s_instance = nullptr;
 
@@ -17,7 +17,7 @@ Application::Application() {
 	HN_CORE_INFO("Initialized Log");
 
 	m_window = Window::Create();
-	m_window->SetEventCallback(BIND_EVENT_FN(OnEvent));
+	m_window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
 	m_isRunning = true;
 }
 
@@ -52,7 +52,7 @@ void Application::OnEvent(Event &event) {
 	HN_CORE_TRACE(event);
 
 	EventDispatcher dispatcher(event);
-	dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
+	dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::OnWindowClose));
 
 	for(auto it = m_layerStack.end(); it != m_layerStack.begin(); /**/) {
 		// Handel event by layer from high layer to low layer.

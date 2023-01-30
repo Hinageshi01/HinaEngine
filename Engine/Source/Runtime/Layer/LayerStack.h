@@ -2,8 +2,6 @@
 
 #include "Layer/Layer.h"
 
-#include <vector>
-
 namespace Hina
 {
 

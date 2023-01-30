@@ -21,15 +21,16 @@ public:
 	unsigned int GetHeight() const override { return m_data.Height; }
 
 	// Window attributes.
-	void SetEventCallback(const EventCallbackFn &callback) override { m_data.EventCallback = callback; }
+	void SetEventCallback(const EventCallbackFn &callback) override;
 	void SetVSync(bool enabled) override;
 	bool IsVSync() const override { return m_data.VSync; }
 
 	void *GetNativeWindow() const override { return m_window; }
 
 private:
-	virtual void Init(const WindowProps &props);
-	virtual void Shutdown();
+	void Init(const WindowProps &props);
+	void Shutdown();
+	void SetGLFWCallbacks();
 
 private:
 	GLFWwindow *m_window;

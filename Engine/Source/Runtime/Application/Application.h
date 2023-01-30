@@ -28,8 +28,9 @@ private:
 	bool OnWindowClose(WindowCloseEvent &e);
 
 	std::unique_ptr<Window> m_window;
-	bool m_isRunning = false;
 	LayerStack m_layerStack;
+
+	bool m_isRunning = false;
 
 	static Application *s_instance;
 };

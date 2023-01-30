@@ -29,6 +29,7 @@ project("Hina")
 		"SPDLOG_NO_EXCEPTIONS",
 		-- It seems like a VS bug.
 		-- https://github.com/fmtlib/fmt/issues/2552
+		-- https://developercommunity.visualstudio.com/t/C20-String-literal-operator-templat-un/1318552
 		"FMT_USE_NONTYPE_TEMPLATE_ARGS=0",
 		"HN_BUILD_DLL",
 	}

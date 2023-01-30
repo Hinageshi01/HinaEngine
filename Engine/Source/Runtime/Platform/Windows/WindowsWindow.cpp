@@ -28,7 +28,7 @@ void WindowsWindow::Init(const WindowProps &props) {
 	m_data.Width = props.m_width;
 	m_data.Height = props.m_height; 
 
-	 HN_CORE_INFO("Creating window {} ({}, {})", props.Title, props.m_width, props.m_height);
+	HN_CORE_INFO("Creating window {0} ({1}, {2})", props.Title, props.m_width, props.m_height);
 
 	if(s_GLFWWindowCount == 0) {
 		// Init glfw when the first window create.
@@ -41,6 +41,7 @@ void WindowsWindow::Init(const WindowProps &props) {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
 	m_window = glfwCreateWindow(static_cast<int>(props.m_width), static_cast<int>(props.m_height),
 		m_data.Title.c_str(), nullptr, nullptr);
 	assert(m_window && "Creat glfw window failed");
@@ -50,12 +51,48 @@ void WindowsWindow::Init(const WindowProps &props) {
 	glfwMakeContextCurrent(m_window);
 	glfwSetWindowUserPointer(m_window, &m_data);
 
+	// tmp
 	uint8_t gladSuccess = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 	assert(gladSuccess && "Init glad failed");
 
 	SetVSync(true);
+	SetGLFWCallbacks();
+}
 
-	// Set GLFW callbacks
+void WindowsWindow::Shutdown() {
+	glfwDestroyWindow(m_window);
+	--s_GLFWWindowCount;
+
+	if(s_GLFWWindowCount == 0) {
+		// Terminate glfw when the last window close.
+		glfwTerminate();
+	}
+}
+
+void WindowsWindow::BeginOfFrame() {
+	glClearColor(0.7f, 0.8f, 0.9f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void WindowsWindow::OnUpdate() {
+
+}
+
+void WindowsWindow::EndOfFrame() {
+	glfwPollEvents();
+	glfwSwapBuffers(m_window);
+}
+
+void WindowsWindow::SetVSync(bool enabled) {
+	glfwSwapInterval(enabled ? 1 : 0);
+	m_data.VSync = enabled;
+}
+
+void WindowsWindow::SetEventCallback(const EventCallbackFn &callback) {
+	m_data.EventCallback = callback;
+}
+
+void WindowsWindow::SetGLFWCallbacks() {
 	glfwSetWindowSizeCallback(m_window, [](GLFWwindow *window, int width, int height) {
 		WindowData &data = *(WindowData *)glfwGetWindowUserPointer(window);
 		data.Width = width;
@@ -77,7 +114,7 @@ void WindowsWindow::Init(const WindowProps &props) {
 		switch(action) {
 			case GLFW_PRESS:
 			{
-				KeyPressedEvent event(key, 0);
+				KeyPressedEvent event(key, false);
 				data.EventCallback(event);
 				break;
 			}
@@ -125,48 +162,16 @@ void WindowsWindow::Init(const WindowProps &props) {
 	glfwSetScrollCallback(m_window, [](GLFWwindow *window, double xOffset, double yOffset) {
 		WindowData &data = *(WindowData *)glfwGetWindowUserPointer(window);
 
-		MouseScrolledEvent event((float)xOffset, (float)yOffset);
+		MouseScrolledEvent event(static_cast<float>(xOffset), static_cast<float>(yOffset));
 		data.EventCallback(event);
 	});
 
 	glfwSetCursorPosCallback(m_window, [](GLFWwindow *window, double xPos, double yPos) {
 		WindowData &data = *(WindowData *)glfwGetWindowUserPointer(window);
 
-		MouseMovedEvent event((float)xPos, (float)yPos);
+		MouseMovedEvent event(static_cast<float>(xPos), static_cast<float>(yPos));
 		data.EventCallback(event);
 	});
-}
-
-void WindowsWindow::Shutdown() {
-	glfwDestroyWindow(m_window);
-	--s_GLFWWindowCount;
-
-	if(s_GLFWWindowCount == 0) {
-		// Terminate glfw when the last window close.
-		glfwTerminate();
-	}
-}
-void WindowsWindow::BeginOfFrame() {
-	glClearColor(0.7f, 0.8f, 0.9f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
-}
-
-void WindowsWindow::OnUpdate() {
-
-}
-
-void WindowsWindow::EndOfFrame() {
-	glfwPollEvents();
-	glfwSwapBuffers(m_window);
-}
-
-void WindowsWindow::SetVSync(bool enabled) {
-	if(enabled)
-		glfwSwapInterval(1);
-	else
-		glfwSwapInterval(0);
-
-	m_data.VSync = enabled;
 }
 
 } // namespace Hina
