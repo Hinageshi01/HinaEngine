@@ -20,7 +20,7 @@ project("Example_PBR")
     filter {}
 
 	defines {
-		"SPDLOG_NO_EXCEPTIONS",
+		"SPDLOG_NO_EXCEPTIONS", "FMT_USE_NONTYPE_TEMPLATE_ARGS=0",
 	}
 	filter { "system:Windows" }
 		defines {
