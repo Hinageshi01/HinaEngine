@@ -32,6 +32,8 @@ workspace(EngineName)
 		buildoptions { "/utf-8" }
 
 	filter {}
+	
+	startproject("Example_PBR")
 
 dofile("MakeThirdParty.lua")
 

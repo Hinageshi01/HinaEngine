@@ -37,6 +37,10 @@ private:
 #define HN_APP_ERROR(...)  ::Hina::Log::GetApplicationLogger()->error(__VA_ARGS__)
 #define HN_APP_FATAL(...)  ::Hina::Log::GetApplicationLogger()->critical(__VA_ARGS__)
 
+// Runtime assert.
+#define HN_CORE_ASSERT(x, ...) { if(!(x)) { HN_CORE_ERROR("Assert failed: {0}", __VA_ARGS__); } }
+#define HN_APP_ASSERT(x, ...)  { if(!(x)) { HN_APP_ERROR("Assert failed: {0}", __VA_ARGS__); } }
+
 #else
 
 // We don't need log in release mode.
@@ -50,5 +54,8 @@ private:
 #define HN_APP_WARN(...)
 #define HN_APP_ERROR(...)
 #define HN_APP_FATAL(...)
+
+#define HN_CORE_ASSERT(x, ...)
+#define HN_APP_ASSERT(x, ...)
 
 #endif

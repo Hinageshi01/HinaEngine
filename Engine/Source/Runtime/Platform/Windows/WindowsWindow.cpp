@@ -33,8 +33,7 @@ void WindowsWindow::Init(const WindowProps &props) {
 	if(s_GLFWWindowCount == 0) {
 		// Init glfw when the first window create.
 		uint8_t glfwSuccess = glfwInit();
-		assert(glfwSuccess && "Init glfw failed.");
-
+		HN_CORE_ASSERT(glfwSuccess, "Init glfw failed.");
 		glfwSetErrorCallback(GLFWErrorCallback);
 	}
 
@@ -44,7 +43,7 @@ void WindowsWindow::Init(const WindowProps &props) {
 
 	m_window = glfwCreateWindow(static_cast<int>(props.m_width), static_cast<int>(props.m_height),
 		m_data.Title.c_str(), nullptr, nullptr);
-	assert(m_window && "Creat glfw window failed");
+	HN_CORE_ASSERT(m_window, "Creat glfw window failed");
 
 	++s_GLFWWindowCount;
 	
@@ -53,7 +52,7 @@ void WindowsWindow::Init(const WindowProps &props) {
 
 	// tmp
 	uint8_t gladSuccess = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-	assert(gladSuccess && "Init glad failed");
+	HN_CORE_ASSERT(gladSuccess, "Init glad failed");
 
 	SetVSync(true);
 	SetGLFWCallbacks();

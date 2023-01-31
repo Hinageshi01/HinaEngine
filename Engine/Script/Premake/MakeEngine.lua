@@ -31,11 +31,11 @@ project("Hina")
 		-- https://github.com/fmtlib/fmt/issues/2552
 		-- https://developercommunity.visualstudio.com/t/C20-String-literal-operator-templat-un/1318552
 		"FMT_USE_NONTYPE_TEMPLATE_ARGS=0",
-		"HN_BUILD_DLL",
 	}
 	filter { "system:Windows" }
 		defines {
 			"HN_PLATFORM_WIN",
+			"HN_BUILD_DLL",
 		}
 	filter {}
 
