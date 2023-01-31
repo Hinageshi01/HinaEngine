@@ -21,7 +21,7 @@ public:
 	float GetX() const { return m_positionX; }
 	float GetY() const { return m_positionY; }
 
-	std::string ToString() const override {
+	virtual std::string ToString() const override {
 		std::stringstream ss;
 		ss << "MouseMovedEvent: " << m_positionX << ", " << m_positionY;
 		return ss.str();
@@ -54,7 +54,7 @@ public:
 	float GetXOffset() const { return m_offsetX; }
 	float GetYOffset() const { return m_offsetY; }
 
-	std::string ToString() const override {
+	virtual std::string ToString() const override {
 		std::stringstream ss;
 		ss << "MouseScrolledEvent: " << GetXOffset() << ", " << GetYOffset();
 		return ss.str();
@@ -107,7 +107,7 @@ public:
 	MouseButtonPressedEvent &operator=(MouseButtonPressedEvent &&) = default;
 	~MouseButtonPressedEvent() = default;
 
-	std::string ToString() const override {
+	virtual std::string ToString() const override {
 		std::stringstream ss;
 		ss << "MouseButtonPressedEvent: " << m_button;
 		return ss.str();
@@ -129,7 +129,7 @@ public:
 	MouseButtonReleasedEvent &operator=(MouseButtonReleasedEvent &&) = default;
 	~MouseButtonReleasedEvent() = default;
 
-	std::string ToString() const override {
+	virtual std::string ToString() const override {
 		std::stringstream ss;
 		ss << "MouseButtonReleasedEvent: " << m_button;
 		return ss.str();

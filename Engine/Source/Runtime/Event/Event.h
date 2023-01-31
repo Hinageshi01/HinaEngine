@@ -41,6 +41,8 @@ public:
 	virtual EventType GetEventType() const = 0;
 	virtual const char *GetName() const = 0;
 	virtual EVT_CAT_TYP GetCategoryFlags() const = 0;
+
+	// No need to override ToString if the derived class have no extra data to output.
 	virtual std::string ToString() const { return GetName(); }
 
 	bool IsInCategory(EventCategory category) {

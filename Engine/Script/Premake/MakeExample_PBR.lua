@@ -86,8 +86,6 @@ project("Example_PBR")
 	warnings("Default")
 	externalwarnings("Off")
 	
-	rtti("On")
-
 	flags {
 		-- "FatalWarnings",
 		"MultiProcessorCompile",

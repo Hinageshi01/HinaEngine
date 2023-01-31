@@ -115,9 +115,6 @@ project("Hina")
 	warnings("Default")
 	externalwarnings("Off")
 	
-	-- Enable run-time type information for using spdlog.
-	rtti("On")
-
 	flags {
 		-- Treat warnings as errors.
 		-- "FatalWarnings",

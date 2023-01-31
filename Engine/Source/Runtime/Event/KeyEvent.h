@@ -44,7 +44,7 @@ public:
 
 	inline bool IsRepeat() const { return m_isRepeat; }
 
-	std::string ToString() const override {
+	virtual std::string ToString() const override {
 		std::stringstream ss;
 		ss << "KeyPressedEvent: " << m_keyCode << " (repeat = " << m_isRepeat << ")";
 		return ss.str();
@@ -70,7 +70,7 @@ public:
 	KeyReleasedEvent &operator=(KeyReleasedEvent &&) = default;
 	~KeyReleasedEvent() = default;
 
-	std::string ToString() const override {
+	virtual std::string ToString() const override {
 		std::stringstream ss;
 		ss << "KeyReleasedEvent: " << m_keyCode;
 		return ss.str();
@@ -93,7 +93,7 @@ public:
 	KeyTypedEvent &operator=(KeyTypedEvent &&) = default;
 	~KeyTypedEvent() = default;
 
-	std::string ToString() const override {
+	virtual std::string ToString() const override {
 		std::stringstream ss;
 		ss << "KeyTypedEvent: " << m_keyCode;
 		return ss.str();
