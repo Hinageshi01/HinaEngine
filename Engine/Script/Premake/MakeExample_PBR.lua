@@ -32,12 +32,12 @@ project("Example_PBR")
 
 	files {
 		path.join(SourcePath, "*.*"),
-		path.join(PBRPath, "**.**"),
+		path.join(PBRPath, "**.*"),
 	}
 	
 	vpaths {
 		["Source/*"] = { 
-			path.join(PBRPath, "**.**"),
+			path.join(PBRPath, "**.*"),
 		},
 		["Include/*"] = { 
 			path.join(SourcePath, "*.*"),
@@ -48,13 +48,14 @@ project("Example_PBR")
 		SourcePath,
 		RuntimePath,
 		ThirdPartyPath,
-		path.join(ThirdPartyPath, "glfw/include"),
 		path.join(ThirdPartyPath, "glad/include"),
-		path.join(ThirdPartyPath, "stb"),
+		path.join(ThirdPartyPath, "glfw/include"),
+		path.join(ThirdPartyPath, "spdlog/include"),
+		path.join(ThirdPartyPath, "imgui"),
 		path.join(ThirdPartyPath, "glm"),
+		path.join(ThirdPartyPath, "stb"),
 		path.join(ThirdPartyPath, "assimp/include"),
 		path.join(ThirdPartyPath, "assimp/build/include"),
-		path.join(ThirdPartyPath, "spdlog/include"),
 	}
 
 	libdirs {

@@ -13,8 +13,13 @@ public:
 
 	virtual void OnAttach() {}
 	virtual void OnDetach() {}
+
+	virtual void BeginOfFrame() {}
 	virtual void OnUpdate() {}
+	virtual void EndOfFrame() {}
+
 	virtual void OnImGuiRender() {}
+	
 	virtual void OnEvent(Event &event) {}
 
 	const std::string &GetName() const { return m_DebugName; }

@@ -80,6 +80,11 @@ void WindowsWindow::OnUpdate() {
 void WindowsWindow::EndOfFrame() {
 	glfwPollEvents();
 	glfwSwapBuffers(m_window);
+
+	if(Input::IsKeyPressed(Key::Escape)) {
+		WindowCloseEvent event;
+		m_data.EventCallback(event);
+	}
 }
 
 void WindowsWindow::SetVSync(bool enabled) {

@@ -18,6 +18,10 @@ Application::Application() {
 
 	m_window = Window::Create();
 	m_window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
+
+	m_imguiLayer = new ImGuiLayer();
+	PushOverlay(m_imguiLayer);
+
 	m_isRunning = true;
 }
 
@@ -43,6 +47,13 @@ void Application::Run() {
 		for(Layer *layer : m_layerStack) {
 			layer->OnUpdate();
 		}
+
+		// TODO : Can we change these to static functions?
+		m_imguiLayer->BeginOfFrame();
+		for(Layer *layer : m_layerStack) {
+			layer->OnImGuiRender();
+		}
+		m_imguiLayer->EndOfFrame();
 
 		m_window->EndOfFrame();
 	}

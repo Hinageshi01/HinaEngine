@@ -42,17 +42,17 @@ project("Hina")
 	-- Set files.
 	files {
 		path.join(SourcePath, "*.*"),
-		path.join(RuntimePath, "**.**"),
+		path.join(RuntimePath, "**.*"),
 
-		path.join(ThirdPartyPath, "glm/**.**"),
-		path.join(ThirdPartyPath, "stb/**.**"),
-		path.join(ThirdPartyPath, "spdlog/include/**.**"),
+		path.join(ThirdPartyPath, "glm/**.*"),
+		path.join(ThirdPartyPath, "stb/**.*"),
+		path.join(ThirdPartyPath, "spdlog/include/**.*"),
 	}
 	
 	-- Set filter.
 	vpaths {
 		["Source/*"] = { 
-			path.join(RuntimePath, "**.**"),
+			path.join(RuntimePath, "**.*"),
 		},
 		["Include/*"] = { 
 			path.join(SourcePath, "*.*"),
@@ -64,21 +64,21 @@ project("Hina")
 		SourcePath,
 		RuntimePath,
 		ThirdPartyPath,
-		path.join(ThirdPartyPath, "glfw/include"),
 		path.join(ThirdPartyPath, "glad/include"),
-		path.join(ThirdPartyPath, "stb"),
-		path.join(ThirdPartyPath, "glm"),
-		path.join(ThirdPartyPath, "assimp/include"),
-		path.join(ThirdPartyPath, "assimp/build/include"),
+		path.join(ThirdPartyPath, "glfw/include"),
 		path.join(ThirdPartyPath, "spdlog/include"),
 		path.join(ThirdPartyPath, "imgui"),
+		path.join(ThirdPartyPath, "glm"),
+		path.join(ThirdPartyPath, "stb"),
+		path.join(ThirdPartyPath, "assimp/include"),
+		path.join(ThirdPartyPath, "assimp/build/include"),
 	}
 
 	-- Link thirdparty libs.
 	filter { "configurations:Debug" }
 		libdirs {
-			path.join(ThirdPartyPath, "glfw/build/src/Debug"),
 			path.join(ThirdPartyPath, "glad/build/Debug"),
+			path.join(ThirdPartyPath, "glfw/build/src/Debug"),
 			path.join(ThirdPartyPath, "imgui/build/Debug"),
 			path.join(ThirdPartyPath, "assimp/build/lib/Debug"),
 		}
@@ -87,8 +87,8 @@ project("Hina")
 		}
 	filter { "configurations:Release" }
 		libdirs {
-			path.join(ThirdPartyPath, "glfw/build/src/Release"),
 			path.join(ThirdPartyPath, "glad/build/Release"),
+			path.join(ThirdPartyPath, "glfw/build/src/Release"),
 			path.join(ThirdPartyPath, "imgui/build/Release"),
 			path.join(ThirdPartyPath, "assimp/build/lib/Release"),
 		}

@@ -20,4 +20,5 @@
 	#include <windows.h>
 #endif
 
+#include "Core/Input.h"
 #include "Log/Log.h"

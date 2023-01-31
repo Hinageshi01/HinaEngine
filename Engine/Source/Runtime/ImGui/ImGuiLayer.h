@@ -9,6 +9,8 @@
 namespace Hina
 {
 
+// ImGui's bakend is GLFW + OpenGL at now.
+// TODO : Abstract it to a base class and derive a ImGuiLayer_GLFW_OpenGL class.
 class ImGuiLayer : public Layer
 {
 public:
@@ -18,10 +20,10 @@ public:
 	virtual void OnAttach() override;
 	virtual void OnDetach() override;
 	virtual void OnEvent(Event &e) override;
-	virtual void OnUpdate() override;
 
-	void Begin();
-	void End();
+	virtual void BeginOfFrame() override;
+	virtual void OnImGuiRender() override;
+	virtual void EndOfFrame() override;
 
 	void BlockEvents(bool block) { m_BlockEvents = block; }
 
