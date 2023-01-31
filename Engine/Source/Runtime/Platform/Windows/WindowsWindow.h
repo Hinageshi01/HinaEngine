@@ -13,19 +13,19 @@ public:
 	WindowsWindow(const WindowProps &props);
 	virtual ~WindowsWindow();
 
-	void BeginOfFrame() override;
-	void OnUpdate() override;
-	void EndOfFrame() override;
+	virtual void BeginOfFrame() override;
+	virtual void OnUpdate() override;
+	virtual void EndOfFrame() override;
 
-	unsigned int GetWidth() const override { return m_data.Width; }
-	unsigned int GetHeight() const override { return m_data.Height; }
+	virtual unsigned int GetWidth() const override { return m_data.Width; }
+	virtual unsigned int GetHeight() const override { return m_data.Height; }
 
 	// Window attributes.
-	void SetEventCallback(const EventCallbackFn &callback) override;
-	void SetVSync(bool enabled) override;
-	bool IsVSync() const override { return m_data.VSync; }
+	virtual void SetEventCallback(const EventCallbackFn &callback) override;
+	virtual void SetVSync(bool enabled) override;
+	virtual bool IsVSync() const override { return m_data.VSync; }
 
-	void *GetNativeWindow() const override { return m_window; }
+	virtual void *GetNativeWindow() const override { return m_window; }
 
 private:
 	void Init(const WindowProps &props);

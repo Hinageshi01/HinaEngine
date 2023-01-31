@@ -2,6 +2,8 @@
 
 #include "Core/Window.h"
 #include "Event/ApplicationEvent.h"
+#include "Event/KeyEvent.h"
+#include "Event/MouseEvent.h"
 #include "Layer/LayerStack.h"
 
 namespace Hina

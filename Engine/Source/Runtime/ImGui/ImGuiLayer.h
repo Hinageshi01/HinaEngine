@@ -15,10 +15,10 @@ public:
 	ImGuiLayer();
 	~ImGuiLayer() = default;
 
-	void OnAttach() override;
-	void OnDetach() override;
-	void OnEvent(Event &e) override;
-	void OnUpdate() override;
+	virtual void OnAttach() override;
+	virtual void OnDetach() override;
+	virtual void OnEvent(Event &e) override;
+	virtual void OnUpdate() override;
 
 	void Begin();
 	void End();

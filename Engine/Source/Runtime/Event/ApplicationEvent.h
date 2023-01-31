@@ -22,7 +22,7 @@ public:
 	const uint32_t GetWidth() const { return m_width; }
 	const uint32_t GetHeight() const { return m_height; }
 
-	std::string ToString() const override {
+	virtual std::string ToString() const override {
 		std::stringstream ss;
 		ss << "WindowResizeEvent: " << m_width << ", " << m_height;
 		return ss.str();

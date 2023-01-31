@@ -3,6 +3,7 @@
 // For use by examples.
 
 #include "Application/Application.h"
+#include "Core/Input.h"
 #include "Event/ApplicationEvent.h"
 #include "ImGui/ImGuiLayer.h"
 
