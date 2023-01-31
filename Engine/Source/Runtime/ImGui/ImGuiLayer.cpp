@@ -23,6 +23,10 @@ void ImGuiLayer::OnAttach() {
 	ImGui::CreateContext();
 	ImGui::StyleColorsDark();
 
+	ImGuiIO &io = ImGui::GetIO(); (void)io;
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init("#version 330");
 }
@@ -45,6 +49,9 @@ void ImGuiLayer::BeginOfFrame() {
 
 void ImGuiLayer::OnImGuiRender() {
 	static bool show = true;
+	ImGui::Begin("Test");
+	ImGui::Text("Hello ImGui!");
+	ImGui::End();
 	ImGui::ShowDemoWindow(&show);
 }
 
@@ -52,14 +59,13 @@ void ImGuiLayer::EndOfFrame() {
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-	// Docking
-	// ImGuiIO &io = ImGui::GetIO();
-	// if(io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
-	// 	GLFWwindow *backup_current_context = glfwGetCurrentContext();
-	// 	ImGui::UpdatePlatformWindows();
-	// 	ImGui::RenderPlatformWindowsDefault();
-	// 	glfwMakeContextCurrent(backup_current_context);
-	// }
+	ImGuiIO &io = ImGui::GetIO();
+	if(io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+		GLFWwindow *backup_current_context = glfwGetCurrentContext();
+		ImGui::UpdatePlatformWindows();
+		ImGui::RenderPlatformWindowsDefault();
+		glfwMakeContextCurrent(backup_current_context);
+	 }
 }
 
 void ImGuiLayer::SetDarkThemeColors() {
