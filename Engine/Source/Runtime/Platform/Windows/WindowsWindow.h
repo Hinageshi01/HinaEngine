@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Core/Window.h"
+#include "Renderer/GraphicsContext.h"
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -34,6 +36,7 @@ private:
 
 private:
 	GLFWwindow *m_window;
+	std::unique_ptr<GraphicsContext> m_context;
 
 	struct WindowData
 	{

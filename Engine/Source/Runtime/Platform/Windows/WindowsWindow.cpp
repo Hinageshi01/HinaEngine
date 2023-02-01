@@ -33,26 +33,20 @@ void WindowsWindow::Init(const WindowProps &props) {
 	if(s_GLFWWindowCount == 0) {
 		// Init glfw when the first window create.
 		uint8_t glfwSuccess = glfwInit();
-		HN_CORE_ASSERT(glfwSuccess, "Init glfw failed.");
+		HN_CORE_ASSERT(glfwSuccess, "Failed to initialize glfw.");
 		glfwSetErrorCallback(GLFWErrorCallback);
 	}
 
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
 	m_window = glfwCreateWindow(static_cast<int>(props.m_width), static_cast<int>(props.m_height),
 		m_data.Title.c_str(), nullptr, nullptr);
-	HN_CORE_ASSERT(m_window, "Creat glfw window failed");
+	HN_CORE_ASSERT(m_window, "Failed to creating glfw windows.");
 
 	++s_GLFWWindowCount;
 	
-	glfwMakeContextCurrent(m_window);
-	glfwSetWindowUserPointer(m_window, &m_data);
+	m_context = GraphicsContext::Create(m_window);
+	m_context->Init();
 
-	// tmp
-	uint8_t gladSuccess = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-	HN_CORE_ASSERT(gladSuccess, "Init glad failed");
+	glfwSetWindowUserPointer(m_window, &m_data);
 
 	SetVSync(true);
 	SetGLFWCallbacks();
@@ -69,6 +63,7 @@ void WindowsWindow::Shutdown() {
 }
 
 void WindowsWindow::BeginOfFrame() {
+	// TODO : Window should not use any specific rendering api code.
 	glClearColor(0.7f, 0.8f, 0.9f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 }
@@ -79,7 +74,7 @@ void WindowsWindow::OnUpdate() {
 
 void WindowsWindow::EndOfFrame() {
 	glfwPollEvents();
-	glfwSwapBuffers(m_window);
+	m_context->SwapBuffers();
 
 	if(Input::IsKeyPressed(Key::Escape)) {
 		WindowCloseEvent event;

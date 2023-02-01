@@ -14,7 +14,7 @@ Application::Application() {
 	s_instance = this;
 
 	Hina::Log::Init();
-	HN_CORE_INFO("Initialized Log");
+	HN_CORE_INFO("Initializing Log");
 
 	m_window = Window::Create();
 	m_window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
