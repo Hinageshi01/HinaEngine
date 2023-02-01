@@ -2,6 +2,9 @@
 
 #include "Application.h"
 
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
 namespace Hina
 {
 
@@ -14,7 +17,7 @@ Application::Application() {
 	s_instance = this;
 
 	Hina::Log::Init();
-	HN_CORE_INFO("Initializing Log");
+	HN_CORE_INFO("Initialized Log");
 
 	m_window = Window::Create();
 	m_window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
@@ -46,6 +49,34 @@ void Application::Run() {
 		m_window->OnUpdate();
 		for(Layer *layer : m_layerStack) {
 			layer->OnUpdate();
+		}
+
+		{
+			float vertices[] = {
+				-0.5f, -0.5f, 0.0f,
+				 0.5f, -0.5f, 0.0f,
+				 0.0f,  0.5f, 0.0f
+			};
+
+			unsigned int indices[] = {
+				0, 1, 3,
+			};
+
+			unsigned int VBO;
+			glGenBuffers(1, &VBO);
+			glBindBuffer(GL_ARRAY_BUFFER, VBO);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+			unsigned int EBO;
+			glGenBuffers(1, &EBO);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+			glEnableVertexAttribArray(0);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
+
+			glBindVertexArray(VBO);
+			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
 		}
 
 		// TODO : Can we change these to static functions?

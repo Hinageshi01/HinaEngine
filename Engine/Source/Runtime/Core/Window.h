@@ -7,11 +7,10 @@ namespace Hina
 
 struct WindowProps
 {
-	WindowProps(std::string title = "Hina Engine",
-		uint32_t width = 1280, uint32_t height = 720)
-		: Title(std::move(title)), m_width(width), m_height(height) {}
+	WindowProps(std::string title = "Hina Engine", uint32_t width = 1280, uint32_t height = 720)
+		: m_title(std::move(title)), m_width(width), m_height(height) {}
 
-	std::string Title;
+	std::string m_title;
 	uint32_t m_width;
 	uint32_t m_height;
 };

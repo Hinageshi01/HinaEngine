@@ -24,11 +24,11 @@ WindowsWindow::~WindowsWindow() {
 }
 
 void WindowsWindow::Init(const WindowProps &props) {
-	m_data.Title = props.Title;
-	m_data.Width = props.m_width;
-	m_data.Height = props.m_height; 
-
-	HN_CORE_INFO("Creating window {0} ({1}, {2})", props.Title, props.m_width, props.m_height);
+	HN_CORE_INFO("Creating window {0}: ({1}, {2})", props.m_title, props.m_width, props.m_height);
+	
+	m_data.m_title = props.m_title;
+	m_data.m_width = props.m_width;
+	m_data.m_height = props.m_height; 
 
 	if(s_GLFWWindowCount == 0) {
 		// Init glfw when the first window create.
@@ -38,13 +38,13 @@ void WindowsWindow::Init(const WindowProps &props) {
 	}
 
 	m_window = glfwCreateWindow(static_cast<int>(props.m_width), static_cast<int>(props.m_height),
-		m_data.Title.c_str(), nullptr, nullptr);
+		m_data.m_title.c_str(), nullptr, nullptr);
 	HN_CORE_ASSERT(m_window, "Failed to creating glfw windows.");
 
 	++s_GLFWWindowCount;
 	
 	m_context = GraphicsContext::Create(m_window);
-	m_context->Init();
+	m_context->Init(3, 3);
 
 	glfwSetWindowUserPointer(m_window, &m_data);
 
@@ -69,7 +69,7 @@ void WindowsWindow::BeginOfFrame() {
 }
 
 void WindowsWindow::OnUpdate() {
-
+	
 }
 
 void WindowsWindow::EndOfFrame() {
@@ -84,7 +84,7 @@ void WindowsWindow::EndOfFrame() {
 
 void WindowsWindow::SetVSync(bool enabled) {
 	glfwSwapInterval(enabled ? 1 : 0);
-	m_data.VSync = enabled;
+	m_data.m_vsync = enabled;
 }
 
 void WindowsWindow::SetEventCallback(const EventCallbackFn &callback) {
@@ -94,8 +94,8 @@ void WindowsWindow::SetEventCallback(const EventCallbackFn &callback) {
 void WindowsWindow::SetGLFWCallbacks() {
 	glfwSetWindowSizeCallback(m_window, [](GLFWwindow *window, int width, int height) {
 		WindowData &data = *(WindowData *)glfwGetWindowUserPointer(window);
-		data.Width = width;
-		data.Height = height;
+		data.m_width = width;
+		data.m_height = height;
 
 		WindowResizeEvent event(width, height);
 		data.EventCallback(event);

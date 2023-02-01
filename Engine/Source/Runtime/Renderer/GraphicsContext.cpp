@@ -11,7 +11,7 @@ std::unique_ptr<GraphicsContext> GraphicsContext::Create(void *window) {
 	// TODO : Need a switch here.
 	return std::make_unique<OpenGLContext>(static_cast<GLFWwindow *>(window));
 
-	HN_CORE_ERROR("Rendering api undefined!");
+	HN_CORE_FATAL("Rendering api undefined!");
 	return nullptr;
 }
 
