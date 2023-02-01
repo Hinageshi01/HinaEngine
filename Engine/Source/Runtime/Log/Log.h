@@ -1,7 +1,8 @@
 #pragma once
 
-#include "glm/gtx/string_cast.hpp"
+#include <glm/gtx/string_cast.hpp>
 
+#include "ImGui/ImGuiLog.h"
 // This ignores all warnings raised inside External headers.
 #pragma warning(push, 0)
 #include "spdlog/spdlog.h"
@@ -19,9 +20,15 @@ public:
 	static std::shared_ptr<spdlog::logger> &GetCoreLogger() { return s_coreLogger; }
 	static std::shared_ptr<spdlog::logger> &GetApplicationLogger() { return s_applicationLogger; }
 
+	static const std::ostringstream &GetSpdOutput() { return m_oss; }
+	static void ClearBuffer() { m_oss.str(""); }
+
 private:
 	static std::shared_ptr<spdlog::logger> s_coreLogger;
 	static std::shared_ptr<spdlog::logger> s_applicationLogger;
+
+	// Note that m_oss will be cleared after ImGuiLog::AddSpdLog be called.
+	static std::ostringstream m_oss;
 };
 
 } // namespace Hina

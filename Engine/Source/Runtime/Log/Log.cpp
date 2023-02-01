@@ -1,14 +1,16 @@
 #include "hnpch.h"
 
 #include "Log.h"
-#include "spdlog/sinks/stdout_color_sinks.h"
 #include "spdlog/sinks/basic_file_sink.h"
+#include "spdlog/sinks/ostream_sink.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
 
 namespace Hina
 {
 
 std::shared_ptr<spdlog::logger> Log::s_coreLogger;
 std::shared_ptr<spdlog::logger> Log::s_applicationLogger;
+std::ostringstream Log::m_oss;
 
 void Log::Init() {
 	auto consoleSink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
@@ -17,7 +19,9 @@ void Log::Init() {
 	auto fileSink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("Hina.log", true);
 	fileSink->set_pattern("[%T] [%l] %n: %v");
 
-	std::vector<spdlog::sink_ptr> sinks{ consoleSink , fileSink };
+	auto oss_sink = std::make_shared<spdlog::sinks::ostream_sink_mt>(m_oss);
+
+	std::vector<spdlog::sink_ptr> sinks{ consoleSink , fileSink, oss_sink };
 
 	s_coreLogger = std::make_shared<spdlog::logger>("HINA", sinks.begin(), sinks.end());
 	spdlog::register_logger(s_coreLogger);

@@ -37,6 +37,9 @@ private:
 	bool m_isRunning = false;
 
 	static Application *s_instance;
+
+	unsigned int VBO;
+	unsigned int EBO;
 };
 
 // To be defined in example.

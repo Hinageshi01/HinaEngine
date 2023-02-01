@@ -11,6 +11,8 @@
 #include "Platform/GLFW/imgui_impl_glfw.h"
 #include "Platform/OpenGL/imgui_impl_opengl3.h"
 
+#include "ImGui/ImGuiLog.h"
+
 namespace Hina
 {
 
@@ -49,9 +51,10 @@ void ImGuiLayer::BeginOfFrame() {
 
 void ImGuiLayer::OnImGuiRender() {
 	static bool show = true;
-	ImGui::Begin("Test");
-	ImGui::Text("Hello ImGui!");
-	ImGui::End();
+
+	ImGuiLog::Get()->AddSpdLog(Log::GetSpdOutput());
+	ImGuiLog::Get()->Draw("Log:", &show);
+
 	ImGui::ShowDemoWindow(&show);
 }
 
