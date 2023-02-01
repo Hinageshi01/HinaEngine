@@ -31,6 +31,8 @@ project("Hina")
 		-- https://github.com/fmtlib/fmt/issues/2552
 		-- https://developercommunity.visualstudio.com/t/C20-String-literal-operator-templat-un/1318552
 		"FMT_USE_NONTYPE_TEMPLATE_ARGS=0",
+		-- For imgui_impl_XXX.cpp
+		"_CRT_SECURE_NO_WARNINGS",
 	}
 	filter { "system:Windows" }
 		defines {

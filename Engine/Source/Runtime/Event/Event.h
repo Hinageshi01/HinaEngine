@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Binary/Binary.h"
+#include "Core/Binary.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 
 namespace Hina
