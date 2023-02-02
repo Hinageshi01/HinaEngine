@@ -44,7 +44,7 @@ void WindowsWindow::Init(const WindowProps &props) {
 	++s_GLFWWindowCount;
 	
 	m_context = GraphicsContext::Create(m_window);
-	m_context->Init(3, 3);
+	m_context->Init(4, 6);
 
 	glfwSetWindowUserPointer(m_window, &m_data);
 

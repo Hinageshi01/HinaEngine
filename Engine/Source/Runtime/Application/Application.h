@@ -7,6 +7,8 @@
 #include "ImGui/ImGuiLayer.h"
 #include "Layer/LayerStack.h"
 
+#include "Platform/OpenGL/GLShader.h"
+
 namespace Hina
 {
 
@@ -38,8 +40,10 @@ private:
 
 	static Application *s_instance;
 
-	unsigned int VBO;
-	unsigned int EBO;
+	// tmp
+	unsigned int m_VBO;
+	unsigned int m_EBO;
+	std::unique_ptr<GLShader> m_shader;
 };
 
 // To be defined in example.

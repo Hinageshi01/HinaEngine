@@ -38,16 +38,41 @@ Application::Application() {
 			0, 1, 3,
 		};
 
-		glGenBuffers(1, &VBO);
-		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		glGenBuffers(1, &m_VBO);
+		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-		glGenBuffers(1, &EBO);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+		glGenBuffers(1, &m_EBO);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
+
+		static const std::string vShader = R"(
+			#version 330 core
+			layout(location = 0) in vec3 a_position;
+			out vec3 v_position;
+			
+			void main()
+			{
+				v_position = a_position;
+				gl_Position = vec4(a_position, 1.0);
+			}
+		)";
+
+		static const std::string fShader = R"(
+			#version 330 core
+			layout(location = 0) out vec4 color;
+			in vec3 v_position;
+			
+			void main()
+			{
+				color = vec4(v_position * 0.5 + 0.5, 1.0);
+			}
+		)";
+
+		m_shader = std::make_unique<GLShader>(vShader, fShader);
 	}
 
 }
@@ -68,6 +93,8 @@ void Application::PushOverlay(Layer *layer) {
 
 void Application::Run() {
 	while(m_isRunning) {
+		m_shader->Bind();
+
 		m_window->BeginOfFrame();
 
 		m_window->OnUpdate();
@@ -76,7 +103,7 @@ void Application::Run() {
 		}
 
 		{ // tmp
-			glBindVertexArray(VBO);
+			glBindVertexArray(m_VBO);
 			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
 		}
 
