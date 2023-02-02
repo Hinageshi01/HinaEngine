@@ -8,8 +8,8 @@
 
 #include "imgui.h"
 #include "imgui_internal.h"
-#include "Platform/GLFW/imgui_impl_glfw.h"
-#include "Platform/OpenGL/imgui_impl_opengl3.h"
+#include "Platform/ImGui/imgui_impl_glfw.h"
+#include "Platform/ImGui/imgui_impl_opengl3.h"
 
 #include "ImGui/ImGuiLog.h"
 

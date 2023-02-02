@@ -7,7 +7,7 @@
 #include "ImGui/ImGuiLayer.h"
 #include "Layer/LayerStack.h"
 
-#include "Platform/OpenGL/GLShader.h"
+#include "Platform/OpenGL/OpenGLShader.h"
 
 namespace Hina
 {

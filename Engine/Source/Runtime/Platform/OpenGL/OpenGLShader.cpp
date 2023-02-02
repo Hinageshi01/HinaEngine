@@ -1,6 +1,6 @@
 #include "hnpch.h"
 
-#include "GLShader.h"
+#include "OpenGLShader.h"
 
 namespace Hina
 {
@@ -52,7 +52,7 @@ void GLShader::Unbind() const {
 }
 
 void GLShader::SetBool(const std::string &name, bool value) const {
-    glUniform1i(glGetUniformLocation(m_program, name.c_str()), (int)value);
+    glUniform1i(glGetUniformLocation(m_program, name.c_str()), static_cast<GLint>(value));
 }
 void GLShader::SetInt(const std::string &name, int value) const {
     glUniform1i(glGetUniformLocation(m_program, name.c_str()), value);
