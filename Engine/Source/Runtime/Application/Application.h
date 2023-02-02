@@ -8,6 +8,8 @@
 #include "Layer/LayerStack.h"
 
 #include "Platform/OpenGL/OpenGLShader.h"
+#include "Platform/OpenGL/OpenGLVertexBuffer.h"
+#include "Platform/OpenGL/OpenGLIndexBuffer.h"
 
 namespace Hina
 {
@@ -41,9 +43,9 @@ private:
 	static Application *s_instance;
 
 	// tmp
-	unsigned int m_VBO;
-	unsigned int m_EBO;
-	std::unique_ptr<GLShader> m_shader;
+	std::unique_ptr<OpenGLShader> m_shader;
+	std::unique_ptr<OpenGLVertexBuffer> m_vBuffer;
+	std::unique_ptr<OpenGLIndexBuffer> m_iBuffer;
 };
 
 // To be defined in example.

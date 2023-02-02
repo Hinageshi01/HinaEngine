@@ -28,23 +28,19 @@ Application::Application() {
 	m_isRunning = true;
 
 	{ // tmp
+
 		static float vertices[] = {
-		-0.5f, -0.5f, 0.0f,
-		 0.5f, -0.5f, 0.0f,
-		 0.0f,  0.5f, 0.0f
+			-0.5f, -0.5f, 0.0f,
+			 0.5f, -0.5f, 0.0f,
+			 0.0f,  0.5f, 0.0f
 		};
 
-		static unsigned int indices[] = {
+		static uint32_t indices[] = {
 			0, 1, 3,
 		};
 
-		glGenBuffers(1, &m_VBO);
-		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-		glGenBuffers(1, &m_EBO);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+		m_vBuffer = std::make_unique<OpenGLVertexBuffer>(sizeof(vertices), vertices);
+		m_iBuffer = std::make_unique<OpenGLIndexBuffer>(sizeof(indices) / sizeof(uint32_t), indices);
 
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
@@ -57,7 +53,7 @@ Application::Application() {
 			void main()
 			{
 				v_position = a_position;
-				gl_Position = vec4(a_position, 1.0);
+				gl_Position = vec4(v_position, 1.0);
 			}
 		)";
 
@@ -72,7 +68,7 @@ Application::Application() {
 			}
 		)";
 
-		m_shader = std::make_unique<GLShader>(vShader, fShader);
+		m_shader = std::make_unique<OpenGLShader>(vShader, fShader);
 	}
 
 }
@@ -93,7 +89,7 @@ void Application::PushOverlay(Layer *layer) {
 
 void Application::Run() {
 	while(m_isRunning) {
-		m_shader->Bind();
+		glViewport(0, 0, m_window->GetWidth(), m_window->GetHeight());
 
 		m_window->BeginOfFrame();
 
@@ -103,8 +99,10 @@ void Application::Run() {
 		}
 
 		{ // tmp
-			glBindVertexArray(m_VBO);
-			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+			m_vBuffer->Bind();
+			m_iBuffer->Bind();
+			m_shader->Bind();
+			glDrawElements(GL_TRIANGLES, m_iBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
 		}
 
 		// TODO : Can we change these to static functions?

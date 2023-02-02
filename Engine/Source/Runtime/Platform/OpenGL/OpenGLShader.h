@@ -6,11 +6,11 @@
 namespace Hina
 {
 
-class GLShader
+class OpenGLShader
 {
 public:
-    GLShader() = delete;
-    GLShader(const std::string &vertexCode, const std::string &fragmentCode, const std::string &geometryCode = "");
+    OpenGLShader() = delete;
+    OpenGLShader(const std::string &vertexCode, const std::string &fragmentCode, const std::string &geometryCode = "");
 
     void Bind() const;
     void Unbind() const;
