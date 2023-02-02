@@ -5,8 +5,15 @@
 namespace Hina
 {
 
+namespace 
+{
+constexpr ImVec4 WHITE = { 1.0f, 1.0f, 1.0f, 1.0f };
+constexpr ImVec4 RED = { 0.9f, 0.1f, 0.1f, 1.0f };
+constexpr ImVec4 GREEN = { 0.1f, 0.9f, 0.1f, 1.0f };
+constexpr ImVec4 BLUE = { 0.1f, 0.1f, 0.9f, 1.0f };
+}
+
 ImGuiLog::ImGuiLog() {
-    m_isAutoScroll = true;
     Clear();
 }
 
@@ -52,31 +59,52 @@ void ImGuiLog::Draw(const char *title, bool *p_open) {
         return;
     }
 
-    // Options menu
-    if(ImGui::BeginPopup("Options")) {
-        ImGui::Checkbox("Auto-scroll", &m_isAutoScroll);
-        ImGui::EndPopup();
-    }
-
-    // Main window
-    if(ImGui::Button("Options")) {
-        ImGui::OpenPopup("Options");
-    }
+    // Main window.
+    bool trace = ImGui::Button("Trace");
     ImGui::SameLine();
-    bool clear = ImGui::Button("Clear");
+    bool info = ImGui::Button("Info");
     ImGui::SameLine();
-    bool copy = ImGui::Button("Copy");
+    bool error = ImGui::Button("Error");
     ImGui::SameLine();
-    m_fillter.Draw("Filter", -100.0f);
+    bool fatal = ImGui::Button("Fatal");
+    ImGui::SameLine();
+    bool clearFilter = ImGui::Button("Clear Filter");
+    ImGui::SameLine();
+    m_fillter.Draw("Filter");
+    // ImGui::SameLine();
+    // bool clear = ImGui::Button("Clear");
+    // ImGui::SameLine();
+    // bool copy = ImGui::Button("Copy");
 
     ImGui::Separator();
 
     if(ImGui::BeginChild("scrolling", ImVec2(0, 0), false, ImGuiWindowFlags_HorizontalScrollbar)) {
-        if(clear) {
-            Clear();
+        // if(clear) {
+        //     Clear();
+        // }
+        // if(copy) {
+        //     ImGui::LogToClipboard();
+        // }
+
+        if(trace) {
+            strcpy(m_fillter.InputBuf, "trace");
+            m_fillter.Build();
         }
-        if(copy) {
-            ImGui::LogToClipboard();
+        else if(info) {
+            strcpy(m_fillter.InputBuf, "info");
+            m_fillter.Build();
+        }
+        else if(error) {
+            strcpy(m_fillter.InputBuf, "error");
+            m_fillter.Build();
+        }
+        else if(fatal) {
+            strcpy(m_fillter.InputBuf, "fatal");
+            m_fillter.Build();
+        }
+        else if(clearFilter) {
+            strcpy(m_fillter.InputBuf, "");
+            m_fillter.Build();
         }
 
         ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
@@ -91,7 +119,26 @@ void ImGuiLog::Draw(const char *title, bool *p_open) {
                 const char *line_start = buf + m_lineOffsets[line_no];
                 const char *line_end = (line_no + 1 < m_lineOffsets.Size) ? (buf + m_lineOffsets[line_no + 1] - 1) : buf_end;
                 if(m_fillter.PassFilter(line_start, line_end)) {
+                    std::string currentLine(line_start, line_end - line_start);
+                    uint32_t styleCount = 0;
+                    if(currentLine.find("trace") != currentLine.npos) {
+                        ImGui::PushStyleColor(ImGuiCol_Text, WHITE);
+                        ++styleCount;
+                    }
+                    else if(currentLine.find("info") != currentLine.npos) {
+                        ImGui::PushStyleColor(ImGuiCol_Text, GREEN);
+                        ++styleCount;
+                    }
+                    else if(currentLine.find("erro") != currentLine.npos) {
+                        ImGui::PushStyleColor(ImGuiCol_Text, RED);
+                        ++styleCount;
+                    }
+                    else if(currentLine.find("critical") != currentLine.npos) {
+                        ImGui::PushStyleColor(ImGuiCol_Text, RED);
+                        ++styleCount;
+                    }
                     ImGui::TextUnformatted(line_start, line_end);
+                    ImGui::PopStyleColor(styleCount);
                 }
             }
         }
@@ -115,7 +162,27 @@ void ImGuiLog::Draw(const char *title, bool *p_open) {
                 for(int line_no = clipper.DisplayStart; line_no < clipper.DisplayEnd; line_no++) {
                     const char *line_start = buf + m_lineOffsets[line_no];
                     const char *line_end = (line_no + 1 < m_lineOffsets.Size) ? (buf + m_lineOffsets[line_no + 1] - 1) : buf_end;
+                    
+                    std::string currentLine(line_start, line_end - line_start);
+                    uint32_t styleCount = 0;
+                    if(currentLine.find("trace") != currentLine.npos) {
+                        ImGui::PushStyleColor(ImGuiCol_Text, WHITE);
+                        ++styleCount;
+                    }
+                    else if(currentLine.find("info") != currentLine.npos) {
+                        ImGui::PushStyleColor(ImGuiCol_Text, GREEN);
+                        ++styleCount;
+                    }
+                    else if(currentLine.find("erro") != currentLine.npos) {
+                        ImGui::PushStyleColor(ImGuiCol_Text, RED);
+                        ++styleCount;
+                    }
+                    else if(currentLine.find("critical") != currentLine.npos) {
+                        ImGui::PushStyleColor(ImGuiCol_Text, RED);
+                        ++styleCount;
+                    }
                     ImGui::TextUnformatted(line_start, line_end);
+                    ImGui::PopStyleColor(styleCount);
                 }
             }
             clipper.End();
@@ -124,7 +191,7 @@ void ImGuiLog::Draw(const char *title, bool *p_open) {
 
         // Keep up at the bottom of the scroll region if we were already at the bottom at the beginning of the frame.
         // Using a scrollbar or mouse-wheel will take away from the bottom edge.
-        if(m_isAutoScroll && ImGui::GetScrollY() >= ImGui::GetScrollMaxY()) {
+        if(ImGui::GetScrollY() >= ImGui::GetScrollMaxY()) {
             ImGui::SetScrollHereY(1.0f);
         }
     }

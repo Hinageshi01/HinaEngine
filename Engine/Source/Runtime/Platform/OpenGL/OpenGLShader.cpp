@@ -6,7 +6,7 @@ namespace Hina
 {
 
 OpenGLShader::OpenGLShader(const std::string &vertexCode, const std::string &fragmentCode, const std::string &geometryCode) {
-    HN_CORE_INFO("Compiling glsl shaders");
+    HN_CORE_INFO("Compiling GLSL shaders");
 
     const char *vShaderCode = vertexCode.c_str();
     const char *fShaderCode = fragmentCode.c_str();
@@ -113,4 +113,4 @@ void OpenGLShader::CheckCompileErrors(const GLuint shader, const std::string &ty
     }
 }
 
-}
+}// namespace Hina

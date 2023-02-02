@@ -8,20 +8,19 @@ namespace Hina
 class ImGuiLog
 {
 public:
+    enum class LogCategory
+    {
+        None = 0,
+        TRACE, INFO, WARN, ERRO, FATAL,
+    };
+
     ImGuiLog(const ImGuiLog &) = delete;
     ImGuiLog &operator=(const ImGuiLog &) = delete;
     ImGuiLog(ImGuiLog &&) = delete;
     ImGuiLog &operator=(ImGuiLog &&) = delete;
 
-    ImGuiTextBuffer m_buffer;
-    ImGuiTextFilter m_fillter;
-    // Index to lines offset. We maintain this with AddLog() calls.
-    ImVector<int> m_lineOffsets;
-    // Keep scrolling if already at the bottom.
-    bool m_isAutoScroll = true;
-
     static ImGuiLog *Get();
-
+    
     void Clear();
     void AddLog(const char *fmt, ...);
     void AddSpdLog(const std::ostringstream &oss, bool cearBuffer = true);
@@ -30,6 +29,11 @@ public:
 private:
     ImGuiLog();
     ~ImGuiLog();
+
+    ImGuiTextBuffer m_buffer;
+    ImGuiTextFilter m_fillter;
+    // Index to lines offset. We maintain this with AddLog() calls.
+    ImVector<int> m_lineOffsets;
 };
 
 } // namespace Hina

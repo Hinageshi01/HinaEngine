@@ -8,6 +8,41 @@
 namespace Hina
 {
 
+static float vertices[] = {
+ 0.5f,  0.5f, 0.0f,
+ 0.5f, -0.5f, 0.0f,
+-0.5f, -0.5f, 0.0f,
+-0.5f,  0.5f, 0.0f,
+};
+
+static uint32_t indices[] = {
+	0, 1, 3,
+	1, 2, 3
+};
+
+static const std::string vShader = R"(
+	#version 330 core
+	layout(location = 0) in vec3 a_position;
+	out vec3 v_position;
+	
+	void main()
+	{
+		v_position = a_position;
+		gl_Position = vec4(v_position, 1.0);
+	}
+)";
+
+static const std::string fShader = R"(
+	#version 330 core
+	layout(location = 0) out vec4 color;
+	in vec3 v_position;
+	
+	void main()
+	{
+		color = vec4(v_position * 0.5 + 0.5, 1.0);
+	}
+)";
+
 #define BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
 
 Application *Application::s_instance = nullptr;
@@ -18,6 +53,8 @@ Application::Application() {
 
 	Hina::Log::Init();
 	HN_CORE_INFO("Initialized Log");
+	HN_CORE_ERROR("Error log test");
+	HN_CORE_FATAL("Fatal log test");
 
 	m_window = Window::Create();
 	m_window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
@@ -28,45 +65,11 @@ Application::Application() {
 	m_isRunning = true;
 
 	{ // tmp
-
-		static float vertices[] = {
-			-0.5f, -0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f,
-			 0.0f,  0.5f, 0.0f
-		};
-
-		static uint32_t indices[] = {
-			0, 1, 3,
-		};
-
 		m_vBuffer = std::make_unique<OpenGLVertexBuffer>(sizeof(vertices), vertices);
 		m_iBuffer = std::make_unique<OpenGLIndexBuffer>(sizeof(indices) / sizeof(uint32_t), indices);
 
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
-
-		static const std::string vShader = R"(
-			#version 330 core
-			layout(location = 0) in vec3 a_position;
-			out vec3 v_position;
-			
-			void main()
-			{
-				v_position = a_position;
-				gl_Position = vec4(v_position, 1.0);
-			}
-		)";
-
-		static const std::string fShader = R"(
-			#version 330 core
-			layout(location = 0) out vec4 color;
-			in vec3 v_position;
-			
-			void main()
-			{
-				color = vec4(v_position * 0.5 + 0.5, 1.0);
-			}
-		)";
 
 		m_shader = std::make_unique<OpenGLShader>(vShader, fShader);
 	}
