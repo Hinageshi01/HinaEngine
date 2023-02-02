@@ -1,9 +1,12 @@
 #include "hnpch.h"
 
 #include "Log.h"
+
+#pragma warning(push, 0)
 #include "spdlog/sinks/basic_file_sink.h"
 #include "spdlog/sinks/ostream_sink.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
+#pragma warning(pop)
 
 namespace Hina
 {

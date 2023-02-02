@@ -1,6 +1,7 @@
 #include "hnpch.h"
 
 #include "OpenGLVertexBuffer.h"
+#include "Renderer/BufferLayout.h"
 
 #include "glad/glad.h"
 

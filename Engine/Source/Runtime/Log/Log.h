@@ -3,6 +3,7 @@
 #include <glm/gtx/string_cast.hpp>
 
 #include "ImGui/ImGuiLog.h"
+
 // This ignores all warnings raised inside External headers.
 #pragma warning(push, 0)
 #include "spdlog/spdlog.h"

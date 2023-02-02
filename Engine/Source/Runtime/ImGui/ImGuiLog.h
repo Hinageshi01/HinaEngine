@@ -8,12 +8,6 @@ namespace Hina
 class ImGuiLog
 {
 public:
-    enum class LogCategory
-    {
-        None = 0,
-        TRACE, INFO, WARN, ERRO, FATAL,
-    };
-
     ImGuiLog(const ImGuiLog &) = delete;
     ImGuiLog &operator=(const ImGuiLog &) = delete;
     ImGuiLog(ImGuiLog &&) = delete;

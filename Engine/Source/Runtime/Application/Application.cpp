@@ -9,10 +9,10 @@ namespace Hina
 {
 
 static float vertices[] = {
- 0.5f,  0.5f, 0.0f,
- 0.5f, -0.5f, 0.0f,
--0.5f, -0.5f, 0.0f,
--0.5f,  0.5f, 0.0f,
+	  0.5f,  0.5f, 0.0f, 0.9f, 0.2f, 0.2f, 1.0f,
+	  0.5f, -0.5f, 0.0f, 0.2f, 0.9f, 0.2f, 1.0f,
+	 -0.5f, -0.5f, 0.0f, 0.2f, 0.2f, 0.9f, 1.0f,
+	 -0.5f,  0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f,
 };
 
 static uint32_t indices[] = {
@@ -23,10 +23,13 @@ static uint32_t indices[] = {
 static const std::string vShader = R"(
 	#version 330 core
 	layout(location = 0) in vec3 a_position;
+	layout(location = 1) in vec4 a_color;
 	out vec3 v_position;
+	out vec4 v_color;
 	
 	void main()
 	{
+		v_color = a_color;
 		v_position = a_position;
 		gl_Position = vec4(v_position, 1.0);
 	}
@@ -36,12 +39,32 @@ static const std::string fShader = R"(
 	#version 330 core
 	layout(location = 0) out vec4 color;
 	in vec3 v_position;
+	in vec4 v_color;
 	
 	void main()
 	{
-		color = vec4(v_position * 0.5 + 0.5, 1.0);
+		color = v_color;
 	}
 )";
+
+static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type) {
+	switch(type) {
+		case ShaderDataType::Float:  return GL_FLOAT;
+		case ShaderDataType::Float2: return GL_FLOAT;
+		case ShaderDataType::Float3: return GL_FLOAT;
+		case ShaderDataType::Float4: return GL_FLOAT;
+		case ShaderDataType::Mat3:   return GL_FLOAT;
+		case ShaderDataType::Mat4:   return GL_FLOAT;
+		case ShaderDataType::Int:    return GL_INT;
+		case ShaderDataType::Int2:   return GL_INT;
+		case ShaderDataType::Int3:   return GL_INT;
+		case ShaderDataType::Int4:   return GL_INT;
+		case ShaderDataType::Bool:   return GL_BOOL;
+	}
+
+	HN_CORE_ERROR("Unknown ShaderDataType!");
+	return 0;
+}
 
 #define BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
 
@@ -68,8 +91,25 @@ Application::Application() {
 		m_vBuffer = std::make_unique<OpenGLVertexBuffer>(sizeof(vertices), vertices);
 		m_iBuffer = std::make_unique<OpenGLIndexBuffer>(sizeof(indices) / sizeof(uint32_t), indices);
 
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
+		BufferLayout bufferLayout = {
+			{ ShaderDataType::Float3, "a_position" },
+			{ ShaderDataType::Float4, "a_color" }
+		};
+		m_vBuffer->SetLayout(std::move(bufferLayout));
+
+		uint32_t index = 0;
+		const auto &layout = m_vBuffer->GetLayout();
+		for(const auto &element : layout) {
+			glEnableVertexAttribArray(index);
+			glVertexAttribPointer(
+				index,
+				element.GetComponentCount(),
+				ShaderDataTypeToOpenGLBaseType(element.m_type),
+				element.m_normalized,
+				layout.GetStride(),
+				(const void *)element.m_offset);
+			++index;
+		}
 
 		m_shader = std::make_unique<OpenGLShader>(vShader, fShader);
 	}

@@ -71,21 +71,9 @@ void ImGuiLog::Draw(const char *title, bool *p_open) {
     bool clearFilter = ImGui::Button("Clear Filter");
     ImGui::SameLine();
     m_fillter.Draw("Filter");
-    // ImGui::SameLine();
-    // bool clear = ImGui::Button("Clear");
-    // ImGui::SameLine();
-    // bool copy = ImGui::Button("Copy");
-
     ImGui::Separator();
 
     if(ImGui::BeginChild("scrolling", ImVec2(0, 0), false, ImGuiWindowFlags_HorizontalScrollbar)) {
-        // if(clear) {
-        //     Clear();
-        // }
-        // if(copy) {
-        //     ImGui::LogToClipboard();
-        // }
-
         if(trace) {
             strcpy(m_fillter.InputBuf, "trace");
             m_fillter.Build();
@@ -162,7 +150,6 @@ void ImGuiLog::Draw(const char *title, bool *p_open) {
                 for(int line_no = clipper.DisplayStart; line_no < clipper.DisplayEnd; line_no++) {
                     const char *line_start = buf + m_lineOffsets[line_no];
                     const char *line_end = (line_no + 1 < m_lineOffsets.Size) ? (buf + m_lineOffsets[line_no + 1] - 1) : buf_end;
-                    
                     std::string currentLine(line_start, line_end - line_start);
                     uint32_t styleCount = 0;
                     if(currentLine.find("trace") != currentLine.npos) {
@@ -199,4 +186,4 @@ void ImGuiLog::Draw(const char *title, bool *p_open) {
     ImGui::End();
 }
 
-}
+} // namespace Hina
