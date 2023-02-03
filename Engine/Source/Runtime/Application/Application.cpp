@@ -1,9 +1,8 @@
 #include "hnpch.h"
-
 #include "Application.h"
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "Renderer/Renderer.h"
+#include "Renderer/RenderCommand.h"
 
 namespace Hina
 {
@@ -19,33 +18,6 @@ static uint32_t indices[] = {
 	0, 1, 3,
 	1, 2, 3,
 };
-
-static const std::string vShader = R"(
-	#version 330 core
-	layout(location = 0) in vec3 a_position;
-	layout(location = 1) in vec4 a_color;
-	out vec3 v_position;
-	out vec4 v_color;
-	
-	void main()
-	{
-		v_color = a_color;
-		v_position = a_position;
-		gl_Position = vec4(v_position, 1.0);
-	}
-)";
-
-static const std::string fShader = R"(
-	#version 330 core
-	layout(location = 0) out vec4 color;
-	in vec3 v_position;
-	in vec4 v_color;
-	
-	void main()
-	{
-		color = v_color;
-	}
-)";
 
 #define BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
 
@@ -69,23 +41,23 @@ Application::Application() {
 
 	m_isRunning = true;
 
-	{ // tmp
-		m_vertexArray = std::make_shared<OpenGLVertexArray>();
-		std::shared_ptr<OpenGLVertexBuffer> m_vertexBuffer = std::make_shared<OpenGLVertexBuffer>(sizeof(vertices), vertices);
-		std::shared_ptr<OpenGLIndexBuffer> m_indexBuffer = std::make_shared<OpenGLIndexBuffer>(sizeof(indices) / sizeof(uint32_t), indices);
+	m_vertexArray = VertexArray::Create();
+	std::shared_ptr<VertexBuffer> m_vertexBuffer = VertexBuffer::Create(sizeof(vertices), vertices);
+	std::shared_ptr<IndexBuffer> m_indexBuffer = IndexBuffer::Create(sizeof(indices) / sizeof(uint32_t), indices);
 
-		BufferLayout bufferLayout = {
-			{ ShaderDataType::Float3, "a_position" },
-			{ ShaderDataType::Float4, "a_color" }
-		};
-		m_vertexBuffer->SetLayout(std::move(bufferLayout));
+	BufferLayout bufferLayout = {
+		{ ShaderDataType::Float3, "a_position" },
+		{ ShaderDataType::Float4, "a_color" }
+	};
+	m_vertexBuffer->SetLayout(std::move(bufferLayout));
 
-		m_vertexArray->AddVertexBuffer(m_vertexBuffer);
-		m_vertexArray->SetIndexBuffer(m_indexBuffer);
+	m_vertexArray->AddVertexBuffer(m_vertexBuffer);
+	m_vertexArray->SetIndexBuffer(m_indexBuffer);
 
-		m_shader = std::make_unique<OpenGLShader>(vShader, fShader);
-	}
-
+	// TODO : Use relative path.
+	const std::string vsPath = "D:/Works/HinaEngine/Engine/Source/Asset/v_testShader.glsl";
+	const std::string fsPath = "D:/Works/HinaEngine/Engine/Source/Asset/f_testShader.glsl";
+	m_shader = Shader::Create("testShader", vsPath, fsPath);
 }
 
 Application::~Application() {
@@ -104,18 +76,17 @@ void Application::PushOverlay(Layer *layer) {
 
 void Application::Run() {
 	while(m_isRunning) {
-		glViewport(0, 0, m_window->GetWidth(), m_window->GetHeight());
-
 		m_window->BeginOfFrame();
+
+		RenderCommand::SetClearColor({ 0.7f, 0.8f, 0.9f, 1.0f });
+		RenderCommand::Clear();
+		Renderer::BeginScene();
+		Renderer::Submit(m_shader, m_vertexArray);
+		Renderer::EndScene();
 
 		m_window->OnUpdate();
 		for(Layer *layer : m_layerStack) {
 			layer->OnUpdate();
-		}
-
-		{ // tmp
-			m_shader->Bind();
-			glDrawElements(GL_TRIANGLES, m_vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 		}
 
 		// TODO : Can we change these to static functions?

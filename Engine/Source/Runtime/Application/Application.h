@@ -6,11 +6,8 @@
 #include "Event/MouseEvent.h"
 #include "ImGui/ImGuiLayer.h"
 #include "Layer/LayerStack.h"
-
-#include "Platform/OpenGL/OpenGLShader.h"
-#include "Platform/OpenGL/OpenGLVertexArray.h"
-#include "Platform/OpenGL/OpenGLVertexBuffer.h"
-#include "Platform/OpenGL/OpenGLIndexBuffer.h"
+#include "Renderer/Shader.h"
+#include "Renderer/VertexArray.h"
 
 namespace Hina
 {
@@ -44,8 +41,8 @@ private:
 	static Application *s_instance;
 
 	// tmp
-	std::unique_ptr<OpenGLShader> m_shader;
-	std::shared_ptr<OpenGLVertexArray> m_vertexArray;
+	std::shared_ptr<Shader> m_shader;
+	std::shared_ptr<VertexArray> m_vertexArray;
 };
 
 // To be defined in example.

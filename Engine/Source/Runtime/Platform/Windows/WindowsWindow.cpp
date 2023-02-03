@@ -63,9 +63,7 @@ void WindowsWindow::Shutdown() {
 }
 
 void WindowsWindow::BeginOfFrame() {
-	// TODO : Window should not use any specific rendering api code.
-	glClearColor(0.7f, 0.8f, 0.9f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+
 }
 
 void WindowsWindow::OnUpdate() {
