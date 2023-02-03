@@ -8,6 +8,7 @@
 #include "Layer/LayerStack.h"
 
 #include "Platform/OpenGL/OpenGLShader.h"
+#include "Platform/OpenGL/OpenGLVertexArray.h"
 #include "Platform/OpenGL/OpenGLVertexBuffer.h"
 #include "Platform/OpenGL/OpenGLIndexBuffer.h"
 
@@ -44,8 +45,7 @@ private:
 
 	// tmp
 	std::unique_ptr<OpenGLShader> m_shader;
-	std::unique_ptr<OpenGLVertexBuffer> m_vBuffer;
-	std::unique_ptr<OpenGLIndexBuffer> m_iBuffer;
+	std::shared_ptr<OpenGLVertexArray> m_vertexArray;
 };
 
 // To be defined in example.

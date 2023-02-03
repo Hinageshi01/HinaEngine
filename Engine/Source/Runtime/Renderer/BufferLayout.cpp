@@ -1,5 +1,4 @@
 #include "hnpch.h"
-
 #include "BufferLayout.h"
 
 namespace Hina

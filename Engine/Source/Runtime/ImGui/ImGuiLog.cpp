@@ -7,10 +7,11 @@ namespace Hina
 
 namespace 
 {
-constexpr ImVec4 WHITE = { 1.0f, 1.0f, 1.0f, 1.0f };
-constexpr ImVec4 RED = { 0.9f, 0.1f, 0.1f, 1.0f };
-constexpr ImVec4 GREEN = { 0.1f, 0.9f, 0.1f, 1.0f };
-constexpr ImVec4 BLUE = { 0.1f, 0.1f, 0.9f, 1.0f };
+constexpr ImVec4 GREY   = { 0.9f, 0.9f, 0.9f, 1.0f };
+constexpr ImVec4 GREEN  = { 0.1f, 0.9f, 0.1f, 1.0f };
+constexpr ImVec4 YELLOW = { 0.9f, 0.9f, 0.1f, 1.0f };
+constexpr ImVec4 RED    = { 0.9f, 0.1f, 0.1f, 1.0f };
+constexpr ImVec4 BLUE   = { 0.1f, 0.1f, 0.9f, 1.0f };
 }
 
 ImGuiLog::ImGuiLog() {
@@ -64,6 +65,8 @@ void ImGuiLog::Draw(const char *title, bool *p_open) {
     ImGui::SameLine();
     bool info = ImGui::Button("Info");
     ImGui::SameLine();
+    bool warn = ImGui::Button("Warning");
+    ImGui::SameLine();
     bool error = ImGui::Button("Error");
     ImGui::SameLine();
     bool fatal = ImGui::Button("Fatal");
@@ -80,6 +83,10 @@ void ImGuiLog::Draw(const char *title, bool *p_open) {
         }
         else if(info) {
             strcpy(m_fillter.InputBuf, "info");
+            m_fillter.Build();
+        }
+        else if(warn) {
+            strcpy(m_fillter.InputBuf, "warn");
             m_fillter.Build();
         }
         else if(error) {
@@ -110,11 +117,15 @@ void ImGuiLog::Draw(const char *title, bool *p_open) {
                     std::string currentLine(line_start, line_end - line_start);
                     uint32_t styleCount = 0;
                     if(currentLine.find("trace") != currentLine.npos) {
-                        ImGui::PushStyleColor(ImGuiCol_Text, WHITE);
+                        ImGui::PushStyleColor(ImGuiCol_Text, GREY);
                         ++styleCount;
                     }
                     else if(currentLine.find("info") != currentLine.npos) {
                         ImGui::PushStyleColor(ImGuiCol_Text, GREEN);
+                        ++styleCount;
+                    }
+                    else if(currentLine.find("warn") != currentLine.npos) {
+                        ImGui::PushStyleColor(ImGuiCol_Text, YELLOW);
                         ++styleCount;
                     }
                     else if(currentLine.find("erro") != currentLine.npos) {
@@ -153,11 +164,15 @@ void ImGuiLog::Draw(const char *title, bool *p_open) {
                     std::string currentLine(line_start, line_end - line_start);
                     uint32_t styleCount = 0;
                     if(currentLine.find("trace") != currentLine.npos) {
-                        ImGui::PushStyleColor(ImGuiCol_Text, WHITE);
+                        ImGui::PushStyleColor(ImGuiCol_Text, GREY);
                         ++styleCount;
                     }
                     else if(currentLine.find("info") != currentLine.npos) {
                         ImGui::PushStyleColor(ImGuiCol_Text, GREEN);
+                        ++styleCount;
+                    }
+                    else if(currentLine.find("warn") != currentLine.npos) {
+                        ImGui::PushStyleColor(ImGuiCol_Text, YELLOW);
                         ++styleCount;
                     }
                     else if(currentLine.find("erro") != currentLine.npos) {

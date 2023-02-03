@@ -12,12 +12,12 @@ static float vertices[] = {
 	  0.5f,  0.5f, 0.0f, 0.9f, 0.2f, 0.2f, 1.0f,
 	  0.5f, -0.5f, 0.0f, 0.2f, 0.9f, 0.2f, 1.0f,
 	 -0.5f, -0.5f, 0.0f, 0.2f, 0.2f, 0.9f, 1.0f,
-	 -0.5f,  0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f,
+	 -0.5f,  0.5f, 0.0f, 0.9f, 0.9f, 0.2f, 1.0f,
 };
 
 static uint32_t indices[] = {
 	0, 1, 3,
-	1, 2, 3
+	1, 2, 3,
 };
 
 static const std::string vShader = R"(
@@ -47,25 +47,6 @@ static const std::string fShader = R"(
 	}
 )";
 
-static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type) {
-	switch(type) {
-		case ShaderDataType::Float:  return GL_FLOAT;
-		case ShaderDataType::Float2: return GL_FLOAT;
-		case ShaderDataType::Float3: return GL_FLOAT;
-		case ShaderDataType::Float4: return GL_FLOAT;
-		case ShaderDataType::Mat3:   return GL_FLOAT;
-		case ShaderDataType::Mat4:   return GL_FLOAT;
-		case ShaderDataType::Int:    return GL_INT;
-		case ShaderDataType::Int2:   return GL_INT;
-		case ShaderDataType::Int3:   return GL_INT;
-		case ShaderDataType::Int4:   return GL_INT;
-		case ShaderDataType::Bool:   return GL_BOOL;
-	}
-
-	HN_CORE_ERROR("Unknown ShaderDataType!");
-	return 0;
-}
-
 #define BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
 
 Application *Application::s_instance = nullptr;
@@ -76,6 +57,7 @@ Application::Application() {
 
 	Hina::Log::Init();
 	HN_CORE_INFO("Initialized Log");
+	HN_CORE_WARN("Warning log test");
 	HN_CORE_ERROR("Error log test");
 	HN_CORE_FATAL("Fatal log test");
 
@@ -88,28 +70,18 @@ Application::Application() {
 	m_isRunning = true;
 
 	{ // tmp
-		m_vBuffer = std::make_unique<OpenGLVertexBuffer>(sizeof(vertices), vertices);
-		m_iBuffer = std::make_unique<OpenGLIndexBuffer>(sizeof(indices) / sizeof(uint32_t), indices);
+		m_vertexArray = std::make_shared<OpenGLVertexArray>();
+		std::shared_ptr<OpenGLVertexBuffer> m_vertexBuffer = std::make_shared<OpenGLVertexBuffer>(sizeof(vertices), vertices);
+		std::shared_ptr<OpenGLIndexBuffer> m_indexBuffer = std::make_shared<OpenGLIndexBuffer>(sizeof(indices) / sizeof(uint32_t), indices);
 
 		BufferLayout bufferLayout = {
 			{ ShaderDataType::Float3, "a_position" },
 			{ ShaderDataType::Float4, "a_color" }
 		};
-		m_vBuffer->SetLayout(std::move(bufferLayout));
+		m_vertexBuffer->SetLayout(std::move(bufferLayout));
 
-		uint32_t index = 0;
-		const auto &layout = m_vBuffer->GetLayout();
-		for(const auto &element : layout) {
-			glEnableVertexAttribArray(index);
-			glVertexAttribPointer(
-				index,
-				element.GetComponentCount(),
-				ShaderDataTypeToOpenGLBaseType(element.m_type),
-				element.m_normalized,
-				layout.GetStride(),
-				(const void *)element.m_offset);
-			++index;
-		}
+		m_vertexArray->AddVertexBuffer(m_vertexBuffer);
+		m_vertexArray->SetIndexBuffer(m_indexBuffer);
 
 		m_shader = std::make_unique<OpenGLShader>(vShader, fShader);
 	}
@@ -142,10 +114,8 @@ void Application::Run() {
 		}
 
 		{ // tmp
-			m_vBuffer->Bind();
-			m_iBuffer->Bind();
 			m_shader->Bind();
-			glDrawElements(GL_TRIANGLES, m_iBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+			glDrawElements(GL_TRIANGLES, m_vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 		}
 
 		// TODO : Can we change these to static functions?
