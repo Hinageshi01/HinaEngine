@@ -1,4 +1,4 @@
-name: VS2022
+name: build
 
 on:
   push:
@@ -7,10 +7,10 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  Windows:
     runs-on: windows-latest
     steps:
-    - name: Run actions/checkout@v3.
+    - name: Check out repository under $GITHUB_WORKSPACE.
       uses: actions/checkout@v3
     
     - name: Add MSBuild to PATH.
