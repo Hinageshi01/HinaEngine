@@ -38,7 +38,8 @@ private:
 
 	void CreateProgram(const std::string &vertexCode, const std::string &fragmentCode, const std::string &geometryCode = "");
 
-	void CheckCompileErrors(const GLuint shader, const std::string &type);
+	void CheckShaderErrors(const GLuint shader, const std::string &type);
+	void CheckProgramErrors(const GLuint program, const std::string &type);
 
 	uint32_t m_rendererID;
 	std::string m_name;

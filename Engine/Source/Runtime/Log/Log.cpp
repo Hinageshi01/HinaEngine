@@ -31,7 +31,7 @@ void Log::Init() {
 	s_coreLogger->set_level(spdlog::level::trace);
 	s_coreLogger->flush_on(spdlog::level::trace);
 
-	s_applicationLogger = std::make_shared<spdlog::logger>("APP", sinks.begin(), sinks.end());
+	s_applicationLogger = std::make_shared<spdlog::logger>("APP", sinks.begin(), sinks.end() - 1);
 	spdlog::register_logger(s_applicationLogger);
 	s_applicationLogger->set_level(spdlog::level::trace);
 	s_applicationLogger->flush_on(spdlog::level::trace);

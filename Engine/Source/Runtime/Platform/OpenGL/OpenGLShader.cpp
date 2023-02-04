@@ -8,6 +8,11 @@
 namespace Hina
 {
 
+namespace
+{
+constexpr uint32_t LOG_SIZE = 1024;
+}
+
 OpenGLShader::OpenGLShader(
 	const std::string &name,
 	const std::string &vertexShaderPath,
@@ -65,13 +70,13 @@ void OpenGLShader::CreateProgram(const std::string &vertexCode, const std::strin
 	vertexID = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vertexID, 1, &vShaderCode, NULL);
 	glCompileShader(vertexID);
-	CheckCompileErrors(vertexID, "VERTEX");
+	CheckShaderErrors(vertexID, "VERTEX");
 
 	// Fragment shader.
 	fragmentID = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fragmentID, 1, &fShaderCode, NULL);
 	glCompileShader(fragmentID);
-	CheckCompileErrors(fragmentID, "FRAGMENT");
+	CheckShaderErrors(fragmentID, "FRAGMENT");
 
 	// Geometry shader.
 	if(useGeometryShader) {
@@ -79,7 +84,7 @@ void OpenGLShader::CreateProgram(const std::string &vertexCode, const std::strin
 		geometryID = glCreateShader(GL_GEOMETRY_SHADER);
 		glShaderSource(geometryID, 1, &gShaderCode, NULL);
 		glCompileShader(geometryID);
-		CheckCompileErrors(geometryID, "GEOMETRY");
+		CheckShaderErrors(geometryID, "GEOMETRY");
 	}
 
 	// Shader program.
@@ -90,7 +95,7 @@ void OpenGLShader::CreateProgram(const std::string &vertexCode, const std::strin
 		glAttachShader(m_rendererID, geometryID);
 	}
 	glLinkProgram(m_rendererID);
-	CheckCompileErrors(m_rendererID, "PROGRAM");
+	CheckProgramErrors(m_rendererID, "PROGRAM");
 
 	// Delete the shaders as they're linked into our program now and no longer necessary.
 	glDeleteShader(vertexID);
@@ -145,26 +150,25 @@ void OpenGLShader::SetMat4(const std::string &name, const glm::mat4 &value) {
 	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
 }
 
-void OpenGLShader::CheckCompileErrors(const GLuint shader, const std::string &type) {
+void OpenGLShader::CheckShaderErrors(const GLuint shader, const std::string &type) {
 	GLint success;
-	GLchar infoLog[1024];
-
-	if(type != "PROGRAM") {
-		// Shaders compile error.
-		glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-		if(!success) {
-			glGetShaderInfoLog(shader, 1024, NULL, infoLog);
-			HN_CORE_ERROR("ERROR::SHADER_COMPILATION_ERROR of type: {0}", type);
-			HN_CORE_ERROR("{0}", infoLog);
-		}
+	GLchar infoLog[LOG_SIZE];
+	glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+	if(!success) {
+		glGetShaderInfoLog(shader, LOG_SIZE, NULL, infoLog);
+		HN_CORE_ERROR("ERROR::SHADER_COMPILATION_ERROR of type: {0}", type);
+		HN_CORE_ERROR("{0}", infoLog);
 	}
-	else {
-		glGetProgramiv(shader, GL_LINK_STATUS, &success);
-		if(!success) {
-			glGetProgramInfoLog(shader, 1024, NULL, infoLog);
-			HN_CORE_ERROR("ERROR::PROGRAM_LINKING_ERROR of type: {0}", type);
-			HN_CORE_ERROR("{0}", infoLog);
-		}
+}
+
+void OpenGLShader::CheckProgramErrors(const GLuint program, const std::string &type) {
+	GLint success;
+	GLchar infoLog[LOG_SIZE];
+	glGetProgramiv(program, GL_LINK_STATUS, &success);
+	if(!success) {
+		glGetProgramInfoLog(program, LOG_SIZE, NULL, infoLog);
+		HN_CORE_ERROR("ERROR::PROGRAM_LINKING_ERROR of type: {0}", type);
+		HN_CORE_ERROR("{0}", infoLog);
 	}
 }
 
