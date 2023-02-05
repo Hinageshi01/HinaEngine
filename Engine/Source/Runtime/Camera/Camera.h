@@ -16,9 +16,9 @@ enum class CameraMovement
 
 struct CameraInitializer
 {
-    const glm::vec3 m_position = { 0.0f, 0.0f, 0.0f };
+    const glm::vec3 m_position = { 0.0f, 0.0f, 10.0f };
     const glm::vec3 m_worldUp = { 0.0f, 1.0f, 0.0f };
-    const float m_yaw = 0.0f;
+    const float m_yaw = -90.0f;
     const float m_pitch = 0.0f;
     const float m_zoom = 45.0f;
     const float m_speed = 2.5f;

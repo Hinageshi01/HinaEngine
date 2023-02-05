@@ -27,6 +27,8 @@ Application::Application() {
 	m_imguiLayer = new ImGuiLayer();
 	PushOverlay(m_imguiLayer);
 
+	Renderer::Init();
+
 	m_isRunning = true;
 }
 

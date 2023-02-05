@@ -1,10 +1,11 @@
 #version 330 core
 
-layout(location = 0) out vec4 color;
-in vec3 v_position;
-in vec4 v_color;
+out vec4 fragColor;
+
+in vec3 v_worldPos;
+in vec3 v_normal;
 
 void main()
 {
-	color = v_color;
+	fragColor = vec4(v_worldPos, 1.0);
 }

@@ -26,7 +26,8 @@ public:
 	static void OnWindowResize(uint32_t width, uint32_t height);
 
 	static void SetModelMatrix(const glm::mat4 &mat);
-	static void SetViewProjectionMatrix(const glm::mat4 &mat);
+	static void SetViewMatrix(const glm::mat4 &mat);
+	static void SetProjectionMatrix(const glm::mat4 &mat);
 
 	static void Submit(
 		const std::shared_ptr<Shader> &shader,
@@ -41,7 +42,8 @@ public:
 
 private:
 	static glm::mat4 m_modelMatrix;
-	static glm::mat4 m_viewProjection;
+	static glm::mat4 m_viewMatrix;
+	static glm::mat4 m_projectionMatrix;
 };
 
 } // namespace Hina

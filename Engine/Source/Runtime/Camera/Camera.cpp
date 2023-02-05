@@ -48,24 +48,26 @@ void Camera::ProcessKeyboard(CameraMovement direction, float deltaTime) {
         m_position -= m_up * velocity;
 }
 
-void Camera::ProcessMouseMovement(float xoffset, float yoffset) {
-    xoffset *= m_sensitivity;
-    yoffset *= m_sensitivity;
+void Camera::ProcessMouseMovement(float offset_x, float offset_y) {
+    offset_x *= m_sensitivity;
+    offset_y *= m_sensitivity;
 
-    m_yaw += xoffset;
-    m_pitch += yoffset;
+    m_yaw += offset_x;
+    m_pitch += offset_y;
 
     m_pitch = std::clamp(m_pitch, -89.9f, 89.9f);
 
     Update();
 }
 
-void Camera::ProcessMouseScroll(float yoffset) {
-    m_zoom -= (float)yoffset;
-    if(m_zoom < 1.0f)
+void Camera::ProcessMouseScroll(float offset_y) {
+    m_zoom -= offset_y;
+    if(m_zoom < 1.0f) {
         m_zoom = 1.0f;
-    if(m_zoom > 45.0f)
+    }
+    if(m_zoom > 45.0f) {
         m_zoom = 45.0f;
+    }
 }
 
 void Camera::Update() {

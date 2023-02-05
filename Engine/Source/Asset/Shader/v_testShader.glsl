@@ -1,13 +1,21 @@
 #version 330 core
 
 layout(location = 0) in vec3 a_position;
-layout(location = 1) in vec4 a_color;
-out vec3 v_position;
-out vec4 v_color;
+layout(location = 1) in vec3 a_normal;
+
+out vec3 v_worldPos;
+out vec3 v_normal;
+
+uniform mat4 u_model;
+uniform mat4 u_view;
+uniform mat4 u_projection;
 
 void main()
 {
-	v_color = a_color;
-	v_position = a_position;
-	gl_Position = vec4(v_position, 1.0);
+	gl_Position = u_projection * u_view * u_model * vec4(a_position, 1.0);
+	
+	v_worldPos = vec3(u_model * vec4(a_position, 1.0));
+	
+	mat3 modelInvTrans = mat3(transpose(inverse(u_model)));
+	v_normal = normalize(modelInvTrans * a_normal);
 }

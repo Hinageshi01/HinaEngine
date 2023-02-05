@@ -1,16 +1,69 @@
 #include "hnpch.h"
 #include "Hina.h"
 
-static const float vertices[] = {
-	  0.5f,  0.5f, 0.0f, 0.9f, 0.2f, 0.2f, 1.0f,
-	  0.5f, -0.5f, 0.0f, 0.2f, 0.9f, 0.2f, 1.0f,
-	 -0.5f, -0.5f, 0.0f, 0.2f, 0.2f, 0.9f, 1.0f,
-	 -0.5f,  0.5f, 0.0f, 0.9f, 0.9f, 0.2f, 1.0f,
+static constexpr float vertices[] = {
+	-1.0,  1.0, -1.0,  0.0,  1.0,  0.0,
+	 1.0,  1.0,  1.0,  0.0,  1.0,  0.0,
+	 1.0,  1.0, -1.0,  0.0,  1.0,  0.0,
+
+	 1.0,  1.0,  1.0,  0.0,  0.0,  1.0,
+	-1.0, -1.0,  1.0,  0.0,  0.0,  1.0,
+	 1.0, -1.0,  1.0,  0.0,  0.0,  1.0,
+
+	-1.0,  1.0,  1.0, -1.0,  0.0,  0.0,
+	-1.0, -1.0, -1.0, -1.0,  0.0,  0.0,
+	-1.0, -1.0,  1.0, -1.0,  0.0,  0.0,
+
+	 1.0, -1.0, -1.0,  0.0, -1.0,  0.0,
+	-1.0, -1.0,  1.0,  0.0, -1.0,  0.0,
+	-1.0, -1.0, -1.0,  0.0, -1.0,  0.0,
+
+	 1.0,  1.0, -1.0,  1.0,  0.0,  0.0,
+	 1.0, -1.0,  1.0,  1.0,  0.0,  0.0,
+	 1.0, -1.0, -1.0,  1.0,  0.0,  0.0,
+
+	-1.0,  1.0, -1.0,  0.0,  0.0, -1.0,
+	 1.0, -1.0, -1.0,  0.0,  0.0, -1.0,
+	-1.0, -1.0, -1.0,  0.0,  0.0, -1.0,
+
+	-1.0,  1.0, -1.0,  0.0,  1.0,  0.0,
+	-1.0,  1.0,  1.0,  0.0,  1.0,  0.0,
+	 1.0,  1.0,  1.0,  0.0,  1.0,  0.0,
+
+	 1.0,  1.0,  1.0,  0.0,  0.0,  1.0,
+	-1.0,  1.0,  1.0,  0.0,  0.0,  1.0,
+	-1.0, -1.0,  1.0,  0.0,  0.0,  1.0,
+
+	-1.0,  1.0,  1.0, -1.0,  0.0,  0.0,
+	-1.0,  1.0, -1.0, -1.0,  0.0,  0.0,
+	-1.0, -1.0, -1.0, -1.0,  0.0,  0.0,
+
+	 1.0, -1.0, -1.0,  0.0, -1.0,  0.0,
+	 1.0, -1.0,  1.0,  0.0, -1.0,  0.0,
+	-1.0, -1.0,  1.0,  0.0, -1.0,  0.0,
+
+	 1.0,  1.0, -1.0,  1.0,  0.0,  0.0,
+	 1.0,  1.0,  1.0,  1.0,  0.0,  0.0,
+	 1.0, -1.0,  1.0,  1.0,  0.0,  0.0,
+
+	-1.0,  1.0, -1.0,  0.0,  0.0, -1.0,
+	 1.0,  1.0, -1.0,  0.0,  0.0, -1.0,
+	 1.0, -1.0, -1.0,  0.0,  0.0, -1.0,
 };
 
-static const uint32_t indices[] = {
-	0, 1, 3,
-	1, 2, 3,
+static constexpr uint32_t indices[] = {
+	 0,  1,  2,
+	 3,  4,  5,
+	 6,  7,  8,
+	 9,  10, 11,
+	 12, 13, 14,
+	 15, 16, 17,
+	 18, 19, 20,
+	 21, 22, 23,
+	 24, 25, 26,
+	 27, 28, 29,
+	 30, 31, 32,
+	 33, 34, 35,
 };
 
 class ExampleLayer : public Hina::Layer
@@ -29,7 +82,7 @@ public:
 
 		Hina::BufferLayout bufferLayout = {
 			{ Hina::ShaderDataType::Float3, "a_position" },
-			{ Hina::ShaderDataType::Float4, "a_color" }
+			{ Hina::ShaderDataType::Float3, "a_normal" },
 		};
 		m_vertexBuffer->SetLayout(std::move(bufferLayout));
 
@@ -47,8 +100,17 @@ public:
 	}
 
 	virtual void OnUpdate() override {
-		Hina::RenderCommand::SetClearColor({ 0.7f, 0.8f, 0.9f, 1.0f });
+		Hina::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.11f, 1.0f });
 		Hina::RenderCommand::Clear();
+
+		Hina::Window &window = Hina::Application::Get().GetWindow();
+		const glm::mat4 model = glm::identity<glm::mat4>();
+		const glm::mat4 view = camera.GetViewMatrix();
+		const glm::mat4 projection = camera.GetProjectionMatrix(window.GetWidth(), window.GetHeight());
+
+		Hina::Renderer::SetModelMatrix(model);
+		Hina::Renderer::SetViewMatrix(view);
+		Hina::Renderer::SetProjectionMatrix(projection);
 
 		Hina::Renderer::BeginScene();
 		Hina::Renderer::Submit(m_shader, m_vertexArray);
@@ -62,6 +124,7 @@ public:
 private:
 	std::shared_ptr<Hina::VertexArray> m_vertexArray;
 	std::shared_ptr<Hina::Shader> m_shader;
+	Hina::Camera camera;
 };
 
 class PBR : public Hina::Application

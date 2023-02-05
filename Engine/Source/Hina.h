@@ -3,6 +3,7 @@
 // For use by examples.
 
 #include "Application/Application.h"
+#include "Camera/Camera.h"
 
 // Rendering
 #include "Renderer/RenderCommand.h"
