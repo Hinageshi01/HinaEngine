@@ -7,7 +7,7 @@
 namespace Hina
 {
 
-std::unique_ptr<VertexBuffer> VertexBuffer::Create(const uint32_t size, float *vertices) {
+std::unique_ptr<VertexBuffer> VertexBuffer::Create(const uint32_t size, const float *vertices) {
 	switch(Renderer::GetAPI()) {
 		case RendererAPI::API::OpenGL:
 			return std::make_unique<OpenGLVertexBuffer>(size, vertices); break;

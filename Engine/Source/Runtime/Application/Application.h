@@ -6,8 +6,6 @@
 #include "Event/MouseEvent.h"
 #include "ImGui/ImGuiLayer.h"
 #include "Layer/LayerStack.h"
-#include "Renderer/Shader.h"
-#include "Renderer/VertexArray.h"
 
 namespace Hina
 {
@@ -40,10 +38,6 @@ private:
 	bool m_isRunning = false;
 
 	static Application *s_instance;
-
-	// tmp
-	std::shared_ptr<Shader> m_shader;
-	std::shared_ptr<VertexArray> m_vertexArray;
 };
 
 // To be defined in example.

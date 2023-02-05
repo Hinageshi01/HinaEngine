@@ -9,7 +9,7 @@ class OpenGLIndexBuffer : public IndexBuffer
 {
 public:
 	OpenGLIndexBuffer() = delete;
-	OpenGLIndexBuffer(const uint32_t count, uint32_t *indices);
+	OpenGLIndexBuffer(const uint32_t count, const uint32_t *indices);
 	virtual ~OpenGLIndexBuffer();
 
 	virtual void Bind() const override;

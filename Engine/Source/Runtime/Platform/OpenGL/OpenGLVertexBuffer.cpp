@@ -8,7 +8,7 @@
 namespace Hina
 {
 
-OpenGLVertexBuffer::OpenGLVertexBuffer(const uint32_t size, float *vertices) {
+OpenGLVertexBuffer::OpenGLVertexBuffer(const uint32_t size, const float *vertices) {
 	glGenBuffers(1, &m_rendererID);
 	glBindBuffer(GL_ARRAY_BUFFER, m_rendererID);
 	glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);

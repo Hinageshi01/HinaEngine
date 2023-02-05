@@ -7,18 +7,6 @@
 namespace Hina
 {
 
-static float vertices[] = {
-	  0.5f,  0.5f, 0.0f, 0.9f, 0.2f, 0.2f, 1.0f,
-	  0.5f, -0.5f, 0.0f, 0.2f, 0.9f, 0.2f, 1.0f,
-	 -0.5f, -0.5f, 0.0f, 0.2f, 0.2f, 0.9f, 1.0f,
-	 -0.5f,  0.5f, 0.0f, 0.9f, 0.9f, 0.2f, 1.0f,
-};
-
-static uint32_t indices[] = {
-	0, 1, 3,
-	1, 2, 3,
-};
-
 #define BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
 
 Application *Application::s_instance = nullptr;
@@ -40,24 +28,6 @@ Application::Application() {
 	PushOverlay(m_imguiLayer);
 
 	m_isRunning = true;
-
-	m_vertexArray = VertexArray::Create();
-	std::shared_ptr<VertexBuffer> m_vertexBuffer = VertexBuffer::Create(sizeof(vertices), vertices);
-	std::shared_ptr<IndexBuffer> m_indexBuffer = IndexBuffer::Create(sizeof(indices) / sizeof(uint32_t), indices);
-
-	BufferLayout bufferLayout = {
-		{ ShaderDataType::Float3, "a_position" },
-		{ ShaderDataType::Float4, "a_color" }
-	};
-	m_vertexBuffer->SetLayout(std::move(bufferLayout));
-
-	m_vertexArray->AddVertexBuffer(m_vertexBuffer);
-	m_vertexArray->SetIndexBuffer(m_indexBuffer);
-
-	// TODO : Use relative path.
-	const std::string vsPath = "D:/Works/HinaEngine/Engine/Source/Asset/Shader/v_testShader.glsl";
-	const std::string fsPath = "D:/Works/HinaEngine/Engine/Source/Asset/Shader/f_testShader.glsl";
-	m_shader = Shader::Create("testShader", vsPath, fsPath);
 }
 
 Application::~Application() {
@@ -78,24 +48,12 @@ void Application::Run() {
 	while(m_isRunning) {
 		m_window->BeginOfFrame();
 
-		RenderCommand::SetClearColor({ 0.7f, 0.8f, 0.9f, 1.0f });
-		RenderCommand::Clear();
-		
-		Renderer::BeginScene();
-		Renderer::Submit(m_shader, m_vertexArray);
-		Renderer::EndScene();
-
 		m_window->OnUpdate();
 		for(Layer *layer : m_layerStack) {
 			layer->OnUpdate();
 		}
 
-		// TODO : Can we change these to static functions?
-		m_imguiLayer->Begin();
-		for(Layer *layer : m_layerStack) {
-			layer->OnImGuiRender();
-		}
-		m_imguiLayer->End();
+		m_imguiLayer->OnImGuiRender();
 
 		m_window->EndOfFrame();
 	}
