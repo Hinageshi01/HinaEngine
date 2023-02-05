@@ -1,6 +1,8 @@
 #include "hnpch.h"
 #include "Hina.h"
 
+#include <GLFW/glfw3.h>
+
 static constexpr float vertices[] = {
 	-1.0,  1.0, -1.0,  0.0,  1.0,  0.0,
 	 1.0,  1.0,  1.0,  0.0,  1.0,  0.0,
@@ -100,15 +102,20 @@ public:
 	}
 
 	virtual void OnUpdate() override {
+		// tmp
+		float currentFrame = static_cast<float>(glfwGetTime());
+		m_deltaTime = currentFrame - m_lastFrame;
+		m_lastFrame = currentFrame;
+		m_camera.OnKeyPress(m_deltaTime);
+		m_camera.OnMouseMove();
+
 		Hina::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.11f, 1.0f });
 		Hina::RenderCommand::Clear();
 
 		Hina::Window &window = Hina::Application::Get().GetWindow();
-		const glm::mat4 model = glm::identity<glm::mat4>();
-		const glm::mat4 view = camera.GetViewMatrix();
-		const glm::mat4 projection = camera.GetProjectionMatrix(window.GetWidth(), window.GetHeight());
+		const glm::mat4 view = m_camera.GetViewMatrix();
+		const glm::mat4 projection = m_camera.GetProjectionMatrix(window.GetWidth(), window.GetHeight());
 
-		Hina::Renderer::SetModelMatrix(model);
 		Hina::Renderer::SetViewMatrix(view);
 		Hina::Renderer::SetProjectionMatrix(projection);
 
@@ -118,13 +125,21 @@ public:
 	}
 
 	virtual void OnEvent(Hina::Event &event) {
-		
+		Hina::EventDispatcher dis(event);
+		dis.Dispatch<Hina::MouseScrolledEvent>(BIND_EVENT_FN(ExampleLayer::OnScroll));
 	}
 
 private:
+	bool OnScroll(Hina::MouseScrolledEvent &event) {
+		return m_camera.OnMouseScroll(event);
+	}
+
 	std::shared_ptr<Hina::VertexArray> m_vertexArray;
 	std::shared_ptr<Hina::Shader> m_shader;
-	Hina::Camera camera;
+	Hina::Camera m_camera;
+
+	float m_deltaTime = 0.0f;
+	float m_lastFrame = 0.0f;
 };
 
 class PBR : public Hina::Application

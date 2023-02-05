@@ -14,8 +14,9 @@ void Camera::Init(const CameraInitializer &init) {
     m_yaw = init.m_yaw;
     m_pitch = init.m_pitch;
     m_zoom = init.m_zoom;
-    m_speed = init.m_speed;
-    m_sensitivity = init.m_sensitivity;
+    m_moveSensitive = init.m_moveSensitive;
+    m_rotateSensitive = init.m_rotateSensitive;
+    m_scrollSensitive = init.m_scrollSensitive;
 
     Update();
 }
@@ -32,8 +33,48 @@ const glm::mat4 Camera::GetViewProjectionMatrix(const uint32_t width, const uint
     return GetProjectionMatrix(width, height) * GetViewMatrix();
 }
 
-void Camera::ProcessKeyboard(CameraMovement direction, float deltaTime) {
-    float velocity = m_speed * deltaTime;
+void Camera::OnKeyPress(const float deltaTime) {
+    if(Hina::Input::IsKeyPressed(Hina::Key::W)) {
+        ProcessKeyPress(Hina::CameraMovement::FORWARD, deltaTime);
+    }
+    if(Hina::Input::IsKeyPressed(Hina::Key::A)) {
+        ProcessKeyPress(Hina::CameraMovement::LEFT, deltaTime);
+    }
+    if(Hina::Input::IsKeyPressed(Hina::Key::S)) {
+        ProcessKeyPress(Hina::CameraMovement::BACKWARD, deltaTime);
+    }
+    if(Hina::Input::IsKeyPressed(Hina::Key::D)) {
+        ProcessKeyPress(Hina::CameraMovement::RIGHT, deltaTime);
+    }
+    if(Hina::Input::IsKeyPressed(Hina::Key::Space)) {
+        ProcessKeyPress(Hina::CameraMovement::UP, deltaTime);
+    }
+    if(Hina::Input::IsKeyPressed(Hina::Key::LeftShift)) {
+        ProcessKeyPress(Hina::CameraMovement::DOWN, deltaTime);
+    }
+}
+
+void Camera::OnMouseMove() {
+    static glm::vec2 lastPosition = Input::GetMousePosition();
+    glm::vec2 crtPosition = Input::GetMousePosition();
+
+    float offset_x = crtPosition.x - lastPosition.x;
+    float offset_y = lastPosition.y - crtPosition.y;
+
+    lastPosition = crtPosition;
+
+    ProcessMouseMove(offset_x, offset_y);
+}
+
+bool Camera::OnMouseScroll(MouseScrolledEvent &event) {
+    ProcessMouseScroll(event.GetYOffset());
+
+    return true;
+}
+
+void Camera::ProcessKeyPress(const CameraMovement direction, const float deltaTime) {
+    float velocity = m_moveSensitive * deltaTime;
+
     if(direction == CameraMovement::FORWARD)
         m_position += m_front * velocity;
     if(direction == CameraMovement::BACKWARD)
@@ -48,20 +89,16 @@ void Camera::ProcessKeyboard(CameraMovement direction, float deltaTime) {
         m_position -= m_up * velocity;
 }
 
-void Camera::ProcessMouseMovement(float offset_x, float offset_y) {
-    offset_x *= m_sensitivity;
-    offset_y *= m_sensitivity;
-
-    m_yaw += offset_x;
-    m_pitch += offset_y;
-
+void Camera::ProcessMouseMove(float offset_x, float offset_y) {
+    m_yaw += offset_x * m_rotateSensitive;
+    m_pitch += offset_y * m_rotateSensitive;
     m_pitch = std::clamp(m_pitch, -89.9f, 89.9f);
 
     Update();
 }
 
 void Camera::ProcessMouseScroll(float offset_y) {
-    m_zoom -= offset_y;
+    m_zoom -= offset_y * m_scrollSensitive;
     if(m_zoom < 1.0f) {
         m_zoom = 1.0f;
     }
