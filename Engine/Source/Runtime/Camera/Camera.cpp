@@ -24,6 +24,14 @@ const glm::mat4 Camera::GetViewMatrix() const {
     return glm::lookAt(m_position, m_position + m_front, m_up);
 }
 
+const glm::mat4 Camera::GetProjectionMatrix(const uint32_t width, const uint32_t height) const {
+    return glm::perspective(glm::radians(m_zoom), static_cast<float>(width) / static_cast<float>(height), 0.1f, 1000.0f);
+}
+
+const glm::mat4 Camera::GetViewProjectionMatrix(const uint32_t width, const uint32_t height) const {
+    return GetProjectionMatrix(width, height) * GetViewMatrix();
+}
+
 void Camera::ProcessKeyboard(CameraMovement direction, float deltaTime) {
     float velocity = m_speed * deltaTime;
     if(direction == CameraMovement::FORWARD)

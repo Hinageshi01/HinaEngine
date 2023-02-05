@@ -55,8 +55,8 @@ Application::Application() {
 	m_vertexArray->SetIndexBuffer(m_indexBuffer);
 
 	// TODO : Use relative path.
-	const std::string vsPath = "D:/Works/HinaEngine/Engine/Source/Asset/v_testShader.glsl";
-	const std::string fsPath = "D:/Works/HinaEngine/Engine/Source/Asset/f_testShader.glsl";
+	const std::string vsPath = "D:/Works/HinaEngine/Engine/Source/Asset/Shader/v_testShader.glsl";
+	const std::string fsPath = "D:/Works/HinaEngine/Engine/Source/Asset/Shader/f_testShader.glsl";
 	m_shader = Shader::Create("testShader", vsPath, fsPath);
 }
 
@@ -80,6 +80,7 @@ void Application::Run() {
 
 		RenderCommand::SetClearColor({ 0.7f, 0.8f, 0.9f, 1.0f });
 		RenderCommand::Clear();
+		
 		Renderer::BeginScene();
 		Renderer::Submit(m_shader, m_vertexArray);
 		Renderer::EndScene();
@@ -90,11 +91,11 @@ void Application::Run() {
 		}
 
 		// TODO : Can we change these to static functions?
-		m_imguiLayer->BeginOfFrame();
+		m_imguiLayer->Begin();
 		for(Layer *layer : m_layerStack) {
 			layer->OnImGuiRender();
 		}
-		m_imguiLayer->EndOfFrame();
+		m_imguiLayer->End();
 
 		m_window->EndOfFrame();
 	}
@@ -105,6 +106,7 @@ void Application::OnEvent(Event &event) {
 
 	EventDispatcher dispatcher(event);
 	dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::OnWindowClose));
+	dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FN(Application::OnWindowResize));
 
 	for(auto it = m_layerStack.end(); it != m_layerStack.begin(); /**/) {
 		// Handel event by layer from high layer to low layer.
@@ -121,5 +123,11 @@ bool Application::OnWindowClose(WindowCloseEvent &event) {
 	m_isRunning = false;
 	return true;
 }
+
+bool Application::OnWindowResize(WindowResizeEvent &event) {
+	Renderer::OnWindowResize(m_window->GetWidth(), m_window->GetHeight());
+	return true;
+}
+
 
 } // namespace Hina

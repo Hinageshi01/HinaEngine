@@ -1,17 +1,19 @@
 #include "hnpch.h"
-
 #include "ImGuiLog.h"
+
+#include "Icon/IconsMaterialDesign.h"
 
 namespace Hina
 {
 
-namespace 
+namespace
 {
-constexpr ImVec4 GREY   = { 0.9f, 0.9f, 0.9f, 1.0f };
-constexpr ImVec4 GREEN  = { 0.1f, 0.9f, 0.1f, 1.0f };
-constexpr ImVec4 YELLOW = { 0.9f, 0.9f, 0.1f, 1.0f };
-constexpr ImVec4 RED    = { 0.9f, 0.1f, 0.1f, 1.0f };
-constexpr ImVec4 BLUE   = { 0.1f, 0.1f, 0.9f, 1.0f };
+constexpr ImVec4 COLOR_GREY = { 0.9f, 0.9f, 0.9f, 1.0f };
+constexpr ImVec4 COLOR_GREEN = { 0.2f, 0.8f, 0.2f, 1.0f };
+constexpr ImVec4 COLOR_BLUE = { 0.2f, 0.2f, 0.8f, 1.0f };
+constexpr ImVec4 COLOR_YELLOW = { 0.8f, 0.8f, 0.2f, 1.0f };
+constexpr ImVec4 COLOR_RED = { 0.8f, 0.25f, 0.25f, 1.0f };
+constexpr ImVec4 COLOR_PURPLE = { 0.75f, 0.25f, 0.8f, 1.0f };
 }
 
 ImGuiLog::ImGuiLog() {
@@ -61,44 +63,29 @@ void ImGuiLog::Draw(const char *title, bool *p_open) {
     }
 
     // Main window.
-    bool trace = ImGui::Button("Trace");
+    CreateButton(LogLevel::Trace);
     ImGui::SameLine();
-    bool info = ImGui::Button("Info");
+    CreateButton(LogLevel::Info);
     ImGui::SameLine();
-    bool warn = ImGui::Button("Warning");
+    CreateButton(LogLevel::Warn);
     ImGui::SameLine();
-    bool error = ImGui::Button("Error");
+    CreateButton(LogLevel::Error);
     ImGui::SameLine();
-    bool fatal = ImGui::Button("Fatal");
+    CreateButton(LogLevel::Fatal);
+
     ImGui::SameLine();
     bool clearFilter = ImGui::Button("Clear Filter");
     ImGui::SameLine();
-    m_fillter.Draw("Filter");
+    m_fillter.Draw("Filter", -1000.0f);
     ImGui::Separator();
 
     if(ImGui::BeginChild("scrolling", ImVec2(0, 0), false, ImGuiWindowFlags_HorizontalScrollbar)) {
-        if(trace) {
-            strcpy(m_fillter.InputBuf, "trace");
-            m_fillter.Build();
+        if(clearFilter) {
+            m_levelFilter = static_cast<uint8_t>(LogLevel::All);
         }
-        else if(info) {
-            strcpy(m_fillter.InputBuf, "info");
-            m_fillter.Build();
-        }
-        else if(warn) {
-            strcpy(m_fillter.InputBuf, "warn");
-            m_fillter.Build();
-        }
-        else if(error) {
-            strcpy(m_fillter.InputBuf, "error");
-            m_fillter.Build();
-        }
-        else if(fatal) {
-            strcpy(m_fillter.InputBuf, "fatal");
-            m_fillter.Build();
-        }
-        else if(clearFilter) {
-            strcpy(m_fillter.InputBuf, "");
+
+        if(m_levelFilter) {
+            strcpy_s(m_fillter.InputBuf, GetFilterStr().c_str());
             m_fillter.Build();
         }
 
@@ -114,30 +101,9 @@ void ImGuiLog::Draw(const char *title, bool *p_open) {
                 const char *line_start = buf + m_lineOffsets[line_no];
                 const char *line_end = (line_no + 1 < m_lineOffsets.Size) ? (buf + m_lineOffsets[line_no + 1] - 1) : buf_end;
                 if(m_fillter.PassFilter(line_start, line_end)) {
-                    std::string currentLine(line_start, line_end - line_start);
-                    uint32_t styleCount = 0;
-                    if(currentLine.find("trace") != currentLine.npos) {
-                        ImGui::PushStyleColor(ImGuiCol_Text, GREY);
-                        ++styleCount;
-                    }
-                    else if(currentLine.find("info") != currentLine.npos) {
-                        ImGui::PushStyleColor(ImGuiCol_Text, GREEN);
-                        ++styleCount;
-                    }
-                    else if(currentLine.find("warn") != currentLine.npos) {
-                        ImGui::PushStyleColor(ImGuiCol_Text, YELLOW);
-                        ++styleCount;
-                    }
-                    else if(currentLine.find("erro") != currentLine.npos) {
-                        ImGui::PushStyleColor(ImGuiCol_Text, RED);
-                        ++styleCount;
-                    }
-                    else if(currentLine.find("critical") != currentLine.npos) {
-                        ImGui::PushStyleColor(ImGuiCol_Text, RED);
-                        ++styleCount;
-                    }
+                    SetOutputColor(std::string_view(line_start, line_end - line_start));
                     ImGui::TextUnformatted(line_start, line_end);
-                    ImGui::PopStyleColor(styleCount);
+                    ImGui::PopStyleColor();
                 }
             }
         }
@@ -161,30 +127,10 @@ void ImGuiLog::Draw(const char *title, bool *p_open) {
                 for(int line_no = clipper.DisplayStart; line_no < clipper.DisplayEnd; line_no++) {
                     const char *line_start = buf + m_lineOffsets[line_no];
                     const char *line_end = (line_no + 1 < m_lineOffsets.Size) ? (buf + m_lineOffsets[line_no + 1] - 1) : buf_end;
-                    std::string currentLine(line_start, line_end - line_start);
-                    uint32_t styleCount = 0;
-                    if(currentLine.find("trace") != currentLine.npos) {
-                        ImGui::PushStyleColor(ImGuiCol_Text, GREY);
-                        ++styleCount;
-                    }
-                    else if(currentLine.find("info") != currentLine.npos) {
-                        ImGui::PushStyleColor(ImGuiCol_Text, GREEN);
-                        ++styleCount;
-                    }
-                    else if(currentLine.find("warn") != currentLine.npos) {
-                        ImGui::PushStyleColor(ImGuiCol_Text, YELLOW);
-                        ++styleCount;
-                    }
-                    else if(currentLine.find("erro") != currentLine.npos) {
-                        ImGui::PushStyleColor(ImGuiCol_Text, RED);
-                        ++styleCount;
-                    }
-                    else if(currentLine.find("critical") != currentLine.npos) {
-                        ImGui::PushStyleColor(ImGuiCol_Text, RED);
-                        ++styleCount;
-                    }
+
+                    SetOutputColor(std::string_view(line_start, line_end - line_start));
                     ImGui::TextUnformatted(line_start, line_end);
-                    ImGui::PopStyleColor(styleCount);
+                    ImGui::PopStyleColor();
                 }
             }
             clipper.End();
@@ -199,6 +145,104 @@ void ImGuiLog::Draw(const char *title, bool *p_open) {
     }
     ImGui::EndChild();
     ImGui::End();
+}
+
+void ImGuiLog::CreateButton(LogLevel level) {
+    const bool isActive = m_levelFilter & static_cast<uint8_t>(level);
+    if(isActive) {
+        ImGui::PushStyleColor(ImGuiCol_Text, GetLevelColor(level));
+    }
+    else {
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.5f, 0.5, 0.5f, 0.5f));
+    }
+    if(ImGui::Button(GetLevelButtonNume(level))) {
+        m_levelFilter ^= static_cast<uint8_t>(level);
+    }
+    ImGui::PopStyleColor();
+}
+
+const ImVec4 ImGuiLog::GetLevelColor(LogLevel level) const {
+    switch(level) {
+        case LogLevel::Trace:
+            return COLOR_GREY;
+        case LogLevel::Info:
+            return COLOR_GREEN;
+        case LogLevel::Warn:
+            return COLOR_YELLOW;
+        case LogLevel::Error:
+            return COLOR_RED;
+        case LogLevel::Fatal:
+            return COLOR_PURPLE;
+        default:
+            return { 0.5f, 0.5f , 0.5f , 0.5f };
+    }
+}
+
+const char *ImGuiLog::GetLevelButtonNume(LogLevel level) const {
+    switch(level) {
+        case LogLevel::Trace:
+            return "Trace";
+        case LogLevel::Info:
+            return "Info";
+        case LogLevel::Warn:
+            return "Warn";
+        case LogLevel::Error:
+            return "Error";
+        case LogLevel::Fatal:
+            return "Fatal";
+        default:
+            return "Undefined";
+    }
+}
+
+const std::string ImGuiLog::GetFilterStr() const {
+    std::stringstream ss;
+    if(m_levelFilter & static_cast<uint8_t>(LogLevel::Trace)) {
+        ss << "trace,";
+    }
+    if(m_levelFilter & static_cast<uint8_t>(LogLevel::Info)) {
+        ss << "info,";
+    }
+    if(m_levelFilter & static_cast<uint8_t>(LogLevel::Warn)) {
+        ss << "warn,";
+    }
+    if(m_levelFilter & static_cast<uint8_t>(LogLevel::Error)) {
+        ss << "error,";
+    }
+    if(m_levelFilter & static_cast<uint8_t>(LogLevel::Fatal)) {
+        ss << "critical,";
+    }
+    return ss.str();
+}
+
+void ImGuiLog::SetOutputColor(std::string_view str) const {
+    // TODO :
+    // Spd just output information to some specific sink after formated,
+    // whithout any extra information such as log level.
+    // I can't find a better way to determine which level is for every log,
+    // if we read buffer from spdlog to imgui.
+    // Since the log formate will always be "[%T] [%n] [%l]: %v",
+    // we can search log level start from the last "[" position.
+    static const size_t startPoint = str.find_last_of("[");
+
+    if(str.find("trace", startPoint) != str.npos) {
+        ImGui::PushStyleColor(ImGuiCol_Text, COLOR_GREY);
+    }
+    else if(str.find("info", startPoint) != str.npos) {
+        ImGui::PushStyleColor(ImGuiCol_Text, COLOR_GREEN);
+    }
+    else if(str.find("warn", startPoint) != str.npos) {
+        ImGui::PushStyleColor(ImGuiCol_Text, COLOR_YELLOW);
+    }
+    else if(str.find("erro", startPoint) != str.npos) {
+        ImGui::PushStyleColor(ImGuiCol_Text, COLOR_RED);
+    }
+    else if(str.find("critical", startPoint) != str.npos) {
+        ImGui::PushStyleColor(ImGuiCol_Text, COLOR_PURPLE);
+    }
+    else {
+        ImGui::PushStyleColor(ImGuiCol_Text, COLOR_GREY);
+    }
 }
 
 } // namespace Hina

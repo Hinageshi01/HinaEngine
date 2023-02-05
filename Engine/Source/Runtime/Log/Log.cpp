@@ -1,5 +1,4 @@
 #include "hnpch.h"
-
 #include "Log.h"
 
 #pragma warning(push, 0)
@@ -22,16 +21,17 @@ void Log::Init() {
 	auto fileSink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("Hina.log", true);
 	fileSink->set_pattern("[%T] [%l] %n: %v");
 
-	auto oss_sink = std::make_shared<spdlog::sinks::ostream_sink_mt>(m_oss);
+	auto ossSink = std::make_shared<spdlog::sinks::ostream_sink_mt>(m_oss);
+	ossSink->set_pattern("[%T] [%n] [%l]: %v");
 
-	std::vector<spdlog::sink_ptr> sinks{ consoleSink , fileSink, oss_sink };
+	std::vector<spdlog::sink_ptr> sinks{ consoleSink , fileSink, ossSink };
 
 	s_coreLogger = std::make_shared<spdlog::logger>("HINA", sinks.begin(), sinks.end());
 	spdlog::register_logger(s_coreLogger);
 	s_coreLogger->set_level(spdlog::level::trace);
 	s_coreLogger->flush_on(spdlog::level::trace);
 
-	s_applicationLogger = std::make_shared<spdlog::logger>("APP", sinks.begin(), sinks.end() - 1);
+	s_applicationLogger = std::make_shared<spdlog::logger>("APP", sinks.begin(), sinks.end());
 	spdlog::register_logger(s_applicationLogger);
 	s_applicationLogger->set_level(spdlog::level::trace);
 	s_applicationLogger->flush_on(spdlog::level::trace);

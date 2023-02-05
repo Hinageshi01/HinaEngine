@@ -66,6 +66,7 @@ project("Hina")
 		SourcePath,
 		RuntimePath,
 		ThirdPartyPath,
+		-- Thirdparties
 		path.join(ThirdPartyPath, "glad/include"),
 		path.join(ThirdPartyPath, "glfw/include"),
 		path.join(ThirdPartyPath, "spdlog/include"),
@@ -74,6 +75,8 @@ project("Hina")
 		path.join(ThirdPartyPath, "stb"),
 		path.join(ThirdPartyPath, "assimp/include"),
 		path.join(ThirdPartyPath, "assimp/build/include"),
+		-- Assets
+		path.join(SourcePath, "Asset"),
 	}
 
 	-- Link thirdparty libs.

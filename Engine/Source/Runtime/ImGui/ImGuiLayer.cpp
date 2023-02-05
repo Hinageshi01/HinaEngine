@@ -13,6 +13,8 @@
 
 #include "ImGui/ImGuiLog.h"
 
+#include "Icon/IconsMaterialDesign.h"
+
 namespace Hina
 {
 
@@ -25,10 +27,10 @@ void ImGuiLayer::OnAttach() {
 	ImGui::CreateContext();
 	ImGui::StyleColorsDark();
 
-	ImGuiIO &io = ImGui::GetIO(); (void)io;
+	ImGuiIO &io = ImGui::GetIO();
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
-
+	
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init("#version 460");
 }
@@ -43,7 +45,7 @@ void ImGuiLayer::OnEvent(Event &e) {
 
 }
 
-void ImGuiLayer::BeginOfFrame() {
+void ImGuiLayer::Begin() {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
@@ -58,16 +60,16 @@ void ImGuiLayer::OnImGuiRender() {
 	ImGui::ShowDemoWindow(&show);
 }
 
-void ImGuiLayer::EndOfFrame() {
+void ImGuiLayer::End() {
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 	ImGuiIO &io = ImGui::GetIO();
 	if(io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
-		GLFWwindow *backup_current_context = glfwGetCurrentContext();
+		GLFWwindow *backupCurrentContext = glfwGetCurrentContext();
 		ImGui::UpdatePlatformWindows();
 		ImGui::RenderPlatformWindowsDefault();
-		glfwMakeContextCurrent(backup_current_context);
+		glfwMakeContextCurrent(backupCurrentContext);
 	 }
 }
 

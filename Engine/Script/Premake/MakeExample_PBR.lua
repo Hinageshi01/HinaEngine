@@ -58,6 +58,7 @@ project("Example_PBR")
 		path.join(ThirdPartyPath, "stb"),
 		path.join(ThirdPartyPath, "assimp/include"),
 		path.join(ThirdPartyPath, "assimp/build/include"),
+		path.join(SourcePath, "Asset"),
 	}
 
 	libdirs {

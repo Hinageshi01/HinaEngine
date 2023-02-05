@@ -30,7 +30,8 @@ public:
 	Window &GetWindow() { return *m_window; }
 
 private:
-	bool OnWindowClose(WindowCloseEvent &e);
+	bool OnWindowClose(WindowCloseEvent &event);
+	bool OnWindowResize(WindowResizeEvent &event);
 
 	std::unique_ptr<Window> m_window;
 	ImGuiLayer *m_imguiLayer;

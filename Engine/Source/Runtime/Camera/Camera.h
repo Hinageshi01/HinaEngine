@@ -32,6 +32,8 @@ public:
     void Init(const CameraInitializer &init);
 
     const glm::mat4 GetViewMatrix() const;
+    const glm::mat4 GetProjectionMatrix(const uint32_t width, const uint32_t height) const;
+    const glm::mat4 GetViewProjectionMatrix(const uint32_t width, const uint32_t height) const;
 
     void ProcessKeyboard(CameraMovement direction, float deltaTime);
     void ProcessMouseMovement(float xoffset, float yoffset);

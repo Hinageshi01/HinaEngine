@@ -6,6 +6,7 @@
 #include "Event/KeyEvent.h"
 #include "Event/MouseEvent.h"
 
+
 namespace Hina
 {
 
@@ -21,18 +22,18 @@ public:
 	virtual void OnDetach() override;
 	virtual void OnEvent(Event &e) override;
 
-	virtual void BeginOfFrame() override;
+	virtual void Begin() override;
 	virtual void OnImGuiRender() override;
-	virtual void EndOfFrame() override;
+	virtual void End() override;
 
-	void BlockEvents(bool block) { m_BlockEvents = block; }
+	void BlockEvents(bool block) { m_blockEvents = block; }
 
 	void SetDarkThemeColors();
 
 	uint32_t GetActiveWidgetID() const;
 
 private:
-	bool m_BlockEvents = true;
+	bool m_blockEvents = true;
 	float m_time = 0.0f;
 };
 
