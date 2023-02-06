@@ -17,7 +17,7 @@ void OpenGLMessageCallback(
 	switch(severity) {
 		case GL_DEBUG_SEVERITY_HIGH:         HN_CORE_FATAL(message); return;
 		case GL_DEBUG_SEVERITY_MEDIUM:       HN_CORE_ERROR(message); return;
-		case GL_DEBUG_SEVERITY_LOW:          HN_CORE_WARN(message); return;
+		case GL_DEBUG_SEVERITY_LOW:          HN_CORE_WARN(message);  return;
 		case GL_DEBUG_SEVERITY_NOTIFICATION: HN_CORE_TRACE(message); return;
 	}
 
@@ -25,6 +25,7 @@ void OpenGLMessageCallback(
 }
 
 void OpenGLRendererAPI::Init() {
+
 #ifndef NDEBUG
 	glEnable(GL_DEBUG_OUTPUT);
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);

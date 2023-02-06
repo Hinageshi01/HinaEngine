@@ -76,18 +76,20 @@ void ImGuiLog::Draw(const char *title, bool *p_open) {
     ImGui::SameLine();
     bool clearFilter = ImGui::Button("Clear Filter");
     ImGui::SameLine();
-    m_fillter.Draw("Filter", -1000.0f);
+    m_fillter.Draw("Filter");
     ImGui::Separator();
 
     if(ImGui::BeginChild("scrolling", ImVec2(0, 0), false, ImGuiWindowFlags_HorizontalScrollbar)) {
         if(clearFilter) {
             m_levelFilter = static_cast<uint8_t>(LogLevel::All);
-        }
-
-        if(m_levelFilter) {
-            strcpy_s(m_fillter.InputBuf, GetFilterStr().c_str());
+            strcpy_s(m_fillter.InputBuf, "");
             m_fillter.Build();
         }
+
+        // if(m_levelFilter) {
+        //     strcpy_s(m_fillter.InputBuf, GetFilterStr().c_str());
+        //     m_fillter.Build();
+        // }
 
         ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
         const char *buf = m_buffer.begin();
@@ -157,6 +159,8 @@ void ImGuiLog::CreateButton(LogLevel level) {
     }
     if(ImGui::Button(GetLevelButtonNume(level))) {
         m_levelFilter ^= static_cast<uint8_t>(level);
+        strcpy_s(m_fillter.InputBuf, GetFilterStr().c_str());
+        m_fillter.Build();
     }
     ImGui::PopStyleColor();
 }

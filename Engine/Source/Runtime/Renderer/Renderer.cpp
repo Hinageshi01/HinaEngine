@@ -8,7 +8,7 @@ glm::mat4 Renderer::m_modelMatrix;
 glm::mat4 Renderer::m_viewMatrix;
 glm::mat4 Renderer::m_projectionMatrix;
 
-void  Renderer::Init() {
+void Renderer::Init() {
 	HN_CORE_INFO("Initializing Renderer");
 	RenderCommand::Init();
 	Renderer::m_modelMatrix = glm::identity<glm::mat4>();
