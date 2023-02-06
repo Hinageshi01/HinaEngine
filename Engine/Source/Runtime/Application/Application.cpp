@@ -48,7 +48,7 @@ void Application::PushOverlay(Layer *layer) {
 void Application::Run() {
 	while(m_isRunning) {
 		const float crtFrameTime = m_window->GetTime();
-		DeltaTime deltaTime = m_lastFrameTime - crtFrameTime;
+		DeltaTime deltaTime = crtFrameTime - m_lastFrameTime;
 		m_lastFrameTime = crtFrameTime;
 
 		m_window->BeginOfFrame();

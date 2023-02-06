@@ -8,12 +8,12 @@ namespace Hina
 
 namespace
 {
-constexpr ImVec4 COLOR_GREY = { 0.9f, 0.9f, 0.9f, 1.0f };
-constexpr ImVec4 COLOR_GREEN = { 0.2f, 0.8f, 0.2f, 1.0f };
-constexpr ImVec4 COLOR_BLUE = { 0.2f, 0.2f, 0.8f, 1.0f };
-constexpr ImVec4 COLOR_YELLOW = { 0.8f, 0.8f, 0.2f, 1.0f };
-constexpr ImVec4 COLOR_RED = { 0.8f, 0.25f, 0.25f, 1.0f };
-constexpr ImVec4 COLOR_PURPLE = { 0.75f, 0.25f, 0.8f, 1.0f };
+constexpr ImVec4 COLOR_GREY   = { 0.9f,  0.9f,  0.9f,  1.0f };
+constexpr ImVec4 COLOR_GREEN  = { 0.2f,  0.8f,  0.2f,  1.0f };
+constexpr ImVec4 COLOR_BLUE   = { 0.2f,  0.2f,  0.8f,  1.0f };
+constexpr ImVec4 COLOR_YELLOW = { 0.8f,  0.8f,  0.2f,  1.0f };
+constexpr ImVec4 COLOR_RED    = { 0.8f,  0.25f, 0.25f, 1.0f };
+constexpr ImVec4 COLOR_PURPLE = { 0.75f, 0.25f, 0.8f,  1.0f };
 }
 
 ImGuiLog::ImGuiLog() {
@@ -85,11 +85,6 @@ void ImGuiLog::Draw(const char *title, bool *p_open) {
             strcpy_s(m_fillter.InputBuf, "");
             m_fillter.Build();
         }
-
-        // if(m_levelFilter) {
-        //     strcpy_s(m_fillter.InputBuf, GetFilterStr().c_str());
-        //     m_fillter.Build();
-        // }
 
         ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
         const char *buf = m_buffer.begin();

@@ -23,6 +23,8 @@ public:
 	static void BeginScene();
 	static void EndScene();
 	
+	// Clear color and depth buffer.
+	static void ClearBuffers(const glm::vec4 &color, const float depth = 1.0f);
 	static void OnWindowResize(uint32_t width, uint32_t height);
 
 	static void SetModelMatrix(const glm::mat4 &mat);

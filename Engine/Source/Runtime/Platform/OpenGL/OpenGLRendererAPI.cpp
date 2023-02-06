@@ -57,17 +57,22 @@ void OpenGLRendererAPI::SetClearColor(const glm::vec4 &color) {
 	glClearColor(color.r, color.g, color.b, color.a);
 }
 
-void OpenGLRendererAPI::Clear() {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+void OpenGLRendererAPI::SetClearDepth(const float depth) {
+	glClearDepth(depth);
 }
 
-void OpenGLRendererAPI::DrawIndexed(const std::shared_ptr<VertexArray> &vertexArray, uint32_t indexCount) {
+void OpenGLRendererAPI::Clear() {
+	// TODO : GL_STENCIL_BUFFER_BIT
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void OpenGLRendererAPI::DrawIndexed(const std::shared_ptr<VertexArray> &vertexArray, const uint32_t indexCount) {
 	vertexArray->Bind();
 	const uint32_t count = !!indexCount ? indexCount : vertexArray->GetIndexBuffer()->GetCount();
 	glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
 }
 
-void OpenGLRendererAPI::DrawLines(const std::shared_ptr<VertexArray> &vertexArray, uint32_t vertexCount) {
+void OpenGLRendererAPI::DrawLines(const std::shared_ptr<VertexArray> &vertexArray, const uint32_t vertexCount) {
 	vertexArray->Bind();
 	glDrawArrays(GL_LINES, 0, vertexCount);
 }

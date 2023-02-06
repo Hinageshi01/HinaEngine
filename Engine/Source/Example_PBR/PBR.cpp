@@ -91,9 +91,8 @@ public:
 		m_vertexArray->AddVertexBuffer(m_vertexBuffer);
 		m_vertexArray->SetIndexBuffer(m_indexBuffer);
 
-		// TODO : Use relative path.
-		const std::string vsPath = "D:/Works/HinaEngine/Engine/Source/Asset/Shader/v_testShader.glsl";
-		const std::string fsPath = "D:/Works/HinaEngine/Engine/Source/Asset/Shader/f_testShader.glsl";
+		const std::string vsPath = "../Source/Asset/Shader/v_testShader.glsl";
+		const std::string fsPath = "../Source/Asset/Shader/f_testShader.glsl";
 		m_shader = Hina::Shader::Create("testShader", vsPath, fsPath);
 	}
 
@@ -105,8 +104,7 @@ public:
 		m_camera.OnKeyPress(deltaTime);
 		m_camera.OnMouseMove();
 
-		Hina::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.11f, 1.0f });
-		Hina::RenderCommand::Clear();
+		Hina::Renderer::ClearBuffers(glm::vec4(0.1f, 0.1f, 0.11f, 1.0f));
 
 		Hina::Window &window = Hina::Application::Get().GetWindow();
 		const glm::mat4 view = m_camera.GetViewMatrix();

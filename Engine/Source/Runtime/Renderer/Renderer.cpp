@@ -11,7 +11,7 @@ glm::mat4 Renderer::m_projectionMatrix;
 void Renderer::Init() {
 	HN_CORE_INFO("Initializing Renderer");
 	RenderCommand::Init();
-	Renderer::m_modelMatrix = glm::identity<glm::mat4>();
+	m_modelMatrix = glm::identity<glm::mat4>();
 }
 
 void Renderer::Shutdown() {
@@ -24,6 +24,12 @@ void Renderer::BeginScene() {
 
 void Renderer::EndScene() {
 
+}
+
+void Renderer::ClearBuffers(const glm::vec4 &color, const float depth) {
+	RenderCommand::SetClearColor(color);
+	RenderCommand::SetClearDepth(depth);
+	RenderCommand::Clear();
 }
 
 void Renderer::OnWindowResize(uint32_t width, uint32_t height) {

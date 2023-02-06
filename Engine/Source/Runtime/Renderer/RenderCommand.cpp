@@ -18,15 +18,19 @@ void RenderCommand::SetClearColor(const glm::vec4 &color) {
 	s_rendererAPI->SetClearColor(color);
 }
 
+void RenderCommand::SetClearDepth(const float depth) {
+	s_rendererAPI->SetClearDepth(depth);
+}
+
 void RenderCommand::Clear() {
 	s_rendererAPI->Clear();
 }
 
-void RenderCommand::DrawIndexed(const std::shared_ptr<VertexArray> &vertexArray, uint32_t indexCount) {
+void RenderCommand::DrawIndexed(const std::shared_ptr<VertexArray> &vertexArray, const uint32_t indexCount) {
 	s_rendererAPI->DrawIndexed(vertexArray, indexCount);
 }
 
-void RenderCommand::DrawLines(const std::shared_ptr<VertexArray> &vertexArray, uint32_t vertexCount) {
+void RenderCommand::DrawLines(const std::shared_ptr<VertexArray> &vertexArray, const uint32_t vertexCount) {
 	s_rendererAPI->DrawLines(vertexArray, vertexCount);
 }
 
