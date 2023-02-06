@@ -11,7 +11,7 @@ namespace Hina
 class WindowsWindow : public Window
 {
 public:
-	WindowsWindow(const WindowProps &props);
+	WindowsWindow(const WindowInitializer &init);
 	virtual ~WindowsWindow();
 
 	virtual void BeginOfFrame() override;
@@ -30,7 +30,7 @@ public:
 	virtual void *GetNativeWindow() const override { return m_window; }
 
 private:
-	void Init(const WindowProps &props);
+	void Init(const WindowInitializer &init);
 	void Shutdown();
 	void SetGLFWCallbacks();
 

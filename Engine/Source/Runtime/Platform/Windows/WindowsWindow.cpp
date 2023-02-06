@@ -15,20 +15,20 @@ static void GLFWErrorCallback(int error, const char *description) {
 	HN_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
 }
 
-WindowsWindow::WindowsWindow(const WindowProps &props) {
-	Init(props);
+WindowsWindow::WindowsWindow(const WindowInitializer &init) {
+	Init(init);
 }
 
 WindowsWindow::~WindowsWindow() {
 	Shutdown();
 }
 
-void WindowsWindow::Init(const WindowProps &props) {
-	HN_CORE_INFO("Creating window {0}: ({1}, {2})", props.m_title, props.m_width, props.m_height);
+void WindowsWindow::Init(const WindowInitializer &init) {
+	HN_CORE_INFO("Creating window {0}: ({1}, {2})", init.m_title, init.m_width, init.m_height);
 	
-	m_data.m_title = props.m_title;
-	m_data.m_width = props.m_width;
-	m_data.m_height = props.m_height; 
+	m_data.m_title = init.m_title;
+	m_data.m_width = init.m_width;
+	m_data.m_height = init.m_height; 
 
 	if(s_GLFWWindowCount == 0) {
 		// Init glfw when the first window create.
@@ -37,15 +37,22 @@ void WindowsWindow::Init(const WindowProps &props) {
 		glfwSetErrorCallback(GLFWErrorCallback);
 	}
 
-	m_window = glfwCreateWindow(static_cast<int>(props.m_width), static_cast<int>(props.m_height),
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, init.m_major);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, init.m_minor);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	if(init.m_samples != 0) {
+		glfwWindowHint(GLFW_SAMPLES, init.m_samples);
+	}
+
+	m_window = glfwCreateWindow(static_cast<int>(init.m_width), static_cast<int>(init.m_height),
 		m_data.m_title.c_str(), nullptr, nullptr);
 	HN_CORE_ASSERT(m_window, "Failed to creating glfw windows.");
 
+	m_context = GraphicsContext::Create(m_window);
+	m_context->Init();
+
 	++s_GLFWWindowCount;
 	
-	m_context = GraphicsContext::Create(m_window);
-	m_context->Init(4, 6);
-
 	glfwSetWindowUserPointer(m_window, &m_data);
 
 	SetVSync(true);

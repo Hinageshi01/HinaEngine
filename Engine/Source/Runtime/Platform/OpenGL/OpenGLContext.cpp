@@ -12,18 +12,15 @@ OpenGLContext::OpenGLContext(GLFWwindow *windowHandle) : m_windowHandle(windowHa
 	HN_CORE_ASSERT(windowHandle, "Window handle is null!");
 }
 
-void OpenGLContext::Init(const uint32_t major, const uint32_t minor) {
+void OpenGLContext::Init() {
 	HN_CORE_INFO("Initializing OpenGL context");
-	HN_CORE_INFO("OpenGL version: {0}.{1}", major, minor);
 
 	glfwMakeContextCurrent(m_windowHandle);
 
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, static_cast<int>(major));
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, static_cast<int>(minor));
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
 	uint8_t gladSuccess = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 	HN_CORE_ASSERT(gladSuccess, "Failed to initialize Glad!");
+
+	glEnable(GL_MULTISAMPLE);
 
 	HN_CORE_INFO("OpenGL Info:");
 	HN_CORE_TRACE("    Vendor: {0}", reinterpret_cast<const char *>(glGetString(GL_VENDOR)));

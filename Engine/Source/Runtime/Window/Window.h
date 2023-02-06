@@ -5,14 +5,22 @@
 namespace Hina
 {
 
-struct WindowProps
+struct WindowInitializer
 {
-	WindowProps(std::string title = "Hina Engine", uint32_t width = 1280, uint32_t height = 720)
-		: m_title(std::move(title)), m_width(width), m_height(height) {}
+	WindowInitializer() = default;
+	WindowInitializer(
+		std::string title, uint32_t width, uint32_t height,
+		uint32_t major, uint32_t minor, uint32_t samples)
+		: m_title(std::move(title)), m_width(width), m_height(height),
+		m_major(major), m_minor(minor), m_samples(samples) {}
 
-	std::string m_title;
-	uint32_t m_width;
-	uint32_t m_height;
+	std::string m_title = "Hina Engine";
+	uint32_t m_width = 1280;
+	uint32_t m_height = 720;
+
+	uint32_t m_major = 4;
+	uint32_t m_minor = 6;
+	uint32_t m_samples = 4;
 };
 
 class Window
@@ -38,7 +46,7 @@ public:
 	virtual void *GetNativeWindow() const = 0;
 
 	// Creat a derived class of Window which determined by the platform.
-	static std::unique_ptr<Window> Create(const WindowProps &props = WindowProps());
+	static std::unique_ptr<Window> Create(const WindowInitializer &init = WindowInitializer());
 };
 
 } // namespace Hina

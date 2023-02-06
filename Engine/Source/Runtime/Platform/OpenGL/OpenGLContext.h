@@ -12,7 +12,7 @@ class OpenGLContext : public GraphicsContext
 public:
 	OpenGLContext(GLFWwindow *windowHandle);
 
-	virtual void Init(const uint32_t major, const uint32_t minor) override;
+	virtual void Init() override;
 	virtual void SwapBuffers() override;
 
 private:
