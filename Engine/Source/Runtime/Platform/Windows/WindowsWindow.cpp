@@ -48,7 +48,7 @@ void WindowsWindow::Init(const WindowInitializer &init) {
 		m_data.m_title.c_str(), nullptr, nullptr);
 	HN_CORE_ASSERT(m_window, "Failed to creating glfw windows.");
 
-	m_context = GraphicsContext::Create(m_window);
+	m_context = RendererContext::Create(m_window);
 	m_context->Init();
 
 	++s_GLFWWindowCount;

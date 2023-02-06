@@ -8,7 +8,7 @@
 namespace Hina
 {
 
-std::unique_ptr<GraphicsContext> GraphicsContext::Create(void *window) {
+std::unique_ptr<RendererContext> RendererContext::Create(void *window) {
 	switch(RendererAPI::GetAPI()) {
 		case RendererAPI::API::OpenGL:
 			return std::make_unique<OpenGLContext>(static_cast<GLFWwindow *>(window)); break;

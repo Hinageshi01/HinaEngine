@@ -3,15 +3,15 @@
 namespace Hina
 {
 
-class GraphicsContext
+class RendererContext
 {
 public:
-	virtual ~GraphicsContext() = default;
+	virtual ~RendererContext() = default;
 
 	virtual void Init() = 0;
 	virtual void SwapBuffers() = 0;
 
-	static std::unique_ptr<GraphicsContext> Create(void *window);
+	static std::unique_ptr<RendererContext> Create(void *window);
 };
 
 }// namespace Hina

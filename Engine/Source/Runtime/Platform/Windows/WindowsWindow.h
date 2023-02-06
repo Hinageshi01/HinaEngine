@@ -36,7 +36,7 @@ private:
 
 private:
 	GLFWwindow *m_window;
-	std::unique_ptr<GraphicsContext> m_context;
+	std::unique_ptr<RendererContext> m_context;
 
 	struct WindowData
 	{

@@ -7,7 +7,7 @@ struct GLFWwindow;
 namespace Hina
 {
 
-class OpenGLContext : public GraphicsContext
+class OpenGLContext : public RendererContext
 {
 public:
 	OpenGLContext(GLFWwindow *windowHandle);
