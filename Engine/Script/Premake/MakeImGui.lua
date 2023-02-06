@@ -6,6 +6,8 @@ project("imgui")
 	language("C++")
 	cppdialect("C++20")
 
+	print("[ imgui ] path: "..path.join(ThirdPartyPath, "imgui"))
+
 	local imguiBuildPath = path.join(ThirdPartyPath, "imgui/build")
 	location(imguiBuildPath)
 
@@ -50,3 +52,6 @@ project("imgui")
 		-- Compiler uses multiple thread.
 		"MultiProcessorCompile",
 	}
+
+	print("Build files have been written to: "..imguiBuildPath)
+	print("")

@@ -6,6 +6,8 @@ project("glad")
 	language("C++")
 	cppdialect("C++20")
 
+	print("[ glad ] path: "..path.join(ThirdPartyPath, "glad"))
+
 	local gladBuildPath = path.join(ThirdPartyPath, "glad/build")
 	location(gladBuildPath)
 
@@ -50,3 +52,6 @@ project("glad")
 		-- Compiler uses multiple thread.
 		"MultiProcessorCompile",
 	}
+
+	print("Build files have been written to: "..gladBuildPath)
+	print("")

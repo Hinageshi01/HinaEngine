@@ -1,10 +1,10 @@
-print("Generating thirdparty by premake...")
+print("Generating thirdpart projects by premake...")
 
 group("ThirdParty")
 	dofile("MakeGlad.lua")
 	dofile("MakeImGui.lua")
 
-print("Adding thirdparty project...")
+print("Adding thirdparty projects...")
 
 local gladProjectPath = path.join(ThirdPartyPath, "glad/build")
 print("[ glad ] project path: "..gladProjectPath)
