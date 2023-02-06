@@ -4,6 +4,9 @@
 
 #include "Application/Application.h"
 #include "Camera/Camera.h"
+#include "Core/DeltaTime.h"
+#include "Event/Event.h"
+#include "Layer/Layer.h"
 
 // Rendering
 #include "Renderer/RenderCommand.h"

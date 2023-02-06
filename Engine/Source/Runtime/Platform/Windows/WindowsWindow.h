@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/Window.h"
+#include "Window/Window.h"
 #include "Renderer/RendererContext.h"
 
 #include <GLFW/glfw3.h>
@@ -18,8 +18,9 @@ public:
 	virtual void OnUpdate() override;
 	virtual void EndOfFrame() override;
 
-	virtual unsigned int GetWidth() const override { return m_data.m_width; }
-	virtual unsigned int GetHeight() const override { return m_data.m_height; }
+	virtual uint32_t GetWidth() const override { return m_data.m_width; }
+	virtual uint32_t GetHeight() const override { return m_data.m_height; }
+	virtual float GetTime() const override { return glfwGetTime(); }
 
 	// Window attributes.
 	virtual void SetEventCallback(const EventCallbackFn &callback) override;

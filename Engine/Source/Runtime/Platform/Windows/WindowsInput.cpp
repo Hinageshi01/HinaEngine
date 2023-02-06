@@ -1,5 +1,4 @@
 #include "hnpch.h"
-
 #include "Application/Application.h"
 #include "Core/Input.h"
 #include "GLFW/glfw3.h"

@@ -1,6 +1,7 @@
 #include "hnpch.h"
 #include "Application.h"
 
+#include "Core/DeltaTime.h"
 #include "Renderer/Renderer.h"
 #include "Renderer/RenderCommand.h"
 
@@ -46,11 +47,15 @@ void Application::PushOverlay(Layer *layer) {
 
 void Application::Run() {
 	while(m_isRunning) {
+		const float crtFrameTime = m_window->GetTime();
+		DeltaTime deltaTime = m_lastFrameTime - crtFrameTime;
+		m_lastFrameTime = crtFrameTime;
+
 		m_window->BeginOfFrame();
 
 		m_window->OnUpdate();
 		for(Layer *layer : m_layerStack) {
-			layer->OnUpdate();
+			layer->OnUpdate(deltaTime);
 		}
 
 		m_imguiLayer->OnImGuiRender();

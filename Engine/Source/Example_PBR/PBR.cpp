@@ -101,12 +101,8 @@ public:
 		
 	}
 
-	virtual void OnUpdate() override {
-		// tmp
-		float currentFrame = static_cast<float>(glfwGetTime());
-		m_deltaTime = currentFrame - m_lastFrame;
-		m_lastFrame = currentFrame;
-		m_camera.OnKeyPress(m_deltaTime);
+	virtual void OnUpdate(const Hina::DeltaTime deltaTime) override {
+		m_camera.OnKeyPress(deltaTime);
 		m_camera.OnMouseMove();
 
 		Hina::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.11f, 1.0f });
@@ -147,10 +143,6 @@ class PBR : public Hina::Application
 public:
     PBR() {
 		PushLater(new ExampleLayer);
-    }
-
-    ~PBR() {
-
     }
 };
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core/DeltaTime.h"
 #include "Event/Event.h"
 
 namespace Hina
@@ -15,7 +16,7 @@ public:
 	virtual void OnDetach() {}
 
 	virtual void Begin() {}
-	virtual void OnUpdate() {}
+	virtual void OnUpdate(const DeltaTime deltaTime) {}
 	virtual void End() {}
 
 	virtual void OnImGuiRender() {}
@@ -28,4 +29,5 @@ protected:
 	std::string m_debugName;
 };
 
-}
+} // namespace Hina
+

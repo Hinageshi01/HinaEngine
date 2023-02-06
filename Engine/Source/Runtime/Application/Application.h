@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/Window.h"
+#include "Window/Window.h"
 #include "Event/ApplicationEvent.h"
 #include "Event/KeyEvent.h"
 #include "Event/MouseEvent.h"
@@ -40,6 +40,8 @@ private:
 	bool m_isRunning = false;
 
 	static Application *s_instance;
+
+	float m_lastFrameTime = 0.0f;
 };
 
 // To be defined in example.
