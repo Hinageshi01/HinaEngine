@@ -2,9 +2,11 @@
 
 layout(location = 0) in vec3 a_position;
 layout(location = 1) in vec3 a_normal;
+layout(location = 2) in vec2 a_textureCoord;
 
 out vec3 v_worldPos;
 out vec3 v_normal;
+out vec2 v_textureCoord;
 
 uniform mat4 u_model;
 uniform mat4 u_view;
@@ -18,4 +20,6 @@ void main()
 	
 	mat3 modelInvTrans = mat3(transpose(inverse(u_model)));
 	v_normal = normalize(modelInvTrans * a_normal);
+
+	v_textureCoord = a_textureCoord;
 }

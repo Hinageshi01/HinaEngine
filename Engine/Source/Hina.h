@@ -12,6 +12,7 @@
 #include "Renderer/RenderCommand.h"
 #include "Renderer/Renderer.h"
 #include "Renderer/Shader.h"
+#include "Renderer/Texture2D.h"
 #include "Renderer/VertexArray.h"
 
 //////////////////// Entry Point ////////////////////

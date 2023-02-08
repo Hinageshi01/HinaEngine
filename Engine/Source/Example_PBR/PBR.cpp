@@ -4,53 +4,54 @@
 #include <GLFW/glfw3.h>
 
 static constexpr float vertices[] = {
-	-1.0,  1.0, -1.0,  0.0,  1.0,  0.0,
-	 1.0,  1.0,  1.0,  0.0,  1.0,  0.0,
-	 1.0,  1.0, -1.0,  0.0,  1.0,  0.0,
+//   pos,              normal,          uv
+	-1.0,  1.0, -1.0,  0.0,  1.0,  0.0, 0.0, 1.0,
+	 1.0,  1.0,  1.0,  0.0,  1.0,  0.0, 1.0, 1.0,
+	 1.0,  1.0, -1.0,  0.0,  1.0,  0.0, 1.0, 1.0,
 
-	 1.0,  1.0,  1.0,  0.0,  0.0,  1.0,
-	-1.0, -1.0,  1.0,  0.0,  0.0,  1.0,
-	 1.0, -1.0,  1.0,  0.0,  0.0,  1.0,
+	 1.0,  1.0,  1.0,  0.0,  0.0,  1.0, 1.0, 1.0,
+	-1.0, -1.0,  1.0,  0.0,  0.0,  1.0, 0.0, 0.0,
+	 1.0, -1.0,  1.0,  0.0,  0.0,  1.0, 1.0, 0.0,
 
-	-1.0,  1.0,  1.0, -1.0,  0.0,  0.0,
-	-1.0, -1.0, -1.0, -1.0,  0.0,  0.0,
-	-1.0, -1.0,  1.0, -1.0,  0.0,  0.0,
+	-1.0,  1.0,  1.0, -1.0,  0.0,  0.0, 0.0, 1.0,
+	-1.0, -1.0, -1.0, -1.0,  0.0,  0.0, 0.0, 0.0,
+	-1.0, -1.0,  1.0, -1.0,  0.0,  0.0, 0.0, 0.0,
 
-	 1.0, -1.0, -1.0,  0.0, -1.0,  0.0,
-	-1.0, -1.0,  1.0,  0.0, -1.0,  0.0,
-	-1.0, -1.0, -1.0,  0.0, -1.0,  0.0,
+	 1.0, -1.0, -1.0,  0.0, -1.0,  0.0, 1.0, 0.0,
+	-1.0, -1.0,  1.0,  0.0, -1.0,  0.0, 0.0, 0.0,
+	-1.0, -1.0, -1.0,  0.0, -1.0,  0.0, 0.0, 0.0,
 
-	 1.0,  1.0, -1.0,  1.0,  0.0,  0.0,
-	 1.0, -1.0,  1.0,  1.0,  0.0,  0.0,
-	 1.0, -1.0, -1.0,  1.0,  0.0,  0.0,
+	 1.0,  1.0, -1.0,  1.0,  0.0,  0.0, 1.0, 1.0,
+	 1.0, -1.0,  1.0,  1.0,  0.0,  0.0, 1.0, 0.0,
+	 1.0, -1.0, -1.0,  1.0,  0.0,  0.0, 1.0, 0.0,
 
-	-1.0,  1.0, -1.0,  0.0,  0.0, -1.0,
-	 1.0, -1.0, -1.0,  0.0,  0.0, -1.0,
-	-1.0, -1.0, -1.0,  0.0,  0.0, -1.0,
+	-1.0,  1.0, -1.0,  0.0,  0.0, -1.0, 0.0, 1.0,
+	 1.0, -1.0, -1.0,  0.0,  0.0, -1.0, 1.0, 0.0,
+	-1.0, -1.0, -1.0,  0.0,  0.0, -1.0, 0.0, 0.0,
 
-	-1.0,  1.0, -1.0,  0.0,  1.0,  0.0,
-	-1.0,  1.0,  1.0,  0.0,  1.0,  0.0,
-	 1.0,  1.0,  1.0,  0.0,  1.0,  0.0,
+	-1.0,  1.0, -1.0,  0.0,  1.0,  0.0, 0.0, 1.0,
+	-1.0,  1.0,  1.0,  0.0,  1.0,  0.0, 0.0, 1.0,
+	 1.0,  1.0,  1.0,  0.0,  1.0,  0.0, 1.0, 1.0,
 
-	 1.0,  1.0,  1.0,  0.0,  0.0,  1.0,
-	-1.0,  1.0,  1.0,  0.0,  0.0,  1.0,
-	-1.0, -1.0,  1.0,  0.0,  0.0,  1.0,
+	 1.0,  1.0,  1.0,  0.0,  0.0,  1.0, 1.0, 1.0,
+	-1.0,  1.0,  1.0,  0.0,  0.0,  1.0, 0.0, 1.0,
+	-1.0, -1.0,  1.0,  0.0,  0.0,  1.0, 0.0, 0.0,
 
-	-1.0,  1.0,  1.0, -1.0,  0.0,  0.0,
-	-1.0,  1.0, -1.0, -1.0,  0.0,  0.0,
-	-1.0, -1.0, -1.0, -1.0,  0.0,  0.0,
+	-1.0,  1.0,  1.0, -1.0,  0.0,  0.0, 0.0, 1.0,
+	-1.0,  1.0, -1.0, -1.0,  0.0,  0.0, 0.0, 1.0,
+	-1.0, -1.0, -1.0, -1.0,  0.0,  0.0, 0.0, 0.0,
 
-	 1.0, -1.0, -1.0,  0.0, -1.0,  0.0,
-	 1.0, -1.0,  1.0,  0.0, -1.0,  0.0,
-	-1.0, -1.0,  1.0,  0.0, -1.0,  0.0,
+	 1.0, -1.0, -1.0,  0.0, -1.0,  0.0, 1.0, 0.0,
+	 1.0, -1.0,  1.0,  0.0, -1.0,  0.0, 1.0, 0.0,
+	-1.0, -1.0,  1.0,  0.0, -1.0,  0.0, 0.0, 1.0,
 
-	 1.0,  1.0, -1.0,  1.0,  0.0,  0.0,
-	 1.0,  1.0,  1.0,  1.0,  0.0,  0.0,
-	 1.0, -1.0,  1.0,  1.0,  0.0,  0.0,
+	 1.0,  1.0, -1.0,  1.0,  0.0,  0.0, 1.0, 1.0,
+	 1.0,  1.0,  1.0,  1.0,  0.0,  0.0, 1.0, 1.0,
+	 1.0, -1.0,  1.0,  1.0,  0.0,  0.0, 1.0, 0.0,
 
-	-1.0,  1.0, -1.0,  0.0,  0.0, -1.0,
-	 1.0,  1.0, -1.0,  0.0,  0.0, -1.0,
-	 1.0, -1.0, -1.0,  0.0,  0.0, -1.0,
+	-1.0,  1.0, -1.0,  0.0,  0.0, -1.0, 0.0, 1.0,
+	 1.0,  1.0, -1.0,  0.0,  0.0, -1.0, 1.0, 1.0,
+	 1.0, -1.0, -1.0,  0.0,  0.0, -1.0, 1.0, 0.0,
 };
 
 static constexpr uint32_t indices[] = {
@@ -85,6 +86,7 @@ public:
 		Hina::BufferLayout bufferLayout = {
 			{ Hina::ShaderDataType::Float3, "a_position" },
 			{ Hina::ShaderDataType::Float3, "a_normal" },
+			{ Hina::ShaderDataType::Float2, "a_textureCoord" },
 		};
 		m_vertexBuffer->SetLayout(std::move(bufferLayout));
 
@@ -94,6 +96,9 @@ public:
 		const std::string vsPath = "../Source/Asset/Shader/v_testShader.glsl";
 		const std::string fsPath = "../Source/Asset/Shader/f_testShader.glsl";
 		m_shader = Hina::Shader::Create("testShader", vsPath, fsPath);
+		
+		const std::string texturePath = "../Source/Asset/Texture/japanese_stone_wall_diff.png";
+		m_texture = Hina::Texture2D::Create(texturePath);
 	}
 
 	virtual void OnDetach() override {
@@ -104,7 +109,7 @@ public:
 		m_camera.OnKeyPress(deltaTime);
 		m_camera.OnMouseMove();
 
-		Hina::Renderer::ClearBuffers(glm::vec4(0.1f, 0.1f, 0.11f, 1.0f));
+		Hina::Renderer::ClearBuffers(glm::vec4(0.1f, 0.1f, 0.11f, 1.0f), 1.0f);
 
 		Hina::Window &window = Hina::Application::Get().GetWindow();
 		const glm::mat4 view = m_camera.GetViewMatrix();
@@ -113,14 +118,23 @@ public:
 		Hina::Renderer::SetViewMatrix(view);
 		Hina::Renderer::SetProjectionMatrix(projection);
 
+		// tmp
+		m_texture->Bind(1);
+		m_shader->Bind();
+		m_shader->SetInt("us_albedo", 1);
+
 		Hina::Renderer::BeginScene();
 		Hina::Renderer::Submit(m_shader, m_vertexArray);
 		Hina::Renderer::EndScene();
 	}
 
-	virtual void OnEvent(Hina::Event &event) {
+	virtual void OnEvent(Hina::Event &event) override {
 		Hina::EventDispatcher dis(event);
 		dis.Dispatch<Hina::MouseScrolledEvent>(BIND_EVENT_FN(ExampleLayer::OnScroll));
+	}
+
+	virtual void OnImGuiRender() override {
+
 	}
 
 private:
@@ -130,6 +144,7 @@ private:
 
 	std::shared_ptr<Hina::VertexArray> m_vertexArray;
 	std::shared_ptr<Hina::Shader> m_shader;
+	std::shared_ptr<Hina::Texture2D> m_texture;
 	Hina::Camera m_camera;
 
 	float m_deltaTime = 0.0f;
