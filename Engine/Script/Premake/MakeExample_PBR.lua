@@ -23,6 +23,7 @@ project("Example_PBR")
 		"SPDLOG_NO_EXCEPTIONS",
 		"FMT_USE_NONTYPE_TEMPLATE_ARGS=0",
 		"_CRT_SECURE_NO_WARNINGS",
+		"HN_ENGINE_ROOT_PATH=\""..RootPath.."\"",
 	}
 	filter { "system:Windows" }
 		defines {

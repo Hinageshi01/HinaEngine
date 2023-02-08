@@ -20,6 +20,8 @@ Application::Application() {
 	HN_CORE_ERROR("Error log test");
 	HN_CORE_FATAL("Fatal log test");
 
+	HN_CORE_TRACE("Engine root path at: {0}", Path::FromRoot(""));
+
 	m_window = Window::Create();
 	m_window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
 

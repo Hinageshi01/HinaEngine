@@ -6,6 +6,7 @@
 #include "Event/MouseEvent.h"
 #include "ImGui/ImGuiLayer.h"
 #include "Layer/LayerStack.h"
+#include "Path/Path.h"
 
 #define BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
 

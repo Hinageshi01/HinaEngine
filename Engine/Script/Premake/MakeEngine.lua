@@ -33,6 +33,8 @@ project("Hina")
 		"FMT_USE_NONTYPE_TEMPLATE_ARGS=0",
 		-- For imgui_impl_XXX.cpp
 		"_CRT_SECURE_NO_WARNINGS",
+		-- Path.
+		"HN_ENGINE_ROOT_PATH=\""..RootPath.."\"",
 	}
 	filter { "system:Windows" }
 		defines {

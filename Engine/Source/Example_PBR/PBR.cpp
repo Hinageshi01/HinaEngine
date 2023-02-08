@@ -93,12 +93,12 @@ public:
 		m_vertexArray->AddVertexBuffer(m_vertexBuffer);
 		m_vertexArray->SetIndexBuffer(m_indexBuffer);
 
-		const std::string vsPath = "../Source/Asset/Shader/v_testShader.glsl";
-		const std::string fsPath = "../Source/Asset/Shader/f_testShader.glsl";
-		m_shader = Hina::Shader::Create("testShader", vsPath, fsPath);
+		m_shader = Hina::Shader::Create(
+			"testShader",
+			Hina::Path::FromAsset("Shader/v_testShader.glsl"),
+			Hina::Path::FromAsset("Shader/f_testShader.glsl"));
 		
-		const std::string texturePath = "../Source/Asset/Texture/japanese_stone_wall_diff.png";
-		m_texture = Hina::Texture2D::Create(texturePath);
+		m_texture = Hina::Texture2D::Create(Hina::Path::FromAsset("Texture/japanese_stone_wall_diff.png"));
 	}
 
 	virtual void OnDetach() override {
