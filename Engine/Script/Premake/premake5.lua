@@ -42,3 +42,5 @@ dofile("MakeEngine.lua")
 dofile("MakeExamples.lua")
 
 dofile("Utility.lua")
+
+dofile("Shader.lua")

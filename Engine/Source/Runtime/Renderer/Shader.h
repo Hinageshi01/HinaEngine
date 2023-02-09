@@ -5,6 +5,7 @@
 namespace Hina
 {
 
+// TODO : Shader class and Program class.
 class Shader
 {
 public:

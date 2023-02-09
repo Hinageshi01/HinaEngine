@@ -8,6 +8,7 @@ BinaryPath = path.join(EnginePath, "bin")
 IntermediatePath = path.join(EnginePath, "int")
 
 SourcePath = path.join(EnginePath, "Source")
+AssetPath = path.join(EnginePath, "Asset")
 RuntimePath = path.join(SourcePath, "Runtime")
 ThirdPartyPath = path.join(SourcePath, "ThirdParty")
 
@@ -15,7 +16,9 @@ print("Root path: "..RootPath)
 print("Engine path: "..EnginePath)
 print("Binary path: "..BinaryPath)
 print("Intermediate path: "..IntermediatePath)
+
 print("Source path: "..SourcePath)
+print("Asset path: "..AssetPath)
 print("Runtime path: "..RuntimePath)
 print("Thirdparty path: "..ThirdPartyPath)
 print("")

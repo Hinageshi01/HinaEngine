@@ -21,6 +21,8 @@ OpenGLTexture2D::OpenGLTexture2D(const uint32_t width, const uint32_t height)
 
 	glTextureParameteri(m_rendererID, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTextureParameteri(m_rendererID, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	glGenerateMipmap(GL_TEXTURE_2D);
 }
 
 OpenGLTexture2D::OpenGLTexture2D(const std::string &path) : m_path(path) {
@@ -43,23 +45,22 @@ OpenGLTexture2D::OpenGLTexture2D(const std::string &path) : m_path(path) {
 		internalFormat = GL_RGB8;
 		dataFormat = GL_RGB;
 	}
-
 	m_internalFormat = internalFormat;
 	m_dataFormat = dataFormat;
 
-	HN_CORE_ASSERT(internalFormat & dataFormat, "Format not supported!");
+	HN_CORE_ASSERT(m_internalFormat & m_dataFormat, "Format not supported!");
 
 	glCreateTextures(GL_TEXTURE_2D, 1, &m_rendererID);
-	glTextureStorage2D(m_rendererID, 1, internalFormat, m_width, m_height);
 
-	glTextureParameteri(m_rendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTextureStorage2D(m_rendererID, 1, m_internalFormat, m_width, m_height);
+
+	glTextureParameteri(m_rendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTextureParameteri(m_rendererID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	glTextureParameteri(m_rendererID, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTextureParameteri(m_rendererID, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-	glTextureSubImage2D(m_rendererID, 0, 0, 0, m_width, m_height, dataFormat, GL_UNSIGNED_BYTE, data);
-	glGenerateMipmap(GL_TEXTURE_2D);
+	glTextureSubImage2D(m_rendererID, 0, 0, 0, m_width, m_height, m_dataFormat, GL_UNSIGNED_BYTE, data);
 
 	stbi_image_free(data);
 }
