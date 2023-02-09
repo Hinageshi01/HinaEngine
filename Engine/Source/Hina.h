@@ -3,7 +3,7 @@
 // For use by examples.
 
 #include "Application/Application.h"
-#include "Camera/Camera.h"
+#include "Camera/FirstPersonCamera.h"
 #include "Core/DeltaTime.h"
 #include "Event/Event.h"
 #include "Layer/Layer.h"

@@ -11,7 +11,7 @@ const std::string Path::FromRoot(const char *str) {
 }
 
 const std::string Path::FromAsset(const char *str) {
-	static const std::filesystem::path assetPath = m_rootPath.append("Engine/Source/Asset");
+	static const std::filesystem::path assetPath = (m_rootPath / "Engine/Source/Asset");
 	return (assetPath / str).string();
 }
 

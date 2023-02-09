@@ -106,14 +106,13 @@ public:
 	}
 
 	virtual void OnUpdate(const Hina::DeltaTime deltaTime) override {
-		m_camera.OnKeyPress(deltaTime);
-		m_camera.OnMouseMove();
+		m_camera.OnUpdate(deltaTime);
 
 		Hina::Renderer::ClearBuffers(glm::vec4(0.1f, 0.1f, 0.11f, 1.0f), 1.0f);
 
 		Hina::Window &window = Hina::Application::Get().GetWindow();
-		const glm::mat4 view = m_camera.GetViewMatrix();
-		const glm::mat4 projection = m_camera.GetProjectionMatrix(window.GetWidth(), window.GetHeight());
+		const glm::mat4 view = m_camera.GetCamera().GetViewMatrix();
+		const glm::mat4 projection = m_camera.GetCamera().GetProjectionMatrix(window.GetWidth(), window.GetHeight());
 
 		Hina::Renderer::SetViewMatrix(view);
 		Hina::Renderer::SetProjectionMatrix(projection);
@@ -129,8 +128,9 @@ public:
 	}
 
 	virtual void OnEvent(Hina::Event &event) override {
-		Hina::EventDispatcher dis(event);
-		dis.Dispatch<Hina::MouseScrolledEvent>(BIND_EVENT_FN(ExampleLayer::OnScroll));
+		Hina::EventDispatcher dispatcher(event);
+
+		m_camera.OnEvent(event);
 	}
 
 	virtual void OnImGuiRender() override {
@@ -138,17 +138,10 @@ public:
 	}
 
 private:
-	bool OnScroll(Hina::MouseScrolledEvent &event) {
-		return m_camera.OnMouseScroll(event);
-	}
-
 	std::shared_ptr<Hina::VertexArray> m_vertexArray;
 	std::shared_ptr<Hina::Shader> m_shader;
 	std::shared_ptr<Hina::Texture2D> m_texture;
-	Hina::Camera m_camera;
-
-	float m_deltaTime = 0.0f;
-	float m_lastFrame = 0.0f;
+	Hina::FirstPersonCamera m_camera;
 };
 
 class PBR : public Hina::Application

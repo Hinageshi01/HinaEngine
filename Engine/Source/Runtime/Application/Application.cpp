@@ -94,5 +94,4 @@ bool Application::OnWindowResize(WindowResizeEvent &event) {
 	return true;
 }
 
-
 } // namespace Hina

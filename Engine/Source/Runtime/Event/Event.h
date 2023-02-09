@@ -3,6 +3,8 @@
 #include "Core/Binary.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 
+#define BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
+
 namespace Hina
 {
 
