@@ -100,6 +100,9 @@ void OpenGLShader::CreateProgram(const std::string &vertexCode, const std::strin
 	// Delete the shaders as they're linked into our program now and no longer necessary.
 	glDeleteShader(vertexID);
 	glDeleteShader(fragmentID);
+	if(useGeometryShader) {
+		glDeleteShader(geometryID);
+	}
 }
 
 void OpenGLShader::Bind() const {
