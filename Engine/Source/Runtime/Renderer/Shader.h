@@ -5,7 +5,6 @@
 namespace Hina
 {
 
-// TODO : Shader class and Program class.
 class Shader
 {
 public:
@@ -14,7 +13,6 @@ public:
 	virtual void Bind() const = 0;
 	virtual void Unbind() const = 0;
 
-	// TODO : Provide a overload function with r value parameter.
 	virtual void SetInt(const std::string &name, int value) = 0;
 	virtual void SetIntArray(const std::string &name, int *values, uint32_t count) = 0;
 	virtual void SetFloat(const std::string &name, float value) = 0;
@@ -26,6 +24,7 @@ public:
 
 	virtual const std::string &GetName() const = 0;
 
+	// TODO : Compute shader.
 	static std::shared_ptr<Shader> Create(
 		const std::string &name,
 		const std::string &vertexShaderPath,

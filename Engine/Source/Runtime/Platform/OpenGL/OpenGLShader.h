@@ -38,13 +38,15 @@ private:
 
 	void CreateProgram(const std::string &vertexCode, const std::string &fragmentCode, const std::string &geometryCode = "");
 
+	// Also add new pair if name not exist.
+	const GLint GetUniformLocation(const std::string &name);
+	
 	void CheckShaderErrors(const GLuint shader, const std::string &type);
 	void CheckProgramErrors(const GLuint program, const std::string &type);
 
 	uint32_t m_rendererID;
 	std::string m_name;
-
-	// std::unordered_map<GLenum, std::string> m_OpenGLSourceCode;
+	std::unordered_map<std::string, GLint> m_uniformNameMap;
 };
 
 } // namespace Hina

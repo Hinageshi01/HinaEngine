@@ -5,18 +5,26 @@ namespace Hina
 {
 
 void ShaderLibrary::Add(const std::string &name, const std::shared_ptr<Shader> &shader) {
-	HN_CORE_ASSERT(!Exists(name), "Shader already exists!");
-	m_shaders[name] = shader;
+	if(!Exists(name)) {
+		m_shaders[name] = shader;
+	}
+	else {
+		HN_CORE_ERROR("Shader {0} already exists!", name);
+	}
 }
 
 void ShaderLibrary::Add(const std::shared_ptr<Shader> &shader) {
-	auto &name = shader->GetName();
+	const std::string &name = shader->GetName();
 	Add(name, shader);
 }
 
 std::shared_ptr<Shader> ShaderLibrary::Get(const std::string &name) {
-	HN_CORE_ASSERT(Exists(name), "Shader not found!");
-	return m_shaders[name];
+	if(Exists(name)) {
+		return m_shaders[name];
+	}
+	else {
+		HN_CORE_ERROR("Shader {0} not found!", name);
+	}
 }
 
 bool ShaderLibrary::Exists(const std::string &name) const {
