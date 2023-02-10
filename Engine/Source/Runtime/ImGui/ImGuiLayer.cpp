@@ -46,15 +46,12 @@ void ImGuiLayer::OnEvent(Event &e) {
 }
 
 void ImGuiLayer::Begin() {
-
-}
-
-void ImGuiLayer::OnImGuiRender() {
-	// Begin of imgui rendering
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
+}
 
+void ImGuiLayer::OnImGuiRender() {
 	static bool show = true;
 	ImGuiLog::Get()->AddSpdLog(Log::GetSpdOutput());
 	ImGuiLog::Get()->Draw("Log:", &show);
@@ -62,8 +59,9 @@ void ImGuiLayer::OnImGuiRender() {
 	ImGui::ShowDemoWindow(&show);
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
 
-	// End of imgui rendering
+void ImGuiLayer::End() {
 	ImGuiIO &io = ImGui::GetIO();
 	if(io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
 		GLFWwindow *backupCurrentContext = glfwGetCurrentContext();
@@ -71,10 +69,6 @@ void ImGuiLayer::OnImGuiRender() {
 		ImGui::RenderPlatformWindowsDefault();
 		glfwMakeContextCurrent(backupCurrentContext);
 	}
-}
-
-void ImGuiLayer::End() {
-
 }
 
 void ImGuiLayer::SetDarkThemeColors() {

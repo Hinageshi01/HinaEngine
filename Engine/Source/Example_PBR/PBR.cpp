@@ -118,9 +118,9 @@ public:
 		Hina::Renderer::SetProjectionMatrix(projection);
 
 		// tmp
-		m_texture->Bind(1);
+		m_texture->Bind(0);
 		m_shader->Bind();
-		m_shader->SetInt("us_albedo", 1);
+		m_shader->SetInt("us_albedo", 0);
 
 		Hina::Renderer::BeginScene();
 		Hina::Renderer::Submit(m_shader, m_vertexArray);

@@ -16,10 +16,6 @@ Application::Application() {
 
 	Hina::Log::Init();
 	HN_CORE_INFO("Initialized Log");
-	HN_CORE_WARN("Warning log test");
-	HN_CORE_ERROR("Error log test");
-	HN_CORE_FATAL("Fatal log test");
-
 	HN_CORE_TRACE("Engine root path at: {0}", Path::FromRoot(""));
 
 	m_window = Window::Create();
@@ -50,17 +46,23 @@ void Application::PushOverlay(Layer *layer) {
 void Application::Run() {
 	while(m_isRunning) {
 		const float crtFrameTime = m_window->GetTime();
-		DeltaTime deltaTime = crtFrameTime - m_lastFrameTime;
+		const DeltaTime deltaTime = crtFrameTime - m_lastFrameTime;
 		m_lastFrameTime = crtFrameTime;
 
 		m_window->BeginOfFrame();
 
-		m_window->OnUpdate();
-		for(Layer *layer : m_layerStack) {
-			layer->OnUpdate(deltaTime);
-		}
+		if(!m_isMinimized) {
+			m_window->OnUpdate();
+			for(Layer *layer : m_layerStack) {
+				layer->OnUpdate(deltaTime);
+			}
 
-		m_imguiLayer->OnImGuiRender();
+			m_imguiLayer->Begin();
+			for(Layer *layer : m_layerStack) {
+				layer->OnImGuiRender();
+			}
+			m_imguiLayer->End();
+		}
 
 		m_window->EndOfFrame();
 	}
@@ -90,7 +92,12 @@ bool Application::OnWindowClose(WindowCloseEvent &event) {
 }
 
 bool Application::OnWindowResize(WindowResizeEvent &event) {
-	Renderer::OnWindowResize(m_window->GetWidth(), m_window->GetHeight());
+	if(event.GetWidth() == 0 || event.GetHeight() == 0) {
+		m_isMinimized = true;
+		return false;
+	}
+
+	Renderer::OnWindowResize(event.GetWidth(), event.GetHeight());
 	return true;
 }
 
