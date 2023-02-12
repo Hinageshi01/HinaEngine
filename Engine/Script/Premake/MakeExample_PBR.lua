@@ -42,9 +42,6 @@ project("Example_PBR")
 		["Source/*"] = { 
 			path.join(PBRPath, "**.*"),
 		},
-		["Include/*"] = { 
-			path.join(SourcePath, "*.*"),
-		},
 	}
 
 	includedirs {

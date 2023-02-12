@@ -1,6 +1,6 @@
-print("Adding Shaders...")
+print("Adding Assets...")
 
-project("Shader")
+project("Asset")
 	kind("Utility")
 
 	location(IntermediatePath)
@@ -9,7 +9,12 @@ project("Shader")
 
 	files {
 		path.join(SourcePath, "Asset/Shader/**.*"),
-		path.join(SourcePath, "Asset/Shader/**.*"),
+	}
+
+	vpaths {
+		["Shader/*"] = { 
+			path.join(SourcePath, "Asset/Shader/**.*"),
+		},
 	}
 
 print("")

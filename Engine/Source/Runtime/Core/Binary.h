@@ -3,6 +3,8 @@
 namespace Hina
 {
 
+// TODO : std::is_XXX
+
 template<class T>
 constexpr T BitLeftMove(const uint8_t x) {
 	static_assert(
@@ -10,6 +12,8 @@ constexpr T BitLeftMove(const uint8_t x) {
 		"Only support unsigned integer.");
 	return static_cast<T>(1 << x);
 }
+
+// TODO : using
 
 #define BIT(x) (1 << x)
 #define BIT8(x) BitLeftMove<uint8_t>(x)
