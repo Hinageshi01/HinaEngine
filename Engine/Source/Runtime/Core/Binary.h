@@ -8,7 +8,7 @@ namespace Hina
 template<class T>
 static constexpr inline T BitLeftMove(const uint8_t x) {
 	static_assert(
-		std::is_unsigned<T>::value && std::is_integral<T>::value,
+		std::is_unsigned_v<T> && std::is_integral_v<T>,
 		"Only support integral.");
 
 	return static_cast<T>(1 << x);
