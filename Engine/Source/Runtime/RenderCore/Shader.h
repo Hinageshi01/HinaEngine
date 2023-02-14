@@ -8,12 +8,18 @@ namespace Hina
 class Shader
 {
 public:
+	Shader() = default;
+	Shader(const Shader &) = default;
+	Shader &operator=(const Shader &) = default;
+	Shader(Shader &&) = default;
+	Shader &operator=(Shader &&) = default;
 	virtual ~Shader() = default;
 
 	virtual void Bind() const = 0;
 	virtual void Unbind() const = 0;
 
-	virtual void SetName(const std::string & name) = 0;
+	virtual void SetName(const std::string &name) = 0;
+	virtual void SetName(std::string &&name) = 0;
 	virtual const std::string &GetName() const = 0;
 
 	virtual void SetInt(const std::string &name, int value) = 0;

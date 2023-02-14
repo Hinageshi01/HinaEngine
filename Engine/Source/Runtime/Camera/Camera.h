@@ -20,10 +20,17 @@ struct CameraInitializer
     const float m_scrollSensitive = 1.0f;
 };
 
-class Camera
+class Camera final
 {
 public:
-    Camera(const CameraInitializer &init = CameraInitializer());
+    explicit Camera(const CameraInitializer &init = CameraInitializer());
+    
+    Camera(const Camera &) = default;
+    Camera &operator=(const Camera &) = default;
+    Camera(Camera &&) = default;
+    Camera &operator=(Camera &&) = default;
+    ~Camera() = default;
+
     void Init(const CameraInitializer &init);
 
     const glm::mat4 GetViewMatrix() const;

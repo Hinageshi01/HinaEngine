@@ -1,17 +1,23 @@
 #pragma once
 
 #include "Window/Window.h"
-#include "Renderer/RendererContext.h"
+#include "RenderCore/RenderContext.h"
 
 #include <GLFW/glfw3.h>
 
 namespace Hina
 {
 
-class WindowsWindow : public Window
+class WindowsWindow final : public Window
 {
 public:
-	WindowsWindow(const WindowInitializer &init);
+	explicit WindowsWindow(const WindowInitializer &init);
+	
+	WindowsWindow() = delete;
+	WindowsWindow(const WindowsWindow &) = default;
+	WindowsWindow &operator=(const WindowsWindow &) = default;
+	WindowsWindow(WindowsWindow &&) = default;
+	WindowsWindow &operator=(WindowsWindow &&) = default;
 	virtual ~WindowsWindow();
 
 	virtual void BeginOfFrame() override;
@@ -34,9 +40,8 @@ private:
 	void Shutdown();
 	void SetGLFWCallbacks();
 
-private:
 	GLFWwindow *m_window;
-	std::unique_ptr<RendererContext> m_context;
+	std::unique_ptr<RenderContext> m_context;
 
 	struct WindowData
 	{
@@ -50,4 +55,4 @@ private:
 	WindowData m_data;
 };
 
-}
+} // namespace Hina

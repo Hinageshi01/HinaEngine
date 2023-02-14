@@ -1,12 +1,13 @@
 #pragma once
 
 #include "Window/Window.h"
+
 #include "Event/ApplicationEvent.h"
 #include "Event/KeyEvent.h"
 #include "Event/MouseEvent.h"
+
 #include "ImGui/ImGuiLayer.h"
 #include "Layer/LayerStack.h"
-#include "Path/Path.h"
 
 namespace Hina
 {

@@ -7,14 +7,15 @@
 #include "Core/DeltaTime.h"
 #include "Event/Event.h"
 #include "Layer/Layer.h"
+#include "Path/Path.h"
 
 // Rendering
-#include "Renderer/RenderCommand.h"
-#include "Renderer/Renderer.h"
-#include "Renderer/Shader.h"
-#include "Renderer/ShaderLibrary.h"
-#include "Renderer/Texture2D.h"
-#include "Renderer/VertexArray.h"
+#include "RenderCore/RenderCommand.h"
+#include "RenderCore/RenderCore.h"
+#include "RenderCore/Shader.h"
+#include "RenderCore/ShaderLibrary.h"
+#include "RenderCore/Texture2D.h"
+#include "RenderCore/VertexArray.h"
 
 //////////////////// Entry Point ////////////////////
 #include "Core/EntryPoint.h"

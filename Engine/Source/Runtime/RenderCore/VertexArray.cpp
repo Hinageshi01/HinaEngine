@@ -1,18 +1,19 @@
 #include "hnpch.h"
 #include "VertexArray.h"
 
-#include "Renderer/RendererAPI.h"
+#include "RenderCore/RenderAPI.h"
 #include "Platform/OpenGL/OpenGLVertexArray.h"
 
 namespace Hina
 {
 
 std::shared_ptr<VertexArray> VertexArray::Create() {
-	switch(RendererAPI::GetAPI()) {
-		case RendererAPI::API::None:
+	switch(RenderAPI::GetAPI()) {
+		case GraphicsAPI::None:
 			HN_CORE_ERROR("RendererAPI::None is currently not supported!");
-			return nullptr; break;
-		case RendererAPI::API::OpenGL:
+			return nullptr;
+
+		case GraphicsAPI::OpenGL:
 			return std::make_shared<OpenGLVertexArray>();
 	}
 

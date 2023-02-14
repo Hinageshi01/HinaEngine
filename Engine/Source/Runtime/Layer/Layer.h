@@ -9,7 +9,14 @@ namespace Hina
 class Layer
 {
 public:
-	Layer(const std::string &name = "Layer");
+	explicit Layer(const std::string &name = "Layer") : m_name(name) {};
+	explicit Layer(std::string &&name = "Layer") : m_name(name) {};
+
+	Layer() = default;
+	Layer(const Layer &) = default;
+	Layer &operator=(const Layer &) = default;
+	Layer(Layer &&) = default;
+	Layer &operator=(Layer &&) = default;
 	virtual ~Layer() = default;
 
 	virtual void OnAttach() {}
@@ -23,10 +30,11 @@ public:
 	
 	virtual void OnEvent(Event &event) {}
 
-	const std::string &GetName() const { return m_debugName; }
+	std::string &GetName() { return m_name; }
+	const std::string &GetName() const { return m_name; }
 
 protected:
-	std::string m_debugName;
+	std::string m_name;
 };
 
 } // namespace Hina

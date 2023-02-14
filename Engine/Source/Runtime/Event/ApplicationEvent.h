@@ -5,13 +5,12 @@
 namespace Hina
 {
 
-#define APPLICATION_CATEGORY static_cast<EVT_CAT_TYP>(EventCategory::Application);
-
-class WindowResizeEvent : public Event
+class WindowResizeEvent final : public Event
 {
 public:
 	WindowResizeEvent(const uint32_t width, const uint32_t height)
 		: m_width(width), m_height(height) {}
+
 	WindowResizeEvent() = delete;
 	WindowResizeEvent(const WindowResizeEvent &) = default;
 	WindowResizeEvent &operator=(const WindowResizeEvent &) = default;
@@ -19,25 +18,27 @@ public:
 	WindowResizeEvent &operator=(WindowResizeEvent &&) = default;
 	~WindowResizeEvent() = default;
 
-	const uint32_t GetWidth() const { return m_width; }
-	const uint32_t GetHeight() const { return m_height; }
-
-	virtual std::string ToString() const override {
-		std::stringstream ss;
-		ss << "WindowResizeEvent: " << m_width << ", " << m_height;
-		return ss.str();
-	}
+	uint32_t GetWidth() const { return m_width; }
+	uint32_t GetHeight() const { return m_height; }
 
 	static EventType GetStaticType() { return EventType::WindowResize; }
 	virtual EventType GetEventType() const override { return GetStaticType(); }
+	virtual uint8_t GetCategoryFlags() const override {
+		return static_cast<uint8_t>(EventCategory::Application);
+	}
+
 	virtual const char *GetName() const override { return "WindowResize"; }
-	virtual EVT_CAT_TYP GetCategoryFlags() const override { return APPLICATION_CATEGORY; }
+	virtual std::string ToString() const override {
+		std::stringstream ss;
+		ss << GetName() << ": " << m_width << ", " << m_height;
+		return ss.str();
+	}
 
 private:
 	unsigned int m_width, m_height;
 };
 
-class WindowCloseEvent : public Event
+class WindowCloseEvent final : public Event
 {
 public:
 	WindowCloseEvent() = default;
@@ -49,11 +50,14 @@ public:
 
 	static EventType GetStaticType() { return EventType::WindowClose; }
 	virtual EventType GetEventType() const override { return GetStaticType(); }
+	virtual uint8_t GetCategoryFlags() const override {
+		return static_cast<uint8_t>(EventCategory::Application);
+	}
+
 	virtual const char *GetName() const override { return "WindowClose"; }
-	virtual EVT_CAT_TYP GetCategoryFlags() const override { return APPLICATION_CATEGORY; }
 };
 
-class AppTickEvent : public Event
+class AppTickEvent final : public Event
 {
 public:
 	AppTickEvent() = default;
@@ -65,11 +69,14 @@ public:
 
 	static EventType GetStaticType() { return EventType::AppTick; }
 	virtual EventType GetEventType() const override { return GetStaticType(); }
+	virtual uint8_t GetCategoryFlags() const override {
+		return static_cast<uint8_t>(EventCategory::Application);
+	}
+
 	virtual const char *GetName() const override { return "AppTick"; }
-	virtual EVT_CAT_TYP GetCategoryFlags() const override { return APPLICATION_CATEGORY; }
 };
 
-class AppUpdateEvent : public Event
+class AppUpdateEvent final : public Event
 {
 public:
 	AppUpdateEvent() = default;
@@ -81,11 +88,14 @@ public:
 
 	static EventType GetStaticType() { return EventType::AppUpdate; }
 	virtual EventType GetEventType() const override { return GetStaticType(); }
+	virtual uint8_t GetCategoryFlags() const override {
+		return static_cast<uint8_t>(EventCategory::Application);
+	}
+
 	virtual const char *GetName() const override { return "AppUpdate"; }
-	virtual EVT_CAT_TYP GetCategoryFlags() const override { return APPLICATION_CATEGORY; }
 };
 
-class AppRenderEvent : public Event
+class AppRenderEvent final : public Event
 {
 public:
 	AppRenderEvent() = default;
@@ -97,8 +107,11 @@ public:
 
 	static EventType GetStaticType() { return EventType::AppRender; }
 	virtual EventType GetEventType() const override { return GetStaticType(); }
+	virtual uint8_t GetCategoryFlags() const override {
+		return static_cast<uint8_t>(EventCategory::Application);
+	}
+
 	virtual const char *GetName() const override { return "AppRender"; }
-	virtual EVT_CAT_TYP GetCategoryFlags() const override { return APPLICATION_CATEGORY; }
 };
 
 } // namespace Hina

@@ -2,13 +2,14 @@
 
 #include "Core/KeyCodes.h"
 #include "Core/MouseCodes.h"
-#include "glm/glm.hpp"
+
+#include <glm/glm.hpp>
 
 namespace Hina
 {
 
 // Application is a singleton.
-class Input
+class Input final
 {
 public:
 	static bool IsKeyPressed(KeyCode key);

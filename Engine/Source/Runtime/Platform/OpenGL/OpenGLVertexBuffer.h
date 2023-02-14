@@ -1,26 +1,32 @@
 #pragma once
 
-#include "Renderer/VertexBuffer.h"
+#include "RenderCore/VertexBuffer.h"
 
 namespace Hina
 {
 
-class OpenGLVertexBuffer : public VertexBuffer
+class OpenGLVertexBuffer final : public VertexBuffer
 {
 public:
-	OpenGLVertexBuffer() = delete;
 	OpenGLVertexBuffer(const uint32_t size, const float *vertices);
+
+	OpenGLVertexBuffer() = delete;
+	OpenGLVertexBuffer(const OpenGLVertexBuffer &) = default;
+	OpenGLVertexBuffer &operator=(const OpenGLVertexBuffer &) = default;
+	OpenGLVertexBuffer(OpenGLVertexBuffer &&) = default;
+	OpenGLVertexBuffer &operator=(OpenGLVertexBuffer &&) = default;
 	virtual ~OpenGLVertexBuffer();
 
 	virtual void Bind() const override;
 	virtual void Unbind() const override;
 
-	virtual const BufferLayout &GetLayout() const override { return m_Layout; }
-	virtual void SetLayout(BufferLayout layout) override { m_Layout = std::move(layout); }
+	virtual const BufferLayout &GetLayout() const override { return m_layout; }
+	virtual void SetLayout(const BufferLayout &layout) override { m_layout = layout; }
+	virtual void SetLayout(BufferLayout &&layout) override { m_layout = layout; }
 
 private:
-	uint32_t m_rendererID = 0;
-	BufferLayout m_Layout;
+	uint32_t m_renderID = 0;
+	BufferLayout m_layout;
 };
 
 } // namespace Hina

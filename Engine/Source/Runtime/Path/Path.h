@@ -3,7 +3,7 @@
 namespace Hina
 {
 
-class Path
+class Path final
 {
 public:
 	Path() = delete;
@@ -16,7 +16,7 @@ public:
 	static const std::string FromAsset(const char *str = "");
 
 private:
-	static std::filesystem::path m_rootPath;
+	static std::filesystem::path ms_rootPath;
 };
 
 } // namespace Hina

@@ -1,8 +1,6 @@
 #include "hnpch.h"
 #include "ImGuiLog.h"
 
-#include "Icon/IconsMaterialDesign.h"
-
 namespace Hina
 {
 
@@ -51,7 +49,6 @@ void ImGuiLog::AddLog(const char *fmt, ...) {
 void ImGuiLog::AddSpdLog(const std::ostringstream &oss, bool clearBuffer) {
     AddLog(oss.str().c_str());
     if(clearBuffer) {
-        // TODO : It's quite uncomfortable that codes coupled together like this.
         Log::ClearBuffer();
     }
 }

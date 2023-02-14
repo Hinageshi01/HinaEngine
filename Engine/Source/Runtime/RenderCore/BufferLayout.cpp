@@ -4,6 +4,9 @@
 namespace Hina
 {
 
+BufferElement::BufferElement(ShaderDataType type, const std::string &name, bool normalized)
+	: m_name(name), m_type(type), m_size(ShaderDataTypeSize(type)), m_offset(0), m_normalized(normalized) {}
+
 const uint32_t BufferElement::ShaderDataTypeSize(const ShaderDataType type) const {
 	switch(type) {
 		case ShaderDataType::Float:  return 4;
@@ -22,9 +25,6 @@ const uint32_t BufferElement::ShaderDataTypeSize(const ShaderDataType type) cons
 	HN_CORE_ERROR("Unknown ShaderDataType!");
 	return 0;
 }
-
-BufferElement::BufferElement(ShaderDataType type, const std::string &name, bool normalized)
-	: m_name(name), m_type(type), m_size(ShaderDataTypeSize(type)), m_offset(0), m_normalized(normalized) {}
 
 const uint32_t BufferElement::GetComponentCount() const {
 	switch(m_type) {
@@ -45,7 +45,11 @@ const uint32_t BufferElement::GetComponentCount() const {
 	return 0;
 }
 
-BufferLayout::BufferLayout(std::initializer_list<BufferElement> elements) : m_elements(elements) {
+BufferLayout::BufferLayout(const std::initializer_list<BufferElement> &elements) : m_elements(elements) {
+	CalculateOffsetsAndStride();
+}
+
+BufferLayout::BufferLayout(std::initializer_list<BufferElement> &&elements) : m_elements(elements) {
 	CalculateOffsetsAndStride();
 }
 

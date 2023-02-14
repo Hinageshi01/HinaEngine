@@ -1,28 +1,33 @@
 #pragma once
 
-#include "Renderer/VertexArray.h"
+#include "RenderCore/VertexArray.h"
 
 #include <glm/glm.hpp>
 
 namespace Hina
 {
 
-class RendererAPI
+enum class GraphicsAPI
+{
+	None = 0, OpenGL = 1
+};
+
+class RenderAPI
 {
 public:
-	enum class API
-	{
-		None = 0, OpenGL = 1
-	};
-
-public:
-	virtual ~RendererAPI() = default;
+	RenderAPI() = default;
+	RenderAPI(const RenderAPI &) = default;
+	RenderAPI &operator=(const RenderAPI &) = default;
+	RenderAPI(RenderAPI &&) = default;
+	RenderAPI &operator=(RenderAPI &&) = default;
+	virtual ~RenderAPI() = default;
 
 	virtual void Init() = 0;
 	virtual void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) = 0;
 
 	virtual void SetClearColor(const glm::vec4 &color) = 0;
 	virtual void SetClearDepth(const float depth) = 0;
+	virtual void SetClearStencil(const int stencil) = 0;
 
 	virtual void Clear() = 0;
 
@@ -31,11 +36,12 @@ public:
 
 	virtual void SetLineWidth(float width) = 0;
 
-	static API GetAPI() { return s_API; }
-	static std::unique_ptr<RendererAPI> Create();
+	static void SetAPI(const GraphicsAPI api) { ms_API = api; }
+	static GraphicsAPI GetAPI() { return ms_API; }
+	static std::unique_ptr<RenderAPI> Create();
 
 private:
-	static API s_API;
+	static GraphicsAPI ms_API;
 };
 
 } // namespace Hina

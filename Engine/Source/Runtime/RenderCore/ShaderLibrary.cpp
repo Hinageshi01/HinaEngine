@@ -5,7 +5,7 @@ namespace Hina
 {
 
 void ShaderLibrary::Add(const std::string &name, const std::shared_ptr<Shader> &shader) {
-	if(!Exists(name)) {
+	if(!Exist(name)) {
 		m_shaders[name] = shader;
 	}
 	else {
@@ -19,7 +19,7 @@ void ShaderLibrary::Add(const std::shared_ptr<Shader> &shader) {
 }
 
 std::shared_ptr<Shader> ShaderLibrary::Get(const std::string &name) {
-	if(Exists(name)) {
+	if(Exist(name)) {
 		return m_shaders[name];
 	}
 	else {
@@ -27,7 +27,11 @@ std::shared_ptr<Shader> ShaderLibrary::Get(const std::string &name) {
 	}
 }
 
-bool ShaderLibrary::Exists(const std::string &name) const {
+bool ShaderLibrary::Exist(const std::string &name) const {
+	return m_shaders.find(name) != m_shaders.end();
+}
+
+bool ShaderLibrary::Exist(std::string &&name) const {
 	return m_shaders.find(name) != m_shaders.end();
 }
 

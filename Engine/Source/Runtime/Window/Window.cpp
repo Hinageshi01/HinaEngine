@@ -1,5 +1,4 @@
 #include "hnpch.h"
-
 #include "Window.h"
 
 #ifdef HN_PLATFORM_WIN
@@ -14,7 +13,7 @@ std::unique_ptr<Window> Window::Create(const WindowInitializer &init) {
 	return std::make_unique<WindowsWindow>(init);
 #endif
 
-	HN_CORE_ERROR("Platform undefined!");
+	HN_CORE_FATAL("Platform undefined!");
 	return nullptr;
 }
 

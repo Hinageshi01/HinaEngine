@@ -69,14 +69,18 @@ static constexpr uint32_t indices[] = {
 	 33, 34, 35,
 };
 
-class ExampleLayer : public Hina::Layer
+class ExampleLayer final : public Hina::Layer
 {
 public:
-	ExampleLayer() = default;
-	ExampleLayer(const ExampleLayer &) = delete;
-	ExampleLayer &operator=(const ExampleLayer &) = delete;
-	ExampleLayer(ExampleLayer &&) = delete;
-	ExampleLayer &operator=(ExampleLayer &&) = delete;
+	explicit ExampleLayer(const std::string &str) : Layer(str) {}
+	explicit ExampleLayer(std::string &&str) : Layer(str) {}
+	
+	ExampleLayer() = delete;
+	ExampleLayer(const ExampleLayer &) = default;
+	ExampleLayer &operator=(const ExampleLayer &) = default;
+	ExampleLayer(ExampleLayer &&) = default;
+	ExampleLayer &operator=(ExampleLayer &&) = default;
+	~ExampleLayer() = default;
 
 	virtual void OnAttach() override {
 		m_vertexArray = Hina::VertexArray::Create();
@@ -108,23 +112,23 @@ public:
 	virtual void OnUpdate(const Hina::DeltaTime deltaTime) override {
 		m_camera.OnUpdate(deltaTime);
 
-		Hina::Renderer::ClearBuffers(glm::vec4(0.1f, 0.1f, 0.11f, 1.0f), 1.0f);
+		Hina::RenderCore::ClearBuffers(glm::vec4(0.1f, 0.1f, 0.11f, 1.0f), 1.0f);
 
 		Hina::Window &window = Hina::Application::Get().GetWindow();
 		const glm::mat4 view = m_camera.GetCamera().GetViewMatrix();
 		const glm::mat4 projection = m_camera.GetCamera().GetProjectionMatrix(window.GetWidth(), window.GetHeight());
 
-		Hina::Renderer::SetViewMatrix(view);
-		Hina::Renderer::SetProjectionMatrix(projection);
+		Hina::RenderCore::SetViewMatrix(view);
+		Hina::RenderCore::SetProjectionMatrix(projection);
 
 		// tmp
 		m_texture->Bind(0);
 		m_shader->Bind();
 		m_shader->SetInt("us_albedo", 0);
 
-		Hina::Renderer::BeginScene();
-		Hina::Renderer::Submit(m_shader, m_vertexArray);
-		Hina::Renderer::EndScene();
+		Hina::RenderCore::BeginScene();
+		Hina::RenderCore::Submit(m_shader, m_vertexArray);
+		Hina::RenderCore::EndScene();
 	}
 
 	virtual void OnEvent(Hina::Event &event) override {
@@ -148,7 +152,7 @@ class PBR : public Hina::Application
 {
 public:
     PBR() {
-		PushLater(new ExampleLayer);
+		PushLater(new ExampleLayer("Example"));
     }
 };
 

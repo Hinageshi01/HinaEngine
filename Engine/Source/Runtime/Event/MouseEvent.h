@@ -1,143 +1,143 @@
 #pragma once
 
 #include "Event/Event.h"
+
 #include "Core/MouseCodes.h"
 
 namespace Hina
 {
 
-class MouseMovedEvent : public Event
+class MouseMoveEvent final : public Event
 {
 public:
-	MouseMovedEvent(const float x, const float y)
+	MouseMoveEvent(const float x, const float y)
 		: m_positionX(x), m_positionY(y) {}
-	MouseMovedEvent() = delete;
-	MouseMovedEvent(const MouseMovedEvent &) = default;
-	MouseMovedEvent &operator=(const MouseMovedEvent &) = default;
-	MouseMovedEvent(MouseMovedEvent &&) = default;
-	MouseMovedEvent &operator=(MouseMovedEvent &&) = default;
-	~MouseMovedEvent() = default;
+
+	MouseMoveEvent() = delete;
+	MouseMoveEvent(const MouseMoveEvent &) = default;
+	MouseMoveEvent &operator=(const MouseMoveEvent &) = default;
+	MouseMoveEvent(MouseMoveEvent &&) = default;
+	MouseMoveEvent &operator=(MouseMoveEvent &&) = default;
+	~MouseMoveEvent() = default;
 
 	float GetX() const { return m_positionX; }
 	float GetY() const { return m_positionY; }
 
+	static EventType GetStaticType() { return EventType::MouseMoved; }
+	virtual EventType GetEventType() const override { return GetStaticType(); }
+	virtual uint8_t GetCategoryFlags() const override {
+		return static_cast<uint8_t>(EventCategory::Mouse) |
+			static_cast<uint8_t>(EventCategory::Input);
+	}
+
+	virtual const char *GetName() const override { return "MouseMove"; }
 	virtual std::string ToString() const override {
 		std::stringstream ss;
-		ss << "MouseMovedEvent: " << m_positionX << ", " << m_positionY;
+		ss << GetName() << ": " << m_positionX << ", " << m_positionY;
 		return ss.str();
 	}
 
-	static EventType GetStaticType() { return EventType::MouseMoved; }
-	virtual EventType GetEventType() const override { return GetStaticType(); }
-	virtual const char *GetName() const override { return "MouseMoved"; }
-	virtual EVT_CAT_TYP GetCategoryFlags() const override {
-		return static_cast<EVT_CAT_TYP>(EventCategory::Mouse) |
-			static_cast<EVT_CAT_TYP>(EventCategory::Input);
-	}
 
 private:
 	float m_positionX, m_positionY;
 };
 
-class MouseScrolledEvent : public Event
+class MouseScrollEvent final : public Event
 {
 public:
-	MouseScrolledEvent(const float x, const float y)
+	MouseScrollEvent(const float x, const float y)
 		: m_offsetX(x), m_offsetY(y) {}
-	MouseScrolledEvent() = delete;
-	MouseScrolledEvent(const MouseScrolledEvent &) = default;
-	MouseScrolledEvent &operator=(const MouseScrolledEvent &) = default;
-	MouseScrolledEvent(MouseScrolledEvent &&) = default;
-	MouseScrolledEvent &operator=(MouseScrolledEvent &&) = default;
-	~MouseScrolledEvent() = default;
+
+	MouseScrollEvent() = delete;
+	MouseScrollEvent(const MouseScrollEvent &) = default;
+	MouseScrollEvent &operator=(const MouseScrollEvent &) = default;
+	MouseScrollEvent(MouseScrollEvent &&) = default;
+	MouseScrollEvent &operator=(MouseScrollEvent &&) = default;
+	~MouseScrollEvent() = default;
 
 	float GetXOffset() const { return m_offsetX; }
 	float GetYOffset() const { return m_offsetY; }
 
-	virtual std::string ToString() const override {
-		std::stringstream ss;
-		ss << "MouseScrolledEvent: " << GetXOffset() << ", " << GetYOffset();
-		return ss.str();
-	}
-
 	static EventType GetStaticType() { return EventType::MouseScrolled; }
 	virtual EventType GetEventType() const override { return GetStaticType(); }
-	virtual const char *GetName() const override { return "MouseScrolled"; }
-	virtual EVT_CAT_TYP GetCategoryFlags() const override {
-		return static_cast<EVT_CAT_TYP>(EventCategory::Mouse) |
-			static_cast<EVT_CAT_TYP>(EventCategory::Input);
+	virtual uint8_t GetCategoryFlags() const override {
+		return static_cast<uint8_t>(EventCategory::Mouse) |
+			static_cast<uint8_t>(EventCategory::Input);
 	}
 
+	virtual const char *GetName() const override { return "MouseScroll"; }
+	virtual std::string ToString() const override {
+		std::stringstream ss;
+		ss << GetName() << ": " << m_offsetX << ", " << m_offsetY;
+		return ss.str();
+	}
+	
 private:
 	float m_offsetX, m_offsetY;
 };
 
-class MouseButtonEvent : public Event
+////////////////////////////// Mouse Button Event //////////////////////////////
+
+class MouseButtonPressEvent final : public Event
 {
 public:
-	MouseButtonEvent() = delete;
-	MouseButtonEvent(const MouseButtonEvent &) = default;
-	MouseButtonEvent &operator=(const MouseButtonEvent &) = default;
-	MouseButtonEvent(MouseButtonEvent &&) = default;
-	MouseButtonEvent &operator=(MouseButtonEvent &&) = default;
-	~MouseButtonEvent() = default;
+	explicit MouseButtonPressEvent(const MouseCode button) : m_button(button) {}
 
-	MouseCode GetMouseButton() const { return m_button; }
-
-	virtual EVT_CAT_TYP GetCategoryFlags() const override {
-		return static_cast<EVT_CAT_TYP>(EventCategory::Mouse) |
-			static_cast<EVT_CAT_TYP>(EventCategory::Input) |
-			static_cast<EVT_CAT_TYP>(EventCategory::MouseButton);
-	}
-
-protected:
-	MouseButtonEvent(const MouseCode button) : m_button(button) {}
-
-	MouseCode m_button;
-};
-
-class MouseButtonPressedEvent : public MouseButtonEvent
-{
-public:
-	MouseButtonPressedEvent(const MouseCode button) : MouseButtonEvent(button) {}
-	MouseButtonPressedEvent() = delete;
-	MouseButtonPressedEvent(const MouseButtonPressedEvent &) = default;
-	MouseButtonPressedEvent &operator=(const MouseButtonPressedEvent &) = default;
-	MouseButtonPressedEvent(MouseButtonPressedEvent &&) = default;
-	MouseButtonPressedEvent &operator=(MouseButtonPressedEvent &&) = default;
-	~MouseButtonPressedEvent() = default;
-
-	virtual std::string ToString() const override {
-		std::stringstream ss;
-		ss << "MouseButtonPressedEvent: " << m_button;
-		return ss.str();
-	}
+	MouseButtonPressEvent() = delete;
+	MouseButtonPressEvent(const MouseButtonPressEvent &) = default;
+	MouseButtonPressEvent &operator=(const MouseButtonPressEvent &) = default;
+	MouseButtonPressEvent(MouseButtonPressEvent &&) = default;
+	MouseButtonPressEvent &operator=(MouseButtonPressEvent &&) = default;
+	~MouseButtonPressEvent() = default;
 
 	static EventType GetStaticType() { return EventType::MouseButtonPressed; }
 	virtual EventType GetEventType() const override { return GetStaticType(); }
-	virtual const char *GetName() const override { return "MouseButtonPressed"; }
-};
+	virtual uint8_t GetCategoryFlags() const override {
+		return static_cast<uint8_t>(EventCategory::Mouse) |
+			static_cast<uint8_t>(EventCategory::Input) |
+			static_cast<uint8_t>(EventCategory::MouseButton);
+	}
 
-class MouseButtonReleasedEvent : public MouseButtonEvent
-{
-public:
-	MouseButtonReleasedEvent(const MouseCode button) : MouseButtonEvent(button) {}
-	MouseButtonReleasedEvent() = delete;
-	MouseButtonReleasedEvent(const MouseButtonReleasedEvent &) = default;
-	MouseButtonReleasedEvent &operator=(const MouseButtonReleasedEvent &) = default;
-	MouseButtonReleasedEvent(MouseButtonReleasedEvent &&) = default;
-	MouseButtonReleasedEvent &operator=(MouseButtonReleasedEvent &&) = default;
-	~MouseButtonReleasedEvent() = default;
-
+	virtual const char *GetName() const override { return "MouseButtonPress"; }
 	virtual std::string ToString() const override {
 		std::stringstream ss;
-		ss << "MouseButtonReleasedEvent: " << m_button;
+		ss << GetName() << ": " << m_button;
 		return ss.str();
 	}
+	
+private:
+	MouseCode m_button;
+};
+
+class MouseButtonReleaseEvent final : public Event
+{
+public:
+	explicit MouseButtonReleaseEvent(const MouseCode button) : m_button(button) {}
+
+	MouseButtonReleaseEvent() = delete;
+	MouseButtonReleaseEvent(const MouseButtonReleaseEvent &) = default;
+	MouseButtonReleaseEvent &operator=(const MouseButtonReleaseEvent &) = default;
+	MouseButtonReleaseEvent(MouseButtonReleaseEvent &&) = default;
+	MouseButtonReleaseEvent &operator=(MouseButtonReleaseEvent &&) = default;
+	~MouseButtonReleaseEvent() = default;
 
 	static EventType GetStaticType() { return EventType::MouseButtonReleased; }
 	virtual EventType GetEventType() const override { return GetStaticType(); }
-	virtual const char *GetName() const override { return "MouseButtonReleased"; }
+	virtual uint8_t GetCategoryFlags() const override {
+		return static_cast<uint8_t>(EventCategory::Mouse) |
+			static_cast<uint8_t>(EventCategory::Input) |
+			static_cast<uint8_t>(EventCategory::MouseButton);
+	}
+
+	virtual const char *GetName() const override { return "MouseButtonRelease"; }
+	virtual std::string ToString() const override {
+		std::stringstream ss;
+		ss << GetName() << ": " << m_button;
+		return ss.str();
+	}
+
+private:
+	MouseCode m_button;
 };
 
 } // namespace Hina

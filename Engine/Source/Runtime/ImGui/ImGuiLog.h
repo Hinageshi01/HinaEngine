@@ -1,6 +1,6 @@
 #pragma once
 
-#include "imgui.h"
+#include <imgui.h>
 
 namespace Hina
 {
@@ -16,7 +16,7 @@ enum class LogLevel : uint8_t
     All =   0xff,
 };
 
-class ImGuiLog
+class ImGuiLog final
 {
 public:
     ImGuiLog(const ImGuiLog &) = delete;

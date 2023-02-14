@@ -1,20 +1,20 @@
 #include "hnpch.h"
-
-#include "Renderer/Renderer.h"
 #include "VertexBuffer.h"
+
+#include "RenderCore/RenderAPI.h"
 #include "Platform/OpenGL/OpenGLVertexBuffer.h"
 
 namespace Hina
 {
 
 std::unique_ptr<VertexBuffer> VertexBuffer::Create(const uint32_t size, const float *vertices) {
-	switch(Renderer::GetAPI()) {
-		case RendererAPI::API::OpenGL:
-			return std::make_unique<OpenGLVertexBuffer>(size, vertices); break;
+	switch(RenderAPI::GetAPI()) {
+		case GraphicsAPI::OpenGL:
+			return std::make_unique<OpenGLVertexBuffer>(size, vertices);
 	
-		case RendererAPI::API::None:
+		case GraphicsAPI::None:
 			HN_CORE_ERROR("RendererAPI::API::None is currently not supported!");
-			return nullptr; break;
+			return nullptr;
 	}
 
 	HN_CORE_FATAL("Rendering api undefined!");

@@ -7,13 +7,6 @@ namespace Hina
 
 struct WindowInitializer
 {
-	WindowInitializer() = default;
-	WindowInitializer(
-		std::string title, uint32_t width, uint32_t height,
-		uint32_t major, uint32_t minor, uint32_t samples)
-		: m_title(std::move(title)), m_width(width), m_height(height),
-		m_major(major), m_minor(minor), m_samples(samples) {}
-
 	std::string m_title = "Hina Engine";
 	uint32_t m_width = 1280;
 	uint32_t m_height = 720;
@@ -28,6 +21,11 @@ class Window
 public:
 	using EventCallbackFn = std::function<void(Event &)>;
 
+	Window() = default;
+	Window(const Window &) = default;
+	Window &operator=(const Window &) = default;
+	Window(Window &&) = default;
+	Window &operator=(Window &&) = default;
 	virtual ~Window() = default;
 
 	virtual void BeginOfFrame() = 0;

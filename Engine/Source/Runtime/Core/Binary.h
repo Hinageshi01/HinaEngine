@@ -1,19 +1,18 @@
 #pragma once
 
+#include <stdint.h>
+
 namespace Hina
 {
 
-// TODO : std::is_XXX
-
 template<class T>
-constexpr T BitLeftMove(const uint8_t x) {
+static constexpr inline T BitLeftMove(const uint8_t x) {
 	static_assert(
-		!std::numeric_limits<T>::is_signed && std::numeric_limits<T>::is_integer &&
-		"Only support unsigned integer.");
+		std::is_unsigned<T>::value && std::is_integral<T>::value,
+		"Only support integral.");
+
 	return static_cast<T>(1 << x);
 }
-
-// TODO : using
 
 #define BIT(x) (1 << x)
 #define BIT8(x) BitLeftMove<uint8_t>(x)

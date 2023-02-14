@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Renderer/BufferLayout.h"
+#include "RenderCore/BufferLayout.h"
 
 namespace Hina
 {
@@ -14,7 +14,8 @@ public:
 	virtual void Unbind() const = 0;
 
 	virtual const BufferLayout &GetLayout() const = 0;
-	virtual void SetLayout(BufferLayout layout) = 0;
+	virtual void SetLayout(const BufferLayout &layout) = 0;
+	virtual void SetLayout(BufferLayout &&layout) = 0;
 
 	static std::unique_ptr<VertexBuffer> Create(const uint32_t size, const float *vertices);
 };

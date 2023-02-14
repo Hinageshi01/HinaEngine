@@ -1,10 +1,14 @@
 #include "hnpch.h"
-#include "Application/Application.h"
 #include "Core/Input.h"
-#include "GLFW/glfw3.h"
+
+#include "Application/Application.h"
+
+#include <GLFW/glfw3.h>
 
 namespace Hina
 {
+
+#ifdef HN_PLATFORM_WIN
 
 bool Input::IsKeyPressed(const KeyCode key) {
 	auto *window = static_cast<GLFWwindow *>(Application::Get().GetWindow().GetNativeWindow());
@@ -33,5 +37,7 @@ float Input::GetMouseX() {
 float Input::GetMouseY() {
 	return GetMousePosition().y;
 }
+
+#endif
 
 } // namespace Hina

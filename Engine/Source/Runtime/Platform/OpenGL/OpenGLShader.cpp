@@ -1,7 +1,6 @@
 #include "hnpch.h"
 #include "OpenGLShader.h"
 
-#include <fstream>
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 
@@ -27,7 +26,7 @@ OpenGLShader::OpenGLShader(
 }
 
 OpenGLShader::~OpenGLShader() {
-	glDeleteProgram(m_rendererID);
+	glDeleteProgram(m_renderID);
 }
 
 std::string OpenGLShader::ReadFile(const std::string &filepath) {
@@ -88,14 +87,14 @@ void OpenGLShader::CreateProgram(const std::string &vertexCode, const std::strin
 	}
 
 	// Shader program.
-	m_rendererID = glCreateProgram();
-	glAttachShader(m_rendererID, vertexID);
-	glAttachShader(m_rendererID, fragmentID);
+	m_renderID = glCreateProgram();
+	glAttachShader(m_renderID, vertexID);
+	glAttachShader(m_renderID, fragmentID);
 	if(useGeometryShader) {
-		glAttachShader(m_rendererID, geometryID);
+		glAttachShader(m_renderID, geometryID);
 	}
-	glLinkProgram(m_rendererID);
-	CheckProgramErrors(m_rendererID, "PROGRAM");
+	glLinkProgram(m_renderID);
+	CheckProgramErrors(m_renderID, "PROGRAM");
 
 	// Delete the shaders as they're linked into our program now and no longer necessary.
 	glDeleteShader(vertexID);
@@ -106,7 +105,7 @@ void OpenGLShader::CreateProgram(const std::string &vertexCode, const std::strin
 }
 
 void OpenGLShader::Bind() const {
-	glUseProgram(m_rendererID);
+	glUseProgram(m_renderID);
 }
 
 void OpenGLShader::Unbind() const {
@@ -151,7 +150,7 @@ const GLint OpenGLShader::GetUniformLocation(const std::string &name) {
 		return it->second;
 	}
 	else {
-		m_uniformNameMap[name] = glGetUniformLocation(m_rendererID, name.c_str());
+		m_uniformNameMap[name] = glGetUniformLocation(m_renderID, name.c_str());
 		return m_uniformNameMap[name];
 	}
 }

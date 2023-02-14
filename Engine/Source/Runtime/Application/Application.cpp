@@ -2,8 +2,9 @@
 #include "Application.h"
 
 #include "Core/DeltaTime.h"
-#include "Renderer/Renderer.h"
-#include "Renderer/RenderCommand.h"
+#include "RenderCore/RenderCore.h"
+#include "RenderCore/RenderCommand.h"
+#include "Path/Path.h"
 
 namespace Hina
 {
@@ -21,10 +22,10 @@ Application::Application() {
 	m_window = Window::Create();
 	m_window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
 
-	m_imguiLayer = new ImGuiLayer();
+	m_imguiLayer = Hina::ImGuiLayer::Creat();
 	PushOverlay(m_imguiLayer);
 
-	Renderer::Init();
+	RenderCore::Init();
 
 	m_isRunning = true;
 }
@@ -97,7 +98,7 @@ bool Application::OnWindowResize(WindowResizeEvent &event) {
 		return false;
 	}
 
-	Renderer::OnWindowResize(event.GetWidth(), event.GetHeight());
+	RenderCore::OnWindowResize(event.GetWidth(), event.GetHeight());
 	return true;
 }
 

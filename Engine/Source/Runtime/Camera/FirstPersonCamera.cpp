@@ -11,7 +11,7 @@ void FirstPersonCamera::OnUpdate(const float deltaTime) {
 
 void FirstPersonCamera::OnEvent(Event &event) {
 	EventDispatcher dispatcher(event);
-	dispatcher.Dispatch<MouseScrolledEvent>(BIND_EVENT_FN(FirstPersonCamera::OnMouseScroll));
+	dispatcher.Dispatch<MouseScrollEvent>(BIND_EVENT_FN(FirstPersonCamera::OnMouseScroll));
 }
 
 void FirstPersonCamera::OnKeyPress(const float deltaTime) {
@@ -32,10 +32,10 @@ void FirstPersonCamera::OnKeyPress(const float deltaTime) {
     }
     
     if(Hina::Input::IsKeyPressed(Hina::Key::Space)) {
-        m_camera.m_position += m_camera.m_up * velocity;
+        m_camera.m_position += m_camera.m_worldUp * velocity;
     }
     if(Hina::Input::IsKeyPressed(Hina::Key::LeftShift)) {
-        m_camera.m_position -= m_camera.m_up * velocity;
+        m_camera.m_position -= m_camera.m_worldUp * velocity;
     }
 }
 
@@ -55,7 +55,7 @@ void FirstPersonCamera::OnMouseMove() {
     m_camera.CalculateDirections();
 }
 
-bool FirstPersonCamera::OnMouseScroll(MouseScrolledEvent &event) {
+bool FirstPersonCamera::OnMouseScroll(MouseScrollEvent &event) {
     m_camera.m_zoom -= event.GetYOffset() * m_camera.m_scrollSensitive;
     m_camera.m_zoom = std::clamp(m_camera.m_zoom, 1.0f, 45.0f);
 

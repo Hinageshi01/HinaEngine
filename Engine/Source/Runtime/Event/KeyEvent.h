@@ -1,107 +1,105 @@
 #pragma once
 
 #include "Event/Event.h"
+
 #include "Core/KeyCodes.h"
 
 namespace Hina
 {
 
-class KeyEvent : public Event
+class KeyPressEvent final : public Event
 {
 public:
-	KeyEvent() = delete;
-	KeyEvent(const KeyEvent &) = default;
-	KeyEvent &operator=(const KeyEvent &) = default;
-	KeyEvent(KeyEvent &&) = default;
-	KeyEvent &operator=(KeyEvent &&) = default;
-	~KeyEvent() = default;
+	KeyPressEvent(const KeyCode keycode, const bool isRepeat = false)
+		: m_keyCode(keycode), m_isRepeat(isRepeat) {}
 
-	KeyCode GetKeyCode() const { return m_keyCode; }
+	KeyPressEvent() = delete;
+	KeyPressEvent(const KeyPressEvent &) = default;
+	KeyPressEvent &operator=(const KeyPressEvent &) = default;
+	KeyPressEvent(KeyPressEvent &&) = default;
+	KeyPressEvent &operator=(KeyPressEvent &&) = default;
+	~KeyPressEvent() = default;
 
-	virtual EVT_CAT_TYP GetCategoryFlags() const override {
-		return static_cast<EVT_CAT_TYP>(EventCategory::Keyboard) |
-			static_cast<EVT_CAT_TYP>(EventCategory::Input);
-	}
-
-protected:
-	KeyEvent(const KeyCode keycode) : m_keyCode(keycode) {}
-
-	KeyCode m_keyCode;
-};
-
-class KeyPressedEvent : public KeyEvent
-{
-public:
-	KeyPressedEvent(const KeyCode keycode, bool isRepeat = false)
-		: KeyEvent(keycode), m_isRepeat(isRepeat) {}
-
-	KeyPressedEvent() = delete;
-	KeyPressedEvent(const KeyPressedEvent &) = default;
-	KeyPressedEvent &operator=(const KeyPressedEvent &) = default;
-	KeyPressedEvent(KeyPressedEvent &&) = default;
-	KeyPressedEvent &operator=(KeyPressedEvent &&) = default;
-	~KeyPressedEvent() = default;
-
-	inline bool IsRepeat() const { return m_isRepeat; }
-
-	virtual std::string ToString() const override {
-		std::stringstream ss;
-		ss << "KeyPressedEvent: " << m_keyCode << " (repeat = " << m_isRepeat << ")";
-		return ss.str();
-	}
+	bool IsRepeat() const { return m_isRepeat; }
 
 	static EventType GetStaticType() { return EventType::KeyPressed; }
 	virtual EventType GetEventType() const override { return GetStaticType(); }
-	virtual const char *GetName() const override { return "KeyPressed"; }
+	virtual uint8_t GetCategoryFlags() const override {
+		return static_cast<uint8_t>(EventCategory::Keyboard) |
+			static_cast<uint8_t>(EventCategory::Input);
+	}
+
+	virtual const char *GetName() const override { return "KeyPress"; }
+	virtual std::string ToString() const override {
+		std::stringstream ss;
+		ss << GetName() << ": " << m_keyCode << " (repeat = " << m_isRepeat << ")";
+		return ss.str();
+	}
 
 private:
+	KeyCode m_keyCode;
 	bool m_isRepeat = false;
 };
 
-class KeyReleasedEvent : public KeyEvent
+class KeyReleaseEvent final : public Event
 {
 public:
-	KeyReleasedEvent(const KeyCode keycode) : KeyEvent(keycode) {}
+	explicit KeyReleaseEvent(const KeyCode keycode) : m_keyCode(keycode) {}
 
-	KeyReleasedEvent() = delete;
-	KeyReleasedEvent(const KeyReleasedEvent &) = default;
-	KeyReleasedEvent &operator=(const KeyReleasedEvent &) = default;
-	KeyReleasedEvent(KeyReleasedEvent &&) = default;
-	KeyReleasedEvent &operator=(KeyReleasedEvent &&) = default;
-	~KeyReleasedEvent() = default;
-
-	virtual std::string ToString() const override {
-		std::stringstream ss;
-		ss << "KeyReleasedEvent: " << m_keyCode;
-		return ss.str();
-	}
+	KeyReleaseEvent() = delete;
+	KeyReleaseEvent(const KeyReleaseEvent &) = default;
+	KeyReleaseEvent &operator=(const KeyReleaseEvent &) = default;
+	KeyReleaseEvent(KeyReleaseEvent &&) = default;
+	KeyReleaseEvent &operator=(KeyReleaseEvent &&) = default;
+	~KeyReleaseEvent() = default;
 
 	static EventType GetStaticType() { return EventType::KeyReleased; }
 	virtual EventType GetEventType() const override { return GetStaticType(); }
-	virtual const char *GetName() const override { return "KeyReleased"; }
-};
+	virtual uint8_t GetCategoryFlags() const override {
+		return static_cast<uint8_t>(EventCategory::Keyboard) |
+			static_cast<uint8_t>(EventCategory::Input);
+	}
 
-class KeyTypedEvent : public KeyEvent
-{
-public:
-	KeyTypedEvent(const KeyCode keycode) : KeyEvent(keycode) {}
-
-	KeyTypedEvent() = delete;
-	KeyTypedEvent(const KeyTypedEvent &) = default;
-	KeyTypedEvent &operator=(const KeyTypedEvent &) = default;
-	KeyTypedEvent(KeyTypedEvent &&) = default;
-	KeyTypedEvent &operator=(KeyTypedEvent &&) = default;
-	~KeyTypedEvent() = default;
-
+	virtual const char *GetName() const override { return "KeyRelease"; }
 	virtual std::string ToString() const override {
 		std::stringstream ss;
-		ss << "KeyTypedEvent: " << m_keyCode;
+		ss << GetName() << ": " << m_keyCode;
 		return ss.str();
 	}
 
+
+private:
+	KeyCode m_keyCode;
+};
+
+class KeyTypeEvent final : public Event
+{
+public:
+	explicit KeyTypeEvent(const KeyCode keycode) : m_keyCode(keycode) {}
+
+	KeyTypeEvent() = delete;
+	KeyTypeEvent(const KeyTypeEvent &) = default;
+	KeyTypeEvent &operator=(const KeyTypeEvent &) = default;
+	KeyTypeEvent(KeyTypeEvent &&) = default;
+	KeyTypeEvent &operator=(KeyTypeEvent &&) = default;
+	~KeyTypeEvent() = default;
+
 	static EventType GetStaticType() { return EventType::KeyTyped; }
 	virtual EventType GetEventType() const override { return GetStaticType(); }
-	virtual const char *GetName() const override { return "KeyTyped"; }
+	virtual uint8_t GetCategoryFlags() const override {
+		return static_cast<uint8_t>(EventCategory::Keyboard) |
+			static_cast<uint8_t>(EventCategory::Input);
+	}
+
+	virtual const char *GetName() const override { return "KeyType"; }
+	virtual std::string ToString() const override {
+		std::stringstream ss;
+		ss << GetName() << ": " << m_keyCode;
+		return ss.str();
+	}
+
+private:
+	KeyCode m_keyCode;
 };
 
 } // namespace Hina

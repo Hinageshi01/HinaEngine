@@ -2,18 +2,18 @@
 
 #include <glm/gtx/string_cast.hpp>
 
-#include "ImGui/ImGuiLog.h"
-
 // This ignores all warnings raised inside External headers.
 #pragma warning(push, 0)
-#include "spdlog/spdlog.h"
-#include "spdlog/fmt/ostr.h"
+#include <spdlog/spdlog.h>
+#include <spdlog/fmt/ostr.h>
 #pragma warning(pop)
+
+#include "ImGui/ImGuiLog.h"
 
 namespace Hina
 {
 
-class Log
+class Log final
 {
 public:
 	static void Init();

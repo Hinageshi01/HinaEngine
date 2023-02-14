@@ -1,10 +1,7 @@
 #pragma once
 
-#include "Renderer/IndexBuffer.h"
-#include "Renderer/VertexBuffer.h"
-
-#include <memory>
-#include <vector>
+#include "RenderCore/IndexBuffer.h"
+#include "RenderCore/VertexBuffer.h"
 
 namespace Hina
 {

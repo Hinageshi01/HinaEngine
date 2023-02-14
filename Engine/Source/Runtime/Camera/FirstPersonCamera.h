@@ -6,9 +6,16 @@
 namespace Hina
 {
 
-class FirstPersonCamera
+class FirstPersonCamera final
 {
 public:
+	FirstPersonCamera() = default;
+	FirstPersonCamera(const FirstPersonCamera &) = default;
+	FirstPersonCamera &operator=(const FirstPersonCamera &) = default;
+	FirstPersonCamera(FirstPersonCamera &&) = default;
+	FirstPersonCamera &operator=(FirstPersonCamera &&) = default;
+	~FirstPersonCamera() = default;
+
 	void OnUpdate(const float deltaTime);
 	void OnEvent(Event &event);
 
@@ -18,7 +25,7 @@ public:
 private:
 	void OnKeyPress(const float deltaTime);
 	void OnMouseMove();
-	bool OnMouseScroll(MouseScrolledEvent &event);
+	bool OnMouseScroll(MouseScrollEvent &event);
 
 	Camera m_camera;
 };

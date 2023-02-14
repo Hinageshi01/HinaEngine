@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Core/Binary.h"
-#include "spdlog/sinks/stdout_color_sinks.h"
 
 #define BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
 
@@ -17,17 +16,14 @@ enum class EventType
 	MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled    // Mouse event.
 };
 
-// Event category type.
-using EVT_CAT_TYP = uint8_t;
-
-enum class EventCategory : EVT_CAT_TYP
+enum class EventCategory : uint8_t
 {
 	None = 0x00,
 	Application = BIT8(0U),
 	Input = BIT8(1U),
 	Keyboard = BIT8(2U),
 	Mouse = BIT8(3U),
-	MouseButton = BIT8(4U)
+	MouseButton = BIT8(4U),
 };
 
 class Event
@@ -41,36 +37,43 @@ public:
 	virtual ~Event() = default;
 
 	virtual EventType GetEventType() const = 0;
-	virtual const char *GetName() const = 0;
-	virtual EVT_CAT_TYP GetCategoryFlags() const = 0;
+	virtual uint8_t GetCategoryFlags() const = 0;
 
+	virtual const char *GetName() const = 0;
 	// No need to override ToString if the derived class have no extra data to output.
 	virtual std::string ToString() const { return GetName(); }
 
-	bool IsInCategory(EventCategory category) {
-		return GetCategoryFlags() & static_cast<EVT_CAT_TYP>(category);
+	bool IsInCategory(EventCategory category) const {
+		return GetCategoryFlags() & static_cast<uint8_t>(category);
 	}
 
 	bool m_isHandled = false;
 };
 
-class EventDispatcher
+class EventDispatcher final
 {
 public:
-	EventDispatcher(Event &event) : m_Event(event) {}
+	explicit EventDispatcher(Event &event) : m_event(event) {}
+
+	EventDispatcher() = delete;
+	EventDispatcher(const EventDispatcher &) = default;
+	EventDispatcher &operator=(const EventDispatcher &) = default;
+	EventDispatcher(EventDispatcher &&) = default;
+	EventDispatcher &operator=(EventDispatcher &&) = default;
+	~EventDispatcher() = default;
 
 	// F will be deduced by the compiler.
 	template<typename T, typename F>
 	bool Dispatch(const F &func) {
-		if(m_Event.GetEventType() == T::GetStaticType()) {
-			m_Event.m_isHandled |= func(static_cast<T &>(m_Event));
+		if(m_event.GetEventType() == T::GetStaticType()) {
+			m_event.m_isHandled |= func(static_cast<T &>(m_event));
 			return true;
 		}
 		return false;
 	}
 
 private:
-	Event &m_Event;
+	Event &m_event;
 };
 
 inline std::ostream &operator<<(std::ostream &os, const Event &event) {

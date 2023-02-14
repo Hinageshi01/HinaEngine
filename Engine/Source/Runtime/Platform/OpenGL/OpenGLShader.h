@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Renderer/Shader.h"
+#include "RenderCore/Shader.h"
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>
@@ -8,7 +8,7 @@
 namespace Hina
 {
 
-class OpenGLShader : public Shader
+class OpenGLShader final : public Shader
 {
 public:
 	OpenGLShader(
@@ -17,12 +17,18 @@ public:
 		const std::string &fragmentShaderPath,
 		const std::string &geometryShaderPath = "");
 	
-	virtual ~OpenGLShader();
+	OpenGLShader() = delete;
+	OpenGLShader(const OpenGLShader &) = default;
+	OpenGLShader &operator=(const OpenGLShader &) = default;
+	OpenGLShader(OpenGLShader &&) = default;
+	OpenGLShader &operator=(OpenGLShader &&) = default;
+	~OpenGLShader();
 
 	virtual void Bind() const override;
 	virtual void Unbind() const override;
 
 	virtual void SetName(const std::string &name) override { m_name = name; };
+	virtual void SetName(std::string &&name) override { m_name = name; };
 	virtual const std::string &GetName() const override { return m_name; }
 
 	virtual void SetInt(const std::string &name, int value) override;
@@ -45,7 +51,7 @@ private:
 	void CheckShaderErrors(const GLuint shader, const std::string &type);
 	void CheckProgramErrors(const GLuint program, const std::string &type);
 
-	uint32_t m_rendererID;
+	uint32_t m_renderID;
 	std::string m_name;
 	std::unordered_map<std::string, GLint> m_uniformNameMap;
 };

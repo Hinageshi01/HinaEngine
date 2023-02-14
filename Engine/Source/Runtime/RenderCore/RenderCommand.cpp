@@ -4,38 +4,42 @@
 namespace Hina
 {
 
-std::unique_ptr<RendererAPI> RenderCommand::s_rendererAPI = RendererAPI::Create();
+std::unique_ptr<RenderAPI> RenderCommand::ms_renderAPI = RenderAPI::Create();
 
 void RenderCommand::Init() {
-	s_rendererAPI->Init();
+	ms_renderAPI->Init();
 }
 
 void RenderCommand::SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) {
-	s_rendererAPI->SetViewport(x, y, width, height);
+	ms_renderAPI->SetViewport(x, y, width, height);
 }
 
 void RenderCommand::SetClearColor(const glm::vec4 &color) {
-	s_rendererAPI->SetClearColor(color);
+	ms_renderAPI->SetClearColor(color);
 }
 
 void RenderCommand::SetClearDepth(const float depth) {
-	s_rendererAPI->SetClearDepth(depth);
+	ms_renderAPI->SetClearDepth(depth);
+}
+
+void RenderCommand::SetClearStencil(const int stencil) {
+	ms_renderAPI->SetClearStencil(stencil);
 }
 
 void RenderCommand::Clear() {
-	s_rendererAPI->Clear();
+	ms_renderAPI->Clear();
 }
 
 void RenderCommand::DrawIndexed(const std::shared_ptr<VertexArray> &vertexArray, const uint32_t indexCount) {
-	s_rendererAPI->DrawIndexed(vertexArray, indexCount);
+	ms_renderAPI->DrawIndexed(vertexArray, indexCount);
 }
 
 void RenderCommand::DrawLines(const std::shared_ptr<VertexArray> &vertexArray, const uint32_t vertexCount) {
-	s_rendererAPI->DrawLines(vertexArray, vertexCount);
+	ms_renderAPI->DrawLines(vertexArray, vertexCount);
 }
 
 void RenderCommand::SetLineWidth(float width) {
-	s_rendererAPI->SetLineWidth(width);
+	ms_renderAPI->SetLineWidth(width);
 }
 
 } // namespace Hina

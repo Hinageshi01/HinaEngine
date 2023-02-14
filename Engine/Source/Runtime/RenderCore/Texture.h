@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 namespace Hina
 {
 
@@ -12,10 +10,8 @@ public:
 
 	virtual const uint32_t GetWidth() const = 0;
 	virtual const uint32_t GetHeight() const = 0;
-	virtual const uint32_t GetRendererID() const = 0;
+	virtual const uint32_t GetRenderID() const = 0;
 	virtual const std::string &GetPath() const = 0;
-
-	virtual void SetData(void *data, const uint32_t size) = 0;
 
 	virtual void Bind(const uint32_t slot) const = 0;
 

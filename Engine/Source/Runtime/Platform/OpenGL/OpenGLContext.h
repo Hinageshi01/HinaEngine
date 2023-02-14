@@ -1,16 +1,23 @@
 #pragma once
 
-#include "Renderer/RendererContext.h"
+#include "RenderCore/RenderContext.h"
 
 struct GLFWwindow;
 
 namespace Hina
 {
 
-class OpenGLContext : public RendererContext
+class OpenGLContext final : public RenderContext
 {
 public:
-	OpenGLContext(GLFWwindow *windowHandle);
+	explicit OpenGLContext(GLFWwindow *windowHandle);
+	
+	OpenGLContext() = delete;
+	OpenGLContext(const OpenGLContext &) = default;
+	OpenGLContext &operator=(const OpenGLContext &) = default;
+	OpenGLContext(OpenGLContext &&) = default;
+	OpenGLContext &operator=(OpenGLContext &&) = default;
+	~OpenGLContext() = default;
 
 	virtual void Init() override;
 	virtual void SwapBuffers() override;

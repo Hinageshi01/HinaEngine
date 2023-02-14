@@ -3,11 +3,12 @@
 namespace Hina
 {
 
-class DeltaTime
+class DeltaTime final
 {
 public:
-	DeltaTime() = default;
 	DeltaTime(float time = 0.0f) : m_time(time) {}
+
+	DeltaTime() = default;
 	DeltaTime(const DeltaTime &) = default;
 	DeltaTime &operator=(const DeltaTime &) = default;
 	DeltaTime(DeltaTime &&) = default;
