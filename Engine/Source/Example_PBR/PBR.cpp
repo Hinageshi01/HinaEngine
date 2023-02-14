@@ -110,6 +110,8 @@ public:
 	}
 
 	virtual void OnUpdate(const Hina::DeltaTime deltaTime) override {
+		timer.Reset();
+
 		m_camera.OnUpdate(deltaTime);
 
 		Hina::RenderCore::ClearBuffers(glm::vec4(0.1f, 0.1f, 0.11f, 1.0f), 1.0f);
@@ -138,7 +140,14 @@ public:
 	}
 
 	virtual void OnImGuiRender() override {
+		bool show = true;
 
+		Hina::ImGuiLog::Get()->AddSpdLog(Hina::Log::GetSpdOutput());
+		Hina::ImGuiLog::Get()->Draw("Log:", &show);
+
+		ImGui::Begin("Profile");
+		ImGui::Text("One frame: %.3f ms", timer.ElapsedMillis());
+		ImGui::End();
 	}
 
 private:
@@ -146,6 +155,7 @@ private:
 	std::shared_ptr<Hina::Shader> m_shader;
 	std::shared_ptr<Hina::Texture2D> m_texture;
 	Hina::FirstPersonCamera m_camera;
+	Hina::Timer timer;
 };
 
 class PBR : public Hina::Application

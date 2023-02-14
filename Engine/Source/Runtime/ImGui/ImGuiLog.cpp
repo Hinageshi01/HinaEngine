@@ -18,10 +18,6 @@ ImGuiLog::ImGuiLog() {
     Clear();
 }
 
-ImGuiLog::~ImGuiLog() {
-
-}
-
 ImGuiLog *ImGuiLog::Get() {
     static ImGuiLog instance;
     return &instance;
@@ -233,7 +229,7 @@ void ImGuiLog::SetOutputColor(std::string_view str) const {
     else if(str.find("erro", startPoint) != str.npos) {
         ImGui::PushStyleColor(ImGuiCol_Text, COLOR_RED);
     }
-    else if(str.find("critical", startPoint) != str.npos) {
+    else if(str.find("crit", startPoint) != str.npos) {
         ImGui::PushStyleColor(ImGuiCol_Text, COLOR_PURPLE);
     }
     else {

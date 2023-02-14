@@ -21,7 +21,6 @@ public:
 	virtual void OnEvent(Event &e) override;
 
 	virtual void Begin() override;
-	virtual void OnImGuiRender() override;
 	virtual void End() override;
 
 	void BlockEvents(bool block);

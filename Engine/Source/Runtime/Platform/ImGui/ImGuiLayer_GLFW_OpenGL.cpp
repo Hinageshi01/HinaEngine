@@ -61,17 +61,10 @@ void ImGuiLayer_GLFW_OpenGL::Begin() {
 	ImGui::NewFrame();
 }
 
-void ImGuiLayer_GLFW_OpenGL::OnImGuiRender() {
-	static bool show = true;
-	ImGuiLog::Get()->AddSpdLog(Log::GetSpdOutput());
-	ImGuiLog::Get()->Draw("Log:", &show);
-
-	ImGui::ShowDemoWindow(&show);
+void ImGuiLayer_GLFW_OpenGL::End() {
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-}
 
-void ImGuiLayer_GLFW_OpenGL::End() {
 	ImGuiIO &io = ImGui::GetIO();
 	Window &window = Application::Get().GetWindow();
 

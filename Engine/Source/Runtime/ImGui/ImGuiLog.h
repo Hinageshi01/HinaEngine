@@ -33,7 +33,7 @@ public:
 
 private:
     ImGuiLog();
-    ~ImGuiLog();
+    ~ImGuiLog() {}
 
     void CreateButton(LogLevel level);
 
