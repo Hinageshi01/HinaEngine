@@ -20,8 +20,6 @@ public:
 	WindowsWindow &operator=(WindowsWindow &&) = default;
 	virtual ~WindowsWindow();
 
-	virtual void BeginOfFrame() override;
-	virtual void OnUpdate() override;
 	virtual void EndOfFrame() override;
 
 	virtual uint32_t GetWidth() const override { return m_data.m_width; }

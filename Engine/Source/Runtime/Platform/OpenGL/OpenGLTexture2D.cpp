@@ -7,10 +7,17 @@ namespace Hina
 {
 
 OpenGLTexture2D::OpenGLTexture2D(const std::string &path) : m_path(path) {
+	HN_PROFILE_FUNCTION();
+
 	int width, height, channels;
 	stbi_set_flip_vertically_on_load(1);
 	stbi_uc *data = nullptr;
-	data = stbi_load(path.c_str(), &width, &height, &channels, 0);
+
+	{
+		HN_PROFILE_SCOPE("stbi_uc *stbi_load(char const *filename, int *x, int *y, int *comp, int req_comp)");
+		data = stbi_load(path.c_str(), &width, &height, &channels, 0);
+	}
+
 	HN_CORE_ASSERT(data, "Faild to load texture at {}.", m_path);
 
 	m_width = width;
@@ -41,8 +48,11 @@ OpenGLTexture2D::OpenGLTexture2D(const std::string &path) : m_path(path) {
 	glTextureParameteri(m_renderID, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTextureParameteri(m_renderID, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-	glTextureSubImage2D(m_renderID, 0, 0, 0, m_width, m_height, m_dataFormat, GL_UNSIGNED_BYTE, data);
-
+	{
+		HN_PROFILE_SCOPE("void glTextureSubImage2D(GLuint texture, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const void *pixels)");
+		glTextureSubImage2D(m_renderID, 0, 0, 0, m_width, m_height, m_dataFormat, GL_UNSIGNED_BYTE, data);
+	}
+	
 	stbi_image_free(data);
 }
 

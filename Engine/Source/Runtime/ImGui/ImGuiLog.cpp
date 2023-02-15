@@ -52,6 +52,8 @@ void ImGuiLog::AddSpdLog(const std::ostringstream &oss, bool clearBuffer) {
 }
 
 void ImGuiLog::Draw(const char *title, bool *p_open) {
+    HN_PROFILE_FUNCTION();
+
     if(!ImGui::Begin(title, p_open)) {
         ImGui::End();
         return;

@@ -22,6 +22,7 @@
 // Utils
 #include "Camera/FirstPersonCamera.h"
 #include "Core/DeltaTime.h"
+#include "Core/Instrumentor.h"
 #include "Core/Timer.h"
 #include "Path/Path.h"
 

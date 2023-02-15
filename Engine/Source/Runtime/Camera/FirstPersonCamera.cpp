@@ -5,6 +5,8 @@ namespace Hina
 {
 
 void FirstPersonCamera::OnUpdate(const float deltaTime) {
+    HN_PROFILE_FUNCTION();
+
 	OnKeyPress(deltaTime);
 	OnMouseMove();
 }
@@ -40,6 +42,8 @@ void FirstPersonCamera::OnKeyPress(const float deltaTime) {
 }
 
 void FirstPersonCamera::OnMouseMove() {
+    HN_PROFILE_FUNCTION();
+
     static glm::vec2 lastPosition = Input::GetMousePosition();
     glm::vec2 crtPosition = Input::GetMousePosition();
 

@@ -8,16 +8,27 @@ namespace Hina
 {
 
 OpenGLContext::OpenGLContext(GLFWwindow *windowHandle) : m_windowHandle(windowHandle) {
+	HN_PROFILE_FUNCTION();
+
 	HN_CORE_ASSERT(windowHandle, "Window handle is null!");
+	Init();
 }
 
 void OpenGLContext::Init() {
+	HN_PROFILE_FUNCTION();
+
 	HN_CORE_INFO("Initializing OpenGL context");
 
-	glfwMakeContextCurrent(m_windowHandle);
+	{
+		HN_PROFILE_SCOPE("void glfwMakeContextCurrent(GLFWwindow* handle)");
+		glfwMakeContextCurrent(m_windowHandle);
+	}
 
-	uint8_t gladSuccess = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-	HN_CORE_ASSERT(gladSuccess, "Failed to initialize Glad!");
+	{
+		HN_PROFILE_SCOPE("int gladLoadGLLoader(GLADloadproc load)");
+		uint8_t gladSuccess = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		HN_CORE_ASSERT(gladSuccess, "Failed to initialize Glad!");
+	}
 
 	glEnable(GL_MULTISAMPLE);
 
@@ -26,13 +37,12 @@ void OpenGLContext::Init() {
 	HN_CORE_TRACE("    Renderer: {0}", reinterpret_cast<const char *>(glGetString(GL_RENDERER)));
 	HN_CORE_TRACE("    Version: {0}", reinterpret_cast<const char *>(glGetString(GL_VERSION)));
 
-	// It's just too long.
-	// HN_CORE_INFO("  Extensions: {0}", reinterpret_cast<const char *>(glGetString(GL_EXTENSIONS)));
-
 	HN_CORE_ASSERT(GLVersion.major > 3 || (GLVersion.major == 3 && GLVersion.minor >= 3), "Hina requires at least OpenGL version 3.3!");
 }
 
 void OpenGLContext::SwapBuffers() {
+	HN_PROFILE_FUNCTION();
+
 	glfwSwapBuffers(m_windowHandle);
 }
 

@@ -83,6 +83,8 @@ public:
 	~ExampleLayer() = default;
 
 	virtual void OnAttach() override {
+		HN_PROFILE_FUNCTION();
+
 		m_vertexArray = Hina::VertexArray::Create();
 		std::shared_ptr<Hina::VertexBuffer> m_vertexBuffer = Hina::VertexBuffer::Create(sizeof(vertices), vertices);
 		std::shared_ptr<Hina::IndexBuffer> m_indexBuffer = Hina::IndexBuffer::Create(sizeof(indices) / sizeof(uint32_t), indices);
@@ -106,10 +108,12 @@ public:
 	}
 
 	virtual void OnDetach() override {
-		
+
 	}
 
 	virtual void OnUpdate(const Hina::DeltaTime deltaTime) override {
+		HN_PROFILE_FUNCTION();
+
 		timer.Reset();
 
 		m_camera.OnUpdate(deltaTime);
@@ -134,12 +138,16 @@ public:
 	}
 
 	virtual void OnEvent(Hina::Event &event) override {
+		HN_PROFILE_FUNCTION();
+
 		Hina::EventDispatcher dispatcher(event);
 
 		m_camera.OnEvent(event);
 	}
 
 	virtual void OnImGuiRender() override {
+		HN_PROFILE_FUNCTION();
+
 		bool show = true;
 
 		Hina::ImGuiLog::Get()->AddSpdLog(Hina::Log::GetSpdOutput());
@@ -162,7 +170,9 @@ class PBR : public Hina::Application
 {
 public:
     PBR() {
-		PushLater(new ExampleLayer("Example"));
+		HN_PROFILE_FUNCTION();
+
+		PushLayer(new ExampleLayer("Example"));
     }
 };
 

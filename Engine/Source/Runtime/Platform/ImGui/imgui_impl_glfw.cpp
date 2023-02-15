@@ -794,6 +794,8 @@ static void ImGui_ImplGlfw_UpdateMonitors()
 
 void ImGui_ImplGlfw_NewFrame()
 {
+    HN_PROFILE_FUNCTION();
+
     ImGuiIO& io = ImGui::GetIO();
     ImGui_ImplGlfw_Data* bd = ImGui_ImplGlfw_GetBackendData();
     IM_ASSERT(bd != nullptr && "Did you call ImGui_ImplGlfw_InitForXXX()?");

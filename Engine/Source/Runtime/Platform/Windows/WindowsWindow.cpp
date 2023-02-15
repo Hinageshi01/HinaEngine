@@ -23,6 +23,8 @@ WindowsWindow::~WindowsWindow() {
 }
 
 void WindowsWindow::Init(const WindowInitializer &init) {
+	HN_PROFILE_FUNCTION();
+
 	HN_CORE_INFO("Creating window {0}: ({1}, {2})", init.m_title, init.m_width, init.m_height);
 	
 	m_data.m_title = init.m_title;
@@ -31,8 +33,11 @@ void WindowsWindow::Init(const WindowInitializer &init) {
 
 	if(s_GLFWWindowCount == 0) {
 		// Init glfw when the first window create.
-		uint8_t glfwSuccess = glfwInit();
-		HN_CORE_ASSERT(glfwSuccess, "Failed to initialize glfw.");
+		{
+			HN_PROFILE_SCOPE("int glfwInit(void)");
+			uint8_t glfwSuccess = glfwInit();
+			HN_CORE_ASSERT(glfwSuccess, "Failed to initialize glfw.");
+		}
 		glfwSetErrorCallback(GLFWErrorCallback);
 	}
 
@@ -43,42 +48,50 @@ void WindowsWindow::Init(const WindowInitializer &init) {
 		glfwWindowHint(GLFW_SAMPLES, init.m_samples);
 	}
 
-	m_window = glfwCreateWindow(static_cast<int>(init.m_width), static_cast<int>(init.m_height),
-		m_data.m_title.c_str(), nullptr, nullptr);
-	HN_CORE_ASSERT(m_window, "Failed to creating glfw windows.");
+	{
+		HN_PROFILE_SCOPE("GLFWwindow* glfwCreateWindow(int width, int height, const char *title, GLFWmonitor * monitor, GLFWwindow * share)");
+		m_window = glfwCreateWindow(static_cast<int>(init.m_width), static_cast<int>(init.m_height),
+			m_data.m_title.c_str(), nullptr, nullptr);
+		HN_CORE_ASSERT(m_window, "Failed to creating glfw windows.");
+	}
 
 	m_context = RenderContext::Create(m_window);
-	m_context->Init();
 
 	glfwSetWindowUserPointer(m_window, &m_data);
 
-	SetVSync(true);
+	SetVSync(false);
 	SetGLFWCallbacks();
 
 	++s_GLFWWindowCount;
 }
 
 void WindowsWindow::Shutdown() {
-	glfwDestroyWindow(m_window);
+	HN_PROFILE_FUNCTION();
+
 	--s_GLFWWindowCount;
 
+	{
+		HN_PROFILE_SCOPE("void glfwDestroyWindow(GLFWwindow* handle)");
+		glfwDestroyWindow(m_window);
+	}
+
 	if(s_GLFWWindowCount == 0) {
+		HN_PROFILE_SCOPE("void glfwTerminate(void)");
+
 		// Terminate glfw when the last window close.
 		glfwTerminate();
 	}
 }
 
-void WindowsWindow::BeginOfFrame() {
-
-}
-
-void WindowsWindow::OnUpdate() {
-	
-}
-
 void WindowsWindow::EndOfFrame() {
-	glfwPollEvents();
+	HN_PROFILE_FUNCTION();
+
 	m_context->SwapBuffers();
+
+	{
+		HN_PROFILE_SCOPE("void glfwPollEvents(void)");
+		glfwPollEvents();
+	}
 
 	if(Input::IsKeyPressed(Key::Escape)) {
 		WindowCloseEvent event;

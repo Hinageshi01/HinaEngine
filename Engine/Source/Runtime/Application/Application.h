@@ -23,10 +23,10 @@ public:
 
 	void OnEvent(Event &e);
 
-	void PushLater(Layer * layer);
+	void PushLayer(Layer * layer);
 	void PushOverlay(Layer * layer);
 
-	static Application &Get() { return *s_instance; }
+	static Application &Get() { return *ms_instance; }
 	Window &GetWindow() { return *m_window; }
 
 private:
@@ -37,7 +37,7 @@ private:
 	ImGuiLayer *m_imguiLayer;
 	LayerStack m_layerStack;
 	
-	static Application *s_instance;
+	static Application *ms_instance;
 	
 	bool m_isRunning = false;
 	bool m_isMinimized = false;

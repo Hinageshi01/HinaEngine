@@ -9,6 +9,8 @@ glm::mat4 RenderCore::ms_viewMatrix;
 glm::mat4 RenderCore::ms_projectionMatrix;
 
 void RenderCore::Init() {
+	HN_PROFILE_FUNCTION();
+
 	HN_CORE_INFO("Initializing Renderer");
 	RenderCommand::Init();
 	ms_modelMatrix = glm::identity<glm::mat4>();
@@ -27,6 +29,8 @@ void RenderCore::EndScene() {
 }
 
 void RenderCore::ClearBuffers(const glm::vec4 &color, const float depth, const int stencil) {
+	HN_PROFILE_FUNCTION();
+
 	RenderCommand::SetClearColor(color);
 	RenderCommand::SetClearDepth(depth);
 	RenderCommand::SetClearStencil(stencil);
@@ -50,6 +54,8 @@ void RenderCore::SetProjectionMatrix(const glm::mat4 &mat) {
 }
 
 void RenderCore::Submit(const std::shared_ptr<Shader> &shader, const std::shared_ptr<VertexArray> &vertexArray, const glm::mat4 &transform) {
+	HN_PROFILE_FUNCTION();
+	
 	shader->Bind();
 	shader->SetMat4("u_model", transform);
 	shader->SetMat4("u_view", ms_viewMatrix);

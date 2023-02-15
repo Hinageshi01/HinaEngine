@@ -28,8 +28,6 @@ public:
 	Window &operator=(Window &&) = default;
 	virtual ~Window() = default;
 
-	virtual void BeginOfFrame() = 0;
-	virtual void OnUpdate() = 0;
 	virtual void EndOfFrame() = 0;
 
 	virtual uint32_t GetWidth() const = 0;

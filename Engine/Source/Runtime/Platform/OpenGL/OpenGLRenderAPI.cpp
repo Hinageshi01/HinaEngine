@@ -25,7 +25,6 @@ void OpenGLMessageCallback(
 }
 
 void OpenGLRenderAPI::Init() {
-
 #ifndef NDEBUG
 	glEnable(GL_DEBUG_OUTPUT);
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
@@ -66,10 +65,14 @@ void OpenGLRenderAPI::SetClearStencil(const int stencial) {
 }
 
 void OpenGLRenderAPI::Clear() {
+	HN_PROFILE_FUNCTION();
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
 void OpenGLRenderAPI::DrawIndexed(const std::shared_ptr<VertexArray> &vertexArray, const uint32_t indexCount) {
+	HN_PROFILE_FUNCTION();
+
 	vertexArray->Bind();
 	const uint32_t count = !!indexCount ? indexCount : vertexArray->GetIndexBuffer()->GetCount();
 	glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);

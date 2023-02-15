@@ -9,23 +9,21 @@
 namespace Hina
 {
 
-Application *Application::s_instance = nullptr;
+Application *Application::ms_instance = nullptr;
 
 Application::Application() {
-	assert(!s_instance && "Application instance already exist.");
-	s_instance = this;
+	HN_PROFILE_FUNCTION();
 
-	Hina::Log::Init();
-	HN_CORE_INFO("Initialized Log");
-	HN_CORE_TRACE("Engine root path at: {0}", Path::FromRoot(""));
+	assert(!ms_instance && "Application instance already exist.");
+	ms_instance = this;
 
 	m_window = Window::Create();
 	m_window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
+	
+	RenderCore::Init();
 
 	m_imguiLayer = Hina::ImGuiLayer::Creat();
 	PushOverlay(m_imguiLayer);
-
-	RenderCore::Init();
 
 	m_isRunning = true;
 }
@@ -34,7 +32,7 @@ Application::~Application() {
 
 }
 
-void Application::PushLater(Layer *layer) {
+void Application::PushLayer(Layer *layer) {
 	m_layerStack.PushLayer(layer);
 	layer->OnAttach();
 }
@@ -45,22 +43,29 @@ void Application::PushOverlay(Layer *layer) {
 }
 
 void Application::Run() {
+	HN_PROFILE_FUNCTION();
+
 	while(m_isRunning) {
+		HN_PROFILE_SCOPE("[ Main Loop ]");
+
 		const float crtFrameTime = m_window->GetTime();
 		const DeltaTime deltaTime = crtFrameTime - m_lastFrameTime;
 		m_lastFrameTime = crtFrameTime;
 
-		m_window->BeginOfFrame();
-
 		if(!m_isMinimized) {
-			m_window->OnUpdate();
-			for(Layer *layer : m_layerStack) {
-				layer->OnUpdate(deltaTime);
+			{
+				HN_PROFILE_SCOPE("Layers Update");
+				for(Layer *layer : m_layerStack) {
+					layer->OnUpdate(deltaTime);
+				}
 			}
 
 			m_imguiLayer->Begin();
-			for(Layer *layer : m_layerStack) {
-				layer->OnImGuiRender();
+			{
+				HN_PROFILE_SCOPE("ImGuiLayers Render");
+				for(Layer *layer : m_layerStack) {
+					layer->OnImGuiRender();
+				}
 			}
 			m_imguiLayer->End();
 		}
@@ -70,7 +75,7 @@ void Application::Run() {
 }
 
 void Application::OnEvent(Event &event) {
-	HN_CORE_TRACE(event);
+	HN_PROFILE_FUNCTION();
 
 	EventDispatcher dispatcher(event);
 	dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::OnWindowClose));

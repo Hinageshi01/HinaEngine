@@ -18,6 +18,7 @@ OpenGLShader::OpenGLShader(
 	const std::string &fragmentShaderPath,
 	const std::string &geometryShaderPath)
 	: m_name(name) {
+	HN_PROFILE_FUNCTION();
 
 	std::string vertexCode = std::move(ReadFile(vertexShaderPath));
 	std::string fragmentCode = std::move(ReadFile(fragmentShaderPath));
@@ -57,6 +58,8 @@ std::string OpenGLShader::ReadFile(const std::string &filepath) {
 }
 
 void OpenGLShader::CreateProgram(const std::string &vertexCode, const std::string &fragmentCode, const std::string &geometryCode) {
+	HN_PROFILE_FUNCTION();
+	
 	HN_CORE_INFO("Compiling GLSL shaders");
 
 	const bool useGeometryShader = geometryCode.empty() ? false : true;
@@ -68,13 +71,23 @@ void OpenGLShader::CreateProgram(const std::string &vertexCode, const std::strin
 	// Vertex shader.
 	vertexID = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vertexID, 1, &vShaderCode, NULL);
-	glCompileShader(vertexID);
+
+	{
+		HN_PROFILE_SCOPE("void glCompileShader(GLuint shader)");
+		glCompileShader(vertexID);
+	}
+
 	CheckShaderErrors(vertexID, "VERTEX");
 
 	// Fragment shader.
 	fragmentID = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fragmentID, 1, &fShaderCode, NULL);
-	glCompileShader(fragmentID);
+	
+	{
+		HN_PROFILE_SCOPE("void glCompileShader(GLuint shader)");
+		glCompileShader(fragmentID);
+	}
+
 	CheckShaderErrors(fragmentID, "FRAGMENT");
 
 	// Geometry shader.
@@ -82,7 +95,12 @@ void OpenGLShader::CreateProgram(const std::string &vertexCode, const std::strin
 		const char *gShaderCode = geometryCode.c_str();
 		geometryID = glCreateShader(GL_GEOMETRY_SHADER);
 		glShaderSource(geometryID, 1, &gShaderCode, NULL);
-		glCompileShader(geometryID);
+
+		{
+			HN_PROFILE_SCOPE("void glCompileShader(GLuint shader)");
+			glCompileShader(geometryID);
+		}
+
 		CheckShaderErrors(geometryID, "GEOMETRY");
 	}
 
@@ -93,7 +111,12 @@ void OpenGLShader::CreateProgram(const std::string &vertexCode, const std::strin
 	if(useGeometryShader) {
 		glAttachShader(m_renderID, geometryID);
 	}
-	glLinkProgram(m_renderID);
+	
+	{
+		HN_PROFILE_SCOPE("void glLinkProgram(GLuint program)");
+		glLinkProgram(m_renderID);
+	}
+
 	CheckProgramErrors(m_renderID, "PROGRAM");
 
 	// Delete the shaders as they're linked into our program now and no longer necessary.
@@ -113,34 +136,50 @@ void OpenGLShader::Unbind() const {
 }
 
 void OpenGLShader::SetInt(const std::string &name, int value) {
+	HN_PROFILE_FUNCTION();
+
 	glUniform1i(GetUniformLocation(name), value);
 }
 
 void OpenGLShader::SetIntArray(const std::string &name, int *values, uint32_t count) {
+	HN_PROFILE_FUNCTION();
+
 	glUniform1iv(GetUniformLocation(name), count, values);
 }
 
 void OpenGLShader::SetFloat(const std::string &name, float value) {
+	HN_PROFILE_FUNCTION();
+
 	glUniform1f(GetUniformLocation(name), value);
 }
 
 void OpenGLShader::SetVec2(const std::string &name, const glm::vec2 &value) {
+	HN_PROFILE_FUNCTION();
+
 	glUniform2f(GetUniformLocation(name), value.x, value.y);
 }
 
 void OpenGLShader::SetVec3(const std::string &name, const glm::vec3 &value) {
+	HN_PROFILE_FUNCTION();
+
 	glUniform3f(GetUniformLocation(name), value.x, value.y, value.z);
 }
 
 void OpenGLShader::SetVec4(const std::string &name, const glm::vec4 &value) {
+	HN_PROFILE_FUNCTION();
+	
 	glUniform4f(GetUniformLocation(name), value.x, value.y, value.z, value.w);
 }
 
 void OpenGLShader::SetMat3(const std::string &name, const glm::mat3 &value) {
+	HN_PROFILE_FUNCTION();
+
 	glUniformMatrix3fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(value));
 }
 
 void OpenGLShader::SetMat4(const std::string &name, const glm::mat4 &value) {
+	HN_PROFILE_FUNCTION();
+
 	glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(value));
 }
 
