@@ -114,8 +114,6 @@ public:
 	virtual void OnUpdate(const Hina::DeltaTime deltaTime) override {
 		HN_PROFILE_FUNCTION();
 
-		timer.Reset();
-
 		m_camera.OnUpdate(deltaTime);
 
 		Hina::RenderCore::ClearBuffers(glm::vec4(0.1f, 0.1f, 0.11f, 1.0f), 1.0f);
@@ -154,7 +152,9 @@ public:
 		Hina::ImGuiLog::Get()->Draw("Log:", &show);
 
 		ImGui::Begin("Profile");
+		ImGui::Text("FPS: %.1f", timer.GetFPS());
 		ImGui::Text("One frame: %.3f ms", timer.ElapsedMillis());
+		timer.Reset();
 		ImGui::End();
 	}
 

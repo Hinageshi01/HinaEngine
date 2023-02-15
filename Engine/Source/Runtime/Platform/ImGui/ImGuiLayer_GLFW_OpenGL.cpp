@@ -86,6 +86,10 @@ void ImGuiLayer_GLFW_OpenGL::OnEvent(Event &event) {
 void ImGuiLayer_GLFW_OpenGL::Begin() {
 	HN_PROFILE_FUNCTION();
 
+#if HN_PROFILE
+	int theTruth = 42;
+#endif
+
 	{
 		HN_PROFILE_SCOPE("ImGui backend NewFrame");
 		ImGui_ImplOpenGL3_NewFrame();
