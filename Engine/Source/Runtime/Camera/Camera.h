@@ -43,7 +43,9 @@ public:
     glm::vec3 m_front;
     glm::vec3 m_up;
     glm::vec3 m_right;
+
     glm::vec3 m_worldUp;
+    glm::vec3 m_worldFront;
 
     float m_yaw;
     float m_pitch;

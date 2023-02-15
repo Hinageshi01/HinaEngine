@@ -43,6 +43,7 @@ void Camera::CalculateDirections() {
     m_front = std::move(glm::normalize(front));
     m_right = std::move(glm::normalize(glm::cross(m_front, m_worldUp)));
     m_up = std::move(glm::normalize(glm::cross(m_right, m_front)));
+    m_worldFront = std::move(glm::normalize(glm::cross(m_worldUp, m_right)));
 }
 
 } // namespace Hina

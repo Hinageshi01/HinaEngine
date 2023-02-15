@@ -5,4 +5,5 @@
 [Font-Awesome](https://github.com/FortAwesome/Font-Awesome/tree/6.x)
 
 chrome://tracing/
+
 edge://tracing/

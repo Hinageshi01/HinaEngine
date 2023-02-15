@@ -20,10 +20,10 @@ void FirstPersonCamera::OnKeyPress(const float deltaTime) {
     const float velocity = m_camera.m_moveSensitive * deltaTime;
 
     if(Hina::Input::IsKeyPressed(Hina::Key::W)) {
-        m_camera.m_position += m_camera.m_front * velocity;
+        m_camera.m_position += m_camera.m_worldFront * velocity;
     }
     if(Hina::Input::IsKeyPressed(Hina::Key::S)) {
-        m_camera.m_position -= m_camera.m_front * velocity;
+        m_camera.m_position -= m_camera.m_worldFront * velocity;
     }
 
     if(Hina::Input::IsKeyPressed(Hina::Key::A)) {
