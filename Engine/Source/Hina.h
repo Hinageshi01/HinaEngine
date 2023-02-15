@@ -8,6 +8,7 @@
 #include "Layer/Layer.h"
 
 // ImGui
+#include "Icon/IconsFontAwesome6.h"
 #include "ImGui/ImGuiLog.h"
 
 // Rendering

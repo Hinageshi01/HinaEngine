@@ -1,6 +1,8 @@
 #include "hnpch.h"
 #include "ImGuiLog.h"
 
+#include "Icon/IconsFontAwesome6.h"
+
 namespace Hina
 {
 
@@ -67,7 +69,7 @@ void ImGuiLog::Draw(const char *title, bool *p_open) {
     CreateButton(LogLevel::Fatal);
 
     ImGui::SameLine();
-    bool clearFilter = ImGui::Button("Clear Filter");
+    bool clearFilter = ImGui::Button(ICON_FA_TRASH" Clear Filter");
     ImGui::SameLine();
     m_fillter.Draw("Filter");
     ImGui::Separator();
@@ -173,15 +175,15 @@ const ImVec4 ImGuiLog::GetLevelColor(LogLevel level) const {
 const char *ImGuiLog::GetLevelButtonNume(LogLevel level) const {
     switch(level) {
         case LogLevel::Trace:
-            return "Trace";
+            return ICON_FA_MESSAGE" Trace";
         case LogLevel::Info:
-            return "Info";
+            return ICON_FA_CIRCLE_INFO" Info";
         case LogLevel::Warn:
-            return "Warn";
+            return ICON_FA_TRIANGLE_EXCLAMATION" Warn";
         case LogLevel::Error:
-            return "Error";
+            return ICON_FA_CIRCLE_XMARK" Error";
         case LogLevel::Fatal:
-            return "Fatal";
+            return ICON_FA_BUG" Fatal";
         default:
             return "Undefined";
     }

@@ -2,11 +2,11 @@
 #include "ImGuiLayer_GLFW_OpenGL.h"
 
 #include "Application/Application.h"
-
 #include "Platform/ImGui/imgui_impl_glfw.h"
 #include "Platform/ImGui/imgui_impl_opengl3.h"
 
-#include "ImGui/ImGuiLog.h"
+#include "Icon/IconsFontAwesome6.h"
+#include "Path/Path.h"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -22,8 +22,18 @@ void ImGuiLayer_GLFW_OpenGL::OnAttach() {
 	ImGui::CreateContext();
 
 	ImGuiIO &io = ImGui::GetIO();
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+
+	float sizePixels = 16.0f;
+	io.Fonts->AddFontFromFileTTF(Path::FromAsset("Font/DroidSans.ttf").c_str(), sizePixels);
+
+	ImFontConfig config;
+	config.MergeMode = true;
+	config.GlyphMinAdvanceX = 16.0f;
+	static const ImWchar icon_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
+	io.Fonts->AddFontFromFileTTF(Path::FromAsset("Icon/fa-solid-900.ttf").c_str(), 13.0f, &config, icon_ranges);
 
 	// When viewports are enabled we tweak WindowRounding/WindowBg,
 	// so platform windows can look identical to regular ones.

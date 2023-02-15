@@ -21,7 +21,7 @@ void OpenGLContext::Init() {
 
 	glEnable(GL_MULTISAMPLE);
 
-	HN_CORE_TRACE("OpenGL Info:");
+	HN_CORE_TRACE("OpenGL Details:");
 	HN_CORE_TRACE("    Vendor: {0}", reinterpret_cast<const char *>(glGetString(GL_VENDOR)));
 	HN_CORE_TRACE("    Renderer: {0}", reinterpret_cast<const char *>(glGetString(GL_RENDERER)));
 	HN_CORE_TRACE("    Version: {0}", reinterpret_cast<const char *>(glGetString(GL_VERSION)));
