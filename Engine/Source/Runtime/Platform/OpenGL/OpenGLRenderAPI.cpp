@@ -64,10 +64,11 @@ void OpenGLRenderAPI::SetClearStencil(const int stencial) {
 	glClearStencil(stencial);
 }
 
+// TODO : stencil
 void OpenGLRenderAPI::Clear() {
 	HN_PROFILE_FUNCTION();
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void OpenGLRenderAPI::DrawIndexed(const std::shared_ptr<VertexArray> &vertexArray, const uint32_t indexCount) {

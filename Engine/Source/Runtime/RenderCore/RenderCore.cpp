@@ -28,12 +28,11 @@ void RenderCore::EndScene() {
 
 }
 
-void RenderCore::ClearBuffers(const glm::vec4 &color, const float depth, const int stencil) {
+void RenderCore::ClearBuffers(const glm::vec4 &color, const float depth) {
 	HN_PROFILE_FUNCTION();
 
 	RenderCommand::SetClearColor(color);
 	RenderCommand::SetClearDepth(depth);
-	RenderCommand::SetClearStencil(stencil);
 	RenderCommand::Clear();
 }
 

@@ -44,9 +44,7 @@ std::string OpenGLShader::ReadFile(const std::string &filepath) {
 		if(size != -1) {
 			result.resize(size);
 			in.seekg(0, std::ios::beg);
-			if(result.size() >= size) {
-				in.read(result.data(), size);
-			}
+			in.read(result.data(), size);
 		}
 		else {
 			HN_CORE_ERROR("Could not read from file '{0}'", filepath);

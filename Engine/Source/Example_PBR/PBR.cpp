@@ -126,13 +126,11 @@ public:
 		Hina::RenderCore::SetProjectionMatrix(projection);
 
 		// tmp
-		m_texture->Bind(0);
 		m_shader->Bind();
+		m_texture->Bind(0);
 		m_shader->SetInt("us_albedo", 0);
 
-		Hina::RenderCore::BeginScene();
 		Hina::RenderCore::Submit(m_shader, m_vertexArray);
-		Hina::RenderCore::EndScene();
 	}
 
 	virtual void OnEvent(Hina::Event &event) override {
