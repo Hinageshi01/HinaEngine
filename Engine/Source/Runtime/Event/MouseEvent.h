@@ -7,6 +7,8 @@
 namespace Hina
 {
 
+////////////////////////////// Mouse Move Event //////////////////////////////
+
 class MouseMoveEvent final : public Event
 {
 public:
@@ -41,6 +43,8 @@ public:
 private:
 	float m_positionX, m_positionY;
 };
+
+////////////////////////////// Mouse Scroll Event //////////////////////////////
 
 class MouseScrollEvent final : public Event
 {
@@ -93,9 +97,9 @@ public:
 	static EventType GetStaticType() { return EventType::MouseButtonPressed; }
 	virtual EventType GetEventType() const override { return GetStaticType(); }
 	virtual uint8_t GetCategoryFlags() const override {
-		return static_cast<uint8_t>(EventCategory::Mouse) |
-			static_cast<uint8_t>(EventCategory::Input) |
-			static_cast<uint8_t>(EventCategory::MouseButton);
+		return static_cast<uint8_t>(EventCategory::MouseButton) |
+			static_cast<uint8_t>(EventCategory::Mouse) |
+			static_cast<uint8_t>(EventCategory::Input);
 	}
 
 	virtual const char *GetName() const override { return "MouseButtonPress"; }
@@ -124,8 +128,8 @@ public:
 	static EventType GetStaticType() { return EventType::MouseButtonReleased; }
 	virtual EventType GetEventType() const override { return GetStaticType(); }
 	virtual uint8_t GetCategoryFlags() const override {
-		return static_cast<uint8_t>(EventCategory::Mouse) |
-			static_cast<uint8_t>(EventCategory::Input) |
+		return static_cast<uint8_t>(EventCategory::Input) |
+			static_cast<uint8_t>(EventCategory::Mouse) |
 			static_cast<uint8_t>(EventCategory::MouseButton);
 	}
 

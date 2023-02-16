@@ -56,8 +56,8 @@ public:
 	static EventType GetStaticType() { return EventType::KeyReleased; }
 	virtual EventType GetEventType() const override { return GetStaticType(); }
 	virtual uint8_t GetCategoryFlags() const override {
-		return static_cast<uint8_t>(EventCategory::Keyboard) |
-			static_cast<uint8_t>(EventCategory::Input);
+		return static_cast<uint8_t>(EventCategory::Input) |
+			static_cast<uint8_t>(EventCategory::Keyboard);
 	}
 
 	virtual const char *GetName() const override { return "KeyRelease"; }
