@@ -3,6 +3,8 @@
 
 #include <GLFW/glfw3.h>
 
+#include "RenderCore/Framebuffer.h"
+
 static constexpr float vertices[] = {
 //   pos,              normal,          uv
 	-1.0,  1.0, -1.0,  0.0,  1.0,  0.0, 0.0, 1.0,
@@ -105,6 +107,14 @@ public:
 			Hina::Path::FromAsset("Shader/f_testShader.glsl"));
 		
 		m_texture = Hina::Texture2D::Create(Hina::Path::FromAsset("Texture/japanese_stone_wall_diff.png"));
+
+		const Hina::Window &window = Hina::Application::Get().GetWindow();
+		Hina::FramebufferInitializer framebufferInit;
+		framebufferInit.m_height = window.GetHeight();
+		framebufferInit.m_width = window.GetWidth();
+		framebufferInit.m_samples = 1;
+		framebufferInit.m_attachmentFormats = { Hina::FramebufferFormat::RGBA8, Hina::FramebufferFormat::DEPTH24STENCIL8 };
+		mp_framebuffer = Hina::Framebuffer::Create(framebufferInit);
 	}
 
 	virtual void OnDetach() override {
@@ -115,8 +125,6 @@ public:
 		HN_PROFILE_FUNCTION();
 
 		m_camera.OnUpdate(deltaTime);
-
-		Hina::RenderCore::ClearBuffers(glm::vec4(0.1f, 0.1f, 0.11f, 1.0f), 1.0f);
 
 		Hina::Window &window = Hina::Application::Get().GetWindow();
 		const glm::mat4 view = m_camera.GetCamera().GetViewMatrix();
@@ -130,7 +138,10 @@ public:
 		m_texture->Bind(0);
 		m_shader->SetInt("us_albedo", 0);
 
+		mp_framebuffer->Bind();
+		Hina::RenderCore::ClearBuffers(glm::vec4(0.7f, 0.8f, 0.8f, 1.0f), 1.0f);
 		Hina::RenderCore::Submit(m_shader, m_vertexArray);
+		mp_framebuffer->Unbind();
 	}
 
 	virtual void OnEvent(Hina::Event &event) override {
@@ -146,7 +157,7 @@ public:
 
 		bool show = true;
 
-		ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking |
+		ImGuiWindowFlags windowFlags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking |
 		ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize |
 		ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 
@@ -155,26 +166,32 @@ public:
 		ImGui::SetNextWindowSize(viewport->WorkSize);
 		ImGui::SetNextWindowViewport(viewport->ID);
 
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-		ImGui::Begin("DockSpace", &show, window_flags);
-		ImGui::PopStyleVar();
+		ImGui::Begin("DockSpace", &show, windowFlags);
+		ImGui::PopStyleVar(3);
 
 		// Submit the DockSpace
 		ImGuiIO &io = ImGui::GetIO();
 		if(io.ConfigFlags & ImGuiConfigFlags_DockingEnable) {
-			ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
-			ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_AutoHideTabBar);
+			ImGuiID dockspaceID = ImGui::GetID("DockSpace");
+			ImGui::DockSpace(dockspaceID, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_AutoHideTabBar);
 		}
 
 		if(ImGui::BeginMenuBar()) {
 			if(ImGui::BeginMenu("Options")) {
-				if(ImGui::MenuItem("Close", nullptr, false)) {
+				if(ImGui::MenuItem("Close")) {
 
 				}
 				ImGui::EndMenu();
 			}
 			ImGui::EndMenuBar();
 		}
+
+		ImGui::Begin("Scene");
+		ImGui::Image((void *)mp_framebuffer->GetColorAttachmentRenderID(0), ImGui::GetWindowSize(), ImVec2(0, 1), ImVec2(1, 0));
+		ImGui::End();
 
 		Hina::ImGuiLog::Get()->AddSpdLog(Hina::Log::GetSpdOutput());
 		Hina::ImGuiLog::Get()->Draw("Log:", &show);
@@ -194,6 +211,8 @@ private:
 	std::shared_ptr<Hina::Texture2D> m_texture;
 	Hina::FirstPersonCamera m_camera;
 	Hina::Timer timer;
+
+	std::shared_ptr<Hina::Framebuffer> mp_framebuffer;
 };
 
 class PBR : public Hina::Application

@@ -22,7 +22,7 @@ Application::Application() {
 	
 	RenderCore::Init();
 
-	m_imguiLayer = Hina::ImGuiLayer::Creat();
+	m_imguiLayer = ImGuiLayer::Creat();
 	PushOverlay(m_imguiLayer);
 
 	m_isRunning = true;
