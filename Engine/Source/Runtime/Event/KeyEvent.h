@@ -84,8 +84,8 @@ public:
 	KeyTypeEvent &operator=(KeyTypeEvent &&) = default;
 	~KeyTypeEvent() = default;
 
-	static EventType GetStaticType() { return EventType::KeyTyped; }
 	virtual EventType GetEventType() const override { return GetStaticType(); }
+	static EventType GetStaticType() { return EventType::KeyTyped; }
 	virtual uint8_t GetCategoryFlags() const override {
 		return static_cast<uint8_t>(EventCategory::Keyboard) |
 			static_cast<uint8_t>(EventCategory::Input);
