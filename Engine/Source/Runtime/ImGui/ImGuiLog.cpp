@@ -45,9 +45,13 @@ void ImGuiLog::AddLog(const char *fmt, ...) {
 }
 
 void ImGuiLog::AddSpdLog(const std::ostringstream &oss, bool clearBuffer) {
-    AddLog(oss.str().c_str());
-    if(clearBuffer) {
-        Log::ClearBuffer();
+    HN_PROFILE_FUNCTION();
+
+    if(!oss.str().empty()) {
+        AddLog(oss.str().c_str());
+        if(clearBuffer) {
+            Log::ClearBuffer();
+        }
     }
 }
 

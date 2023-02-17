@@ -146,13 +146,45 @@ public:
 
 		bool show = true;
 
+		ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking |
+		ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize |
+		ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+
+		const ImGuiViewport *viewport = ImGui::GetMainViewport();
+		ImGui::SetNextWindowPos(viewport->WorkPos);
+		ImGui::SetNextWindowSize(viewport->WorkSize);
+		ImGui::SetNextWindowViewport(viewport->ID);
+
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+		ImGui::Begin("DockSpace", &show, window_flags);
+		ImGui::PopStyleVar();
+
+		// Submit the DockSpace
+		ImGuiIO &io = ImGui::GetIO();
+		if(io.ConfigFlags & ImGuiConfigFlags_DockingEnable) {
+			ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+			ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_AutoHideTabBar);
+		}
+
+		if(ImGui::BeginMenuBar()) {
+			if(ImGui::BeginMenu("Options")) {
+				if(ImGui::MenuItem("Close", nullptr, false)) {
+
+				}
+				ImGui::EndMenu();
+			}
+			ImGui::EndMenuBar();
+		}
+
 		Hina::ImGuiLog::Get()->AddSpdLog(Hina::Log::GetSpdOutput());
 		Hina::ImGuiLog::Get()->Draw("Log:", &show);
 
-		ImGui::Begin("Profile");
+		ImGui::Begin("Profile", &show);
 		ImGui::Text("FPS: %.1f", timer.GetFPS());
 		ImGui::Text("One frame: %.3f ms", timer.ElapsedMillis());
 		timer.Reset();
+		ImGui::End();
+
 		ImGui::End();
 	}
 

@@ -181,7 +181,7 @@ constexpr auto CleanupOutputString(const char(&expr)[N], const char(&remove)[K])
 
 } // namespace Hina
 
-#define HN_PROFILE 1
+#define HN_PROFILE 0
 
 #if HN_PROFILE
 
