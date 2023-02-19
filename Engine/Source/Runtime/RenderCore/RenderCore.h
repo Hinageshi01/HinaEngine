@@ -1,8 +1,7 @@
 #pragma once
 
-#include "RenderCore/RenderCommand.h"
 #include "RenderCore/Shader.h"
-#include "Camera/Camera.h"
+#include "RenderCore/RenderAPI.h"
 
 namespace Hina
 {
@@ -25,11 +24,14 @@ public:
 	
 	// Clear color, depth and stencil buffers.
 	static void ClearBuffers(const glm::vec4 &color, const float depth = 1.0f);
-	static void OnWindowResize(uint32_t width, uint32_t height);
+	static void OnFrameResize(uint32_t width, uint32_t height);
 
 	static void SetModelMatrix(const glm::mat4 &mat);
 	static void SetViewMatrix(const glm::mat4 &mat);
 	static void SetProjectionMatrix(const glm::mat4 &mat);
+
+	static const uint32_t GetWidth() { return m_width; }
+	static const uint32_t GetHeight() { return m_height; }
 
 	static void Submit(
 		const std::shared_ptr<Shader> &shader,
@@ -48,6 +50,11 @@ private:
 	static glm::mat4 m_modelMatrix;
 	static glm::mat4 m_viewMatrix;
 	static glm::mat4 m_projectionMatrix;
+
+	// Size of render ramebuffer.
+	// As we use editor, it's always different whit window sizes.
+	static uint32_t m_width;
+	static uint32_t m_height;
 };
 
 } // namespace Hina

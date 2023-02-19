@@ -6,13 +6,13 @@
 #include "Application/Application.h"
 #include "Event/Event.h"
 #include "Layer/Layer.h"
+#include "Window/Window.h"
 
-// ImGui
+// Editor
+#include "Layer/EditorLayer.h"
 #include "Icon/IconsFontAwesome6.h"
-#include "ImGui/ImGuiLog.h"
 
 // Rendering
-#include "RenderCore/RenderCommand.h"
 #include "RenderCore/RenderCore.h"
 #include "RenderCore/Shader.h"
 #include "RenderCore/ShaderLibrary.h"
@@ -20,8 +20,8 @@
 #include "RenderCore/VertexArray.h"
 
 // Utils
-#include "Camera/FirstPersonCamera.h"
 #include "Core/DeltaTime.h"
+#include "Camera/FirstPersonCamera.h"
 #include "Core/Instrumentor.h"
 #include "Core/Timer.h"
 #include "Path/Path.h"

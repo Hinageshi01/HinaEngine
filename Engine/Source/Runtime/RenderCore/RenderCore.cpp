@@ -1,6 +1,9 @@
 #include "hnpch.h"
 #include "RenderCore.h"
 
+#include "RenderCore/RenderCommand.h"
+#include "Application/Application.h"
+
 namespace Hina
 {
 
@@ -8,11 +11,18 @@ glm::mat4 RenderCore::m_modelMatrix;
 glm::mat4 RenderCore::m_viewMatrix;
 glm::mat4 RenderCore::m_projectionMatrix;
 
+uint32_t RenderCore::m_width;
+uint32_t RenderCore::m_height;
+
 void RenderCore::Init() {
 	HN_PROFILE_FUNCTION();
 
 	HN_CORE_INFO("Initializing Renderer");
 	RenderCommand::Init();
+
+	const Window &window = Application::Get().GetWindow();
+	m_width = window.GetWidth();
+	m_height = window.GetHeight();
 	m_modelMatrix = glm::identity<glm::mat4>();
 }
 
@@ -36,8 +46,11 @@ void RenderCore::ClearBuffers(const glm::vec4 &color, const float depth) {
 	RenderCommand::Clear();
 }
 
-void RenderCore::OnWindowResize(uint32_t width, uint32_t height) {
-	RenderCommand::SetViewport(0, 0, width, height);
+void RenderCore::OnFrameResize(uint32_t width, uint32_t height) {
+	m_width = width;
+	m_height = height;
+
+	RenderCommand::SetViewport(0, 0, m_width, m_height);
 }
 
 void RenderCore::SetModelMatrix(const glm::mat4 &mat) {

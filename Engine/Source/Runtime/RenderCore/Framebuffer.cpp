@@ -1,14 +1,14 @@
 #include "hnpch.h"
 #include "Framebuffer.h"
 
-#include "RenderCore/RenderCore.h"
+#include "RenderCore/RenderAPI.h"
 #include "Platform/OpenGL/OpenGLFramebuffer.h"
 
 namespace Hina
 {
 
 std::shared_ptr<Framebuffer> Framebuffer::Create(const FramebufferInitializer &init) {
-	switch(RenderCore::GetAPI()) {
+	switch(RenderAPI::GetAPI()) {
 		case GraphicsAPI::None:
 			HN_CORE_ERROR("RendererAPI::None is currently not supported!");
 			return nullptr;

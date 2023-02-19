@@ -8,6 +8,7 @@
 
 #include "ImGui/ImGuiContext.h"
 #include "Layer/LayerStack.h"
+#include "RenderCore/Framebuffer.h"
 
 namespace Hina
 {
@@ -39,6 +40,8 @@ private:
 	std::unique_ptr<ImGuiContext> m_imgui;
 	LayerStack m_layerStack;
 	
+	std::shared_ptr<Framebuffer> m_sceneFramebuffer;
+
 	bool m_isRunning = false;
 	bool m_isMinimized = false;
 	float m_lastFrameTime = 0.0f;

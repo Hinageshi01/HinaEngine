@@ -1,9 +1,8 @@
 #include "hnpch.h"
 #include "RenderCore/Texture2D.h"
 
-#include "Platform/OpenGL/OpenGLTexture2D.h"
-
 #include "RenderCore/RenderAPI.h"
+#include "Platform/OpenGL/OpenGLTexture2D.h"
 
 namespace Hina
 {

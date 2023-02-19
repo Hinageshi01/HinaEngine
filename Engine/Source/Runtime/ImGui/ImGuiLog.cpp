@@ -16,15 +16,6 @@ constexpr ImVec4 COLOR_RED    = { 0.8f,  0.25f, 0.25f, 1.0f };
 constexpr ImVec4 COLOR_PURPLE = { 0.75f, 0.25f, 0.8f,  1.0f };
 }
 
-ImGuiLog::ImGuiLog() {
-    Clear();
-}
-
-ImGuiLog *ImGuiLog::Get() {
-    static ImGuiLog instance;
-    return &instance;
-}
-
 void ImGuiLog::Clear() {
     m_buffer.clear();
     m_lineOffsets.clear();
@@ -55,10 +46,10 @@ void ImGuiLog::AddSpdLog(const std::ostringstream &oss, bool clearBuffer) {
     }
 }
 
-void ImGuiLog::Draw(const char *title, bool *p_open) {
+void ImGuiLog::Draw(const char *title) {
     HN_PROFILE_FUNCTION();
 
-    if(!ImGui::Begin(title, p_open)) {
+    if(!ImGui::Begin(title)) {
         ImGui::End();
         return;
     }

@@ -2,9 +2,8 @@
 #include "Application.h"
 
 #include "Core/DeltaTime.h"
+#include "Layer/EditorLayer.h"
 #include "RenderCore/RenderCore.h"
-#include "RenderCore/RenderCommand.h"
-#include "Path/Path.h"
 
 namespace Hina
 {
@@ -26,6 +25,14 @@ Application::Application() {
 
 	m_imgui = ImGuiContext::Creat();
 	m_imgui->Init();
+
+	FramebufferInitializer framebufferInit;
+	framebufferInit.m_width = RenderCore::GetWidth();
+	framebufferInit.m_height = RenderCore::GetHeight();
+	framebufferInit.m_attachmentFormats = { FramebufferFormat::RGBA8, FramebufferFormat::DEPTH24STENCIL8 };
+	m_sceneFramebuffer = Framebuffer::Create(framebufferInit);
+
+	PushLayer(new EditorLayer(m_sceneFramebuffer));
 
 	m_isRunning = true;
 }
@@ -57,9 +64,12 @@ void Application::Run() {
 		if(!m_isMinimized) {
 			{
 				HN_PROFILE_SCOPE("Layers Update");
+
+				m_sceneFramebuffer->Bind();
 				for(Layer *layer : m_layerStack) {
 					layer->OnUpdate(deltaTime);
 				}
+				m_sceneFramebuffer->Unbind();
 			}
 
 			m_imgui->Begin();
@@ -109,7 +119,6 @@ bool Application::OnWindowResize(WindowResizeEvent &event) {
 		return false;
 	}
 
-	RenderCore::OnWindowResize(event.GetWidth(), event.GetHeight());
 	return true;
 }
 

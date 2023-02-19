@@ -1,8 +1,8 @@
 #include "hnpch.h"
 #include "RenderContext.h"
 
-#include "Platform/OpenGL/OpenGLContext.h"
 #include "RenderCore/RenderAPI.h"
+#include "Platform/OpenGL/OpenGLContext.h"
 
 namespace Hina
 {

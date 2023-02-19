@@ -33,27 +33,8 @@ public:
 		return ElapsedMillis() * 0.001f;
 	}
 
-	// Must and can only be called once in the main loop.
-	float GetFPS() {
-		m_second += ElapsedSeconds();
-		++m_frams;
-
-		if(m_second >= 0.5f) {
-			m_fps = m_frams / m_second;
-
-			m_frams = 0.0f;
-			m_second = 0.0f;
-		}
-
-		return m_fps;
-	}
-
 private:
 	std::chrono::time_point<std::chrono::high_resolution_clock> m_start;
-
-	float m_second = 0.0f;
-	float m_frams = 0.0f;
-	float m_fps = 0.0f;
 };
 
 }

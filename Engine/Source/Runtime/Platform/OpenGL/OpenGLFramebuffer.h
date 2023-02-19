@@ -36,13 +36,14 @@ private:
 	void Delete();
 
 	uint32_t m_rendererID = 0;
-	FramebufferInitializer m_initializer;
+	uint32_t m_depthAttachmentRenderID = 0;
+	std::vector<uint32_t> m_colorAttachmentsRenderID;
 
 	std::vector<FramebufferFormat> m_colorAttachmentFormats;
 	FramebufferFormat m_depthAttachmentFormat = FramebufferFormat::None;
 
-	std::vector<uint32_t> m_colorAttachmentsRenderID;
-	uint32_t m_depthAttachmentRenderID = 0;
+	uint32_t m_width;
+	uint32_t m_height;
 };
 
 } // namespace Hina

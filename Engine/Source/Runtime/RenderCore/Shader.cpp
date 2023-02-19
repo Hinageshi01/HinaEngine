@@ -11,7 +11,8 @@ std::shared_ptr<Shader> Shader::Create(
 	const std::string &name,
 	const std::string &vertexShaderPath,
 	const std::string &fragmentShaderPath,
-	const std::string &geometryShaderPath) {
+	const std::string &geometryShaderPath)
+{
 	switch(RenderAPI::GetAPI()) {
 		case GraphicsAPI::None:
 			HN_CORE_ERROR("RendererAPI::None is currently not supported!");

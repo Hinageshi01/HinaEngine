@@ -8,8 +8,6 @@
 #include <spdlog/fmt/ostr.h>
 #pragma warning(pop)
 
-#include "ImGui/ImGuiLog.h"
-
 namespace Hina
 {
 

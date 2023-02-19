@@ -24,7 +24,6 @@ struct FramebufferInitializer
 	FramebufferInitializer &operator=(FramebufferInitializer &&) = default;
 	~FramebufferInitializer() = default;
 
-	uint32_t m_samples = 1;
 	uint32_t m_width = 0, m_height = 0;
 	std::vector<FramebufferFormat> m_attachmentFormats;
 

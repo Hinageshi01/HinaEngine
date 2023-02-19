@@ -19,22 +19,19 @@ enum class LogLevel : uint8_t
 class ImGuiLog final
 {
 public:
+    ImGuiLog() = default;
     ImGuiLog(const ImGuiLog &) = delete;
     ImGuiLog &operator=(const ImGuiLog &) = delete;
-    ImGuiLog(ImGuiLog &&) = delete;
-    ImGuiLog &operator=(ImGuiLog &&) = delete;
+    ImGuiLog(ImGuiLog &&) = default;
+    ImGuiLog &operator=(ImGuiLog &&) = default;
+    ~ImGuiLog() = default;
 
-    static ImGuiLog *Get();
-    
     void Clear();
     void AddLog(const char *fmt, ...);
     void AddSpdLog(const std::ostringstream &oss, bool cearBuffer = true);
-    void Draw(const char *title, bool *p_open = nullptr);
+    void Draw(const char *title);
 
 private:
-    ImGuiLog();
-    ~ImGuiLog() {}
-
     void CreateButton(LogLevel level);
 
     const ImVec4 GetLevelColor(LogLevel level) const;
@@ -45,7 +42,6 @@ private:
 
     ImGuiTextBuffer m_buffer;
     ImGuiTextFilter m_fillter;
-    // Index to lines offset. We maintain this with AddLog() calls.
     ImVector<int> m_lineOffsets;
 
     uint8_t m_levelFilter = static_cast<uint8_t>(LogLevel::All);
