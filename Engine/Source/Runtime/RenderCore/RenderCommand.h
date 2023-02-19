@@ -31,7 +31,7 @@ public:
 	static void SetLineWidth(float width);
 
 private:
-	static std::unique_ptr<RenderAPI> ms_renderAPI;
+	static std::unique_ptr<RenderAPI> m_renderAPI;
 };
 
 } // namespace Hina

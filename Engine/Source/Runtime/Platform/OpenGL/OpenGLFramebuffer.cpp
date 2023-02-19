@@ -112,8 +112,8 @@ void OpenGLFramebuffer::Invalidate() {
 
 	if(m_rendererID) {
 		Delete();
-		m_colorAttachments.clear();
-		m_depthAttachment = 0;
+		m_colorAttachmentsRenderID.clear();
+		m_depthAttachmentRenderID = 0;
 	}
 
 	glCreateFramebuffers(1, &m_rendererID);
@@ -123,19 +123,19 @@ void OpenGLFramebuffer::Invalidate() {
 
 	// Attachments
 	if(!m_colorAttachmentFormats.empty()) {
-		m_colorAttachments.resize(m_colorAttachmentFormats.size());
-		Utils::CreateTextures(multisample, m_colorAttachments.size(), m_colorAttachments.data());
+		m_colorAttachmentsRenderID.resize(m_colorAttachmentFormats.size());
+		Utils::CreateTextures(multisample, m_colorAttachmentsRenderID.size(), m_colorAttachmentsRenderID.data());
 
-		for(size_t i = 0; i < m_colorAttachments.size(); ++i) {
-			Utils::BindTexture(multisample, m_colorAttachments[i]);
+		for(size_t i = 0; i < m_colorAttachmentsRenderID.size(); ++i) {
+			Utils::BindTexture(multisample, m_colorAttachmentsRenderID[i]);
 			switch(m_colorAttachmentFormats[i]) {
 				case FramebufferFormat::RGBA8:
-					Utils::AttachColorTexture(m_colorAttachments[i], m_initializer.m_samples, GL_RGBA8, GL_RGBA,
+					Utils::AttachColorTexture(m_colorAttachmentsRenderID[i], m_initializer.m_samples, GL_RGBA8, GL_RGBA,
 						m_initializer.m_width, m_initializer.m_height, i);
 					break;
 
 				case FramebufferFormat::RED_INTEGER:
-					Utils::AttachColorTexture(m_colorAttachments[i], m_initializer.m_samples, GL_R32I, GL_RED_INTEGER,
+					Utils::AttachColorTexture(m_colorAttachmentsRenderID[i], m_initializer.m_samples, GL_R32I, GL_RED_INTEGER,
 						m_initializer.m_width, m_initializer.m_height, i);
 					break;
 
@@ -146,11 +146,11 @@ void OpenGLFramebuffer::Invalidate() {
 	}
 
 	if(m_depthAttachmentFormat != FramebufferFormat::None) {
-		Utils::CreateTextures(multisample, 1, &m_depthAttachment);
-		Utils::BindTexture(multisample, m_depthAttachment);
+		Utils::CreateTextures(multisample, 1, &m_depthAttachmentRenderID);
+		Utils::BindTexture(multisample, m_depthAttachmentRenderID);
 		switch(m_depthAttachmentFormat) {
 			case FramebufferFormat::DEPTH24STENCIL8:
-				Utils::AttachDepthTexture(m_depthAttachment, m_initializer.m_samples, GL_DEPTH24_STENCIL8, GL_DEPTH_STENCIL_ATTACHMENT,
+				Utils::AttachDepthTexture(m_depthAttachmentRenderID, m_initializer.m_samples, GL_DEPTH24_STENCIL8, GL_DEPTH_STENCIL_ATTACHMENT,
 					m_initializer.m_width, m_initializer.m_height);
 				break;
 
@@ -159,13 +159,13 @@ void OpenGLFramebuffer::Invalidate() {
 		}
 	}
 
-	if(m_colorAttachments.size() > 1) {
+	if(m_colorAttachmentsRenderID.size() > 1) {
 		// tmp
-		assert(m_colorAttachments.size() <= 4);
+		assert(m_colorAttachmentsRenderID.size() <= 4);
 		GLenum buffers[4] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
-		glDrawBuffers(m_colorAttachments.size(), buffers);
+		glDrawBuffers(m_colorAttachmentsRenderID.size(), buffers);
 	}
-	else if(m_colorAttachments.empty()) {
+	else if(m_colorAttachmentsRenderID.empty()) {
 		// Only depth-pass
 		glDrawBuffer(GL_NONE);
 	}
@@ -198,7 +198,7 @@ void OpenGLFramebuffer::Resize(uint32_t width, uint32_t height) {
 }
 
 int OpenGLFramebuffer::ReadPixel(uint32_t attachmentIndex, int x, int y) {
-	assert(attachmentIndex < m_colorAttachments.size());
+	assert(attachmentIndex < m_colorAttachmentsRenderID.size());
 
 	glReadBuffer(GL_COLOR_ATTACHMENT0 + attachmentIndex);
 	int pixelData;
@@ -208,17 +208,17 @@ int OpenGLFramebuffer::ReadPixel(uint32_t attachmentIndex, int x, int y) {
 }
 
 void OpenGLFramebuffer::ClearAttachment(uint32_t attachmentIndex, int value) {
-	assert(attachmentIndex < m_colorAttachments.size());
+	assert(attachmentIndex < m_colorAttachmentsRenderID.size());
 
 	auto &format = m_colorAttachmentFormats[attachmentIndex];
-	glClearTexImage(m_colorAttachments[attachmentIndex], 0,
+	glClearTexImage(m_colorAttachmentsRenderID[attachmentIndex], 0,
 		Utils::GetOpenGLTextureFormat(format), GL_INT, &value);
 }
 
 void OpenGLFramebuffer::Delete() {
 	glDeleteFramebuffers(1, &m_rendererID);
-	glDeleteTextures(m_colorAttachments.size(), m_colorAttachments.data());
-	glDeleteTextures(1, &m_depthAttachment);
+	glDeleteTextures(m_colorAttachmentsRenderID.size(), m_colorAttachmentsRenderID.data());
+	glDeleteTextures(1, &m_depthAttachmentRenderID);
 }
 
 } // namespace Hina

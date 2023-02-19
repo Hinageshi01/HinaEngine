@@ -9,13 +9,13 @@
 namespace Hina
 {
 
-Application *Application::ms_instance = nullptr;
+Application *Application::m_instance = nullptr;
 
 Application::Application() {
 	HN_PROFILE_FUNCTION();
 
-	assert(!ms_instance && "Application instance already exist.");
-	ms_instance = this;
+	assert(!m_instance && "Application instance already exist.");
+	m_instance = this;
 
 	RenderCore::SetAPI(GraphicsAPI::OpenGL);
 

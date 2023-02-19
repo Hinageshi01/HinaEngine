@@ -36,12 +36,12 @@ public:
 
 	virtual void SetLineWidth(float width) = 0;
 
-	static void SetAPI(const GraphicsAPI api) { ms_API = api; }
-	static GraphicsAPI GetAPI() { return ms_API; }
+	static void SetAPI(const GraphicsAPI api) { m_API = api; }
+	static GraphicsAPI GetAPI() { return m_API; }
 	static std::unique_ptr<RenderAPI> Create();
 
 private:
-	static GraphicsAPI ms_API;
+	static GraphicsAPI m_API;
 };
 
 } // namespace Hina

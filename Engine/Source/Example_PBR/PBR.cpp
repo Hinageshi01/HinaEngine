@@ -114,7 +114,7 @@ public:
 		framebufferInit.m_width = window.GetWidth();
 		framebufferInit.m_samples = 1;
 		framebufferInit.m_attachmentFormats = { Hina::FramebufferFormat::RGBA8, Hina::FramebufferFormat::DEPTH24STENCIL8 };
-		mp_framebuffer = Hina::Framebuffer::Create(framebufferInit);
+		m_framebuffer = Hina::Framebuffer::Create(framebufferInit);
 	}
 
 	virtual void OnDetach() override {
@@ -138,10 +138,10 @@ public:
 		m_texture->Bind(0);
 		m_shader->SetInt("us_albedo", 0);
 
-		mp_framebuffer->Bind();
+		m_framebuffer->Bind();
 		Hina::RenderCore::ClearBuffers(glm::vec4(0.7f, 0.8f, 0.8f, 1.0f), 1.0f);
 		Hina::RenderCore::Submit(m_shader, m_vertexArray);
-		mp_framebuffer->Unbind();
+		m_framebuffer->Unbind();
 	}
 
 	virtual void OnEvent(Hina::Event &event) override {
@@ -190,7 +190,7 @@ public:
 		}
 
 		ImGui::Begin("Scene");
-		ImGui::Image((void *)mp_framebuffer->GetColorAttachmentRenderID(0), ImGui::GetWindowSize(), ImVec2(0, 1), ImVec2(1, 0));
+		ImGui::Image((void *)m_framebuffer->GetColorAttachmentRenderID(0), ImGui::GetWindowSize(), ImVec2(0, 1), ImVec2(1, 0));
 		ImGui::End();
 
 		Hina::ImGuiLog::Get()->AddSpdLog(Hina::Log::GetSpdOutput());
@@ -212,7 +212,7 @@ private:
 	Hina::FirstPersonCamera m_camera;
 	Hina::Timer timer;
 
-	std::shared_ptr<Hina::Framebuffer> mp_framebuffer;
+	std::shared_ptr<Hina::Framebuffer> m_framebuffer;
 };
 
 class PBR : public Hina::Application

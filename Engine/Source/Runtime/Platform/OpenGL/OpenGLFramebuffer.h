@@ -28,8 +28,8 @@ public:
 	virtual void ClearAttachment(uint32_t attachmentIndex, int value) override;
 
 	virtual uint32_t GetColorAttachmentRenderID(uint32_t index = 0) const override {
-		assert(index < m_colorAttachments.size());
-		return m_colorAttachments[index];
+		assert(index < m_colorAttachmentsRenderID.size());
+		return m_colorAttachmentsRenderID[index];
 	}
 
 private:
@@ -41,8 +41,8 @@ private:
 	std::vector<FramebufferFormat> m_colorAttachmentFormats;
 	FramebufferFormat m_depthAttachmentFormat = FramebufferFormat::None;
 
-	std::vector<uint32_t> m_colorAttachments;
-	uint32_t m_depthAttachment = 0;
+	std::vector<uint32_t> m_colorAttachmentsRenderID;
+	uint32_t m_depthAttachmentRenderID = 0;
 };
 
 } // namespace Hina

@@ -16,7 +16,7 @@ public:
 	static const std::string FromAsset(const char *str = "");
 
 private:
-	static std::filesystem::path ms_rootPath;
+	static std::filesystem::path m_rootPath;
 };
 
 } // namespace Hina

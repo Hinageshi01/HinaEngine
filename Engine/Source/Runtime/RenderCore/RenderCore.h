@@ -45,9 +45,9 @@ public:
 	static GraphicsAPI GetAPI() { return RenderAPI::GetAPI(); }
 
 private:
-	static glm::mat4 ms_modelMatrix;
-	static glm::mat4 ms_viewMatrix;
-	static glm::mat4 ms_projectionMatrix;
+	static glm::mat4 m_modelMatrix;
+	static glm::mat4 m_viewMatrix;
+	static glm::mat4 m_projectionMatrix;
 };
 
 } // namespace Hina

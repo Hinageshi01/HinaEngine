@@ -6,10 +6,10 @@
 namespace Hina
 {
 
-GraphicsAPI RenderAPI::ms_API = GraphicsAPI::None;
+GraphicsAPI RenderAPI::m_API = GraphicsAPI::None;
 
 std::unique_ptr<RenderAPI> RenderAPI::Create() {
-	switch(ms_API) {
+	switch(m_API) {
 		case GraphicsAPI::None:
 			HN_CORE_ERROR("RendererAPI::None is currently not supported!");
 			return nullptr;
