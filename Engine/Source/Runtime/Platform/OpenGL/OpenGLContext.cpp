@@ -10,7 +10,6 @@ namespace Hina
 OpenGLContext::OpenGLContext(GLFWwindow *windowHandle) : m_windowHandle(windowHandle) {
 	HN_PROFILE_FUNCTION();
 
-	HN_CORE_ASSERT(windowHandle, "Window handle is null!");
 	Init();
 }
 
@@ -27,7 +26,7 @@ void OpenGLContext::Init() {
 	{
 		HN_PROFILE_SCOPE("int gladLoadGLLoader(GLADloadproc load)");
 		uint8_t gladSuccess = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		HN_CORE_ASSERT(gladSuccess, "Failed to initialize Glad!");
+		assert(gladSuccess, "Failed to initialize Glad!");
 	}
 
 	glEnable(GL_MULTISAMPLE);

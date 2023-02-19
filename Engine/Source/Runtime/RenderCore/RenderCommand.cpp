@@ -4,9 +4,10 @@
 namespace Hina
 {
 
-std::unique_ptr<RenderAPI> RenderCommand::ms_renderAPI = RenderAPI::Create();
+std::unique_ptr<RenderAPI> RenderCommand::ms_renderAPI;
 
 void RenderCommand::Init() {
+	ms_renderAPI = RenderAPI::Create();
 	ms_renderAPI->Init();
 }
 

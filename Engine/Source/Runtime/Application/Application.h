@@ -6,7 +6,7 @@
 #include "Event/KeyEvent.h"
 #include "Event/MouseEvent.h"
 
-#include "ImGui/ImGuiLayer.h"
+#include "ImGui/ImGuiContext.h"
 #include "Layer/LayerStack.h"
 
 namespace Hina
@@ -33,11 +33,11 @@ private:
 	bool OnWindowClose(WindowCloseEvent &event);
 	bool OnWindowResize(WindowResizeEvent &event);
 
-	std::unique_ptr<Window> m_window;
-	ImGuiLayer *m_imguiLayer;
-	LayerStack m_layerStack;
-	
 	static Application *ms_instance;
+
+	std::unique_ptr<Window> m_window;
+	std::unique_ptr<ImGuiContext> m_imgui;
+	LayerStack m_layerStack;
 	
 	bool m_isRunning = false;
 	bool m_isMinimized = false;

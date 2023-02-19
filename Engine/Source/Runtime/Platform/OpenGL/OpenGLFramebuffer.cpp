@@ -160,6 +160,7 @@ void OpenGLFramebuffer::Invalidate() {
 	}
 
 	if(m_colorAttachments.size() > 1) {
+		// tmp
 		assert(m_colorAttachments.size() <= 4);
 		GLenum buffers[4] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
 		glDrawBuffers(m_colorAttachments.size(), buffers);
@@ -169,7 +170,8 @@ void OpenGLFramebuffer::Invalidate() {
 		glDrawBuffer(GL_NONE);
 	}
 
-	assert(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE);
+	assert(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE,
+		"Framebuffer not complete!");
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

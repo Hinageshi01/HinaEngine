@@ -41,6 +41,7 @@ public:
 		const std::shared_ptr<VertexArray> &vertexArray);
 
 	// Maby we need to render one frame with multiple GraphicsAPI in the future?
+	static void SetAPI(GraphicsAPI api) { RenderAPI::SetAPI(api); }
 	static GraphicsAPI GetAPI() { return RenderAPI::GetAPI(); }
 
 private:

@@ -36,7 +36,7 @@ void WindowsWindow::Init(const WindowInitializer &init) {
 		{
 			HN_PROFILE_SCOPE("int glfwInit(void)");
 			uint8_t glfwSuccess = glfwInit();
-			HN_CORE_ASSERT(glfwSuccess, "Failed to initialize glfw.");
+			assert(glfwSuccess, "Failed to initialize glfw.");
 		}
 		glfwSetErrorCallback(GLFWErrorCallback);
 	}
@@ -52,7 +52,7 @@ void WindowsWindow::Init(const WindowInitializer &init) {
 		HN_PROFILE_SCOPE("GLFWwindow* glfwCreateWindow(int width, int height, const char *title, GLFWmonitor * monitor, GLFWwindow * share)");
 		m_window = glfwCreateWindow(static_cast<int>(init.m_width), static_cast<int>(init.m_height),
 			m_data.m_title.c_str(), nullptr, nullptr);
-		HN_CORE_ASSERT(m_window, "Failed to creating glfw windows.");
+		assert(m_window, "Failed to creating glfw windows.");
 	}
 
 	m_context = RenderContext::Create(m_window);
@@ -68,16 +68,10 @@ void WindowsWindow::Init(const WindowInitializer &init) {
 void WindowsWindow::Shutdown() {
 	HN_PROFILE_FUNCTION();
 
+	glfwDestroyWindow(m_window);
+	
 	--s_GLFWWindowCount;
-
-	{
-		HN_PROFILE_SCOPE("void glfwDestroyWindow(GLFWwindow* handle)");
-		glfwDestroyWindow(m_window);
-	}
-
 	if(s_GLFWWindowCount == 0) {
-		HN_PROFILE_SCOPE("void glfwTerminate(void)");
-
 		// Terminate glfw when the last window close.
 		glfwTerminate();
 	}

@@ -17,13 +17,15 @@ Application::Application() {
 	assert(!ms_instance && "Application instance already exist.");
 	ms_instance = this;
 
+	RenderCore::SetAPI(GraphicsAPI::OpenGL);
+
 	m_window = Window::Create();
 	m_window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
-	
+
 	RenderCore::Init();
 
-	m_imguiLayer = ImGuiLayer::Creat();
-	PushOverlay(m_imguiLayer);
+	m_imgui = ImGuiContext::Creat();
+	m_imgui->Init();
 
 	m_isRunning = true;
 }
@@ -60,14 +62,14 @@ void Application::Run() {
 				}
 			}
 
-			m_imguiLayer->Begin();
+			m_imgui->Begin();
 			{
 				HN_PROFILE_SCOPE("ImGuiLayers Render");
 				for(Layer *layer : m_layerStack) {
 					layer->OnImGuiRender();
 				}
 			}
-			m_imguiLayer->End();
+			m_imgui->End();
 		}
 
 		m_window->EndOfFrame();
@@ -93,11 +95,15 @@ void Application::OnEvent(Event &event) {
 }
 
 bool Application::OnWindowClose(WindowCloseEvent &event) {
+	HN_CORE_TRACE(event);
+
 	m_isRunning = false;
 	return true;
 }
 
 bool Application::OnWindowResize(WindowResizeEvent &event) {
+	HN_CORE_TRACE(event);
+
 	if(event.GetWidth() == 0 || event.GetHeight() == 0) {
 		m_isMinimized = true;
 		return false;

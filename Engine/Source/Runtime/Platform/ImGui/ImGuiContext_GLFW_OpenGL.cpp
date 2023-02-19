@@ -1,10 +1,10 @@
 #include "hnpch.h"
-#include "ImGuiLayer_GLFW_OpenGL.h"
+#include "ImGuiContext_GLFW_OpenGL.h"
+
+#include "Platform/ImGui/Backend/imgui_impl_glfw.h"
+#include "Platform/ImGui/Backend/imgui_impl_opengl3.h"
 
 #include "Application/Application.h"
-#include "Platform/ImGui/imgui_impl_glfw.h"
-#include "Platform/ImGui/imgui_impl_opengl3.h"
-
 #include "Icon/IconsFontAwesome6.h"
 #include "Path/Path.h"
 
@@ -17,7 +17,11 @@
 namespace Hina
 {
 
-void ImGuiLayer_GLFW_OpenGL::OnAttach() {
+ImGuiContext_GLFW_OpenGL::~ImGuiContext_GLFW_OpenGL() {
+	Shutdown();
+}
+
+void ImGuiContext_GLFW_OpenGL::Init() {
 	HN_PROFILE_FUNCTION();
 
 	IMGUI_CHECKVERSION();
@@ -34,8 +38,7 @@ void ImGuiLayer_GLFW_OpenGL::OnAttach() {
 
 	{
 		HN_PROFILE_SCOPE("ImGui load Font");
-		float sizePixels = 16.0f;
-		io.Fonts->AddFontFromFileTTF(Path::FromAsset("Font/DroidSans.ttf").c_str(), sizePixels);
+		io.Fonts->AddFontFromFileTTF(Path::FromAsset("Font/DroidSans.ttf").c_str(), 16.0f);
 	}
 
 	ImFontConfig config;
@@ -57,7 +60,7 @@ void ImGuiLayer_GLFW_OpenGL::OnAttach() {
 	}
 
 	ImGui::StyleColorsDark();
-	SetDarkThemeColors();
+	SetDarkTheme();
 
 	{
 		HN_PROFILE_SCOPE("ImGui backend Init");
@@ -67,23 +70,13 @@ void ImGuiLayer_GLFW_OpenGL::OnAttach() {
 	}
 }
 
-void ImGuiLayer_GLFW_OpenGL::OnDetach() {
-	HN_PROFILE_FUNCTION();
-
+void ImGuiContext_GLFW_OpenGL::Shutdown() {
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
 }
 
-void ImGuiLayer_GLFW_OpenGL::OnEvent(Event &event) {
-	if(m_blockEvents) {
-		ImGuiIO &io = ImGui::GetIO();
-		event.m_isHandled |= (event.IsInCategory(EventCategory::Mouse) & io.WantCaptureMouse);
-		event.m_isHandled |= (event.IsInCategory(EventCategory::Keyboard) & io.WantCaptureKeyboard);
-	}
-}
-
-void ImGuiLayer_GLFW_OpenGL::Begin() {
+void ImGuiContext_GLFW_OpenGL::Begin() {
 	HN_PROFILE_FUNCTION();
 
 	ImGui_ImplOpenGL3_NewFrame();
@@ -91,7 +84,7 @@ void ImGuiLayer_GLFW_OpenGL::Begin() {
 	ImGui::NewFrame();
 }
 
-void ImGuiLayer_GLFW_OpenGL::End() {
+void ImGuiContext_GLFW_OpenGL::End() {
 	HN_PROFILE_FUNCTION();
 
 	ImGui::Render();
@@ -109,11 +102,7 @@ void ImGuiLayer_GLFW_OpenGL::End() {
 	}
 }
 
-void ImGuiLayer_GLFW_OpenGL::BlockEvents(bool block) {
-	m_blockEvents = block;
-}
-
-void ImGuiLayer_GLFW_OpenGL::SetDarkThemeColors() {
+void ImGuiContext_GLFW_OpenGL::SetDarkTheme() {
 	auto &colors = ImGui::GetStyle().Colors;
 	colors[ImGuiCol_WindowBg] = ImVec4{ 0.1f, 0.105f, 0.11f, 1.0f };
 
@@ -145,7 +134,7 @@ void ImGuiLayer_GLFW_OpenGL::SetDarkThemeColors() {
 	colors[ImGuiCol_TitleBgCollapsed] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
 }
 
-uint32_t ImGuiLayer_GLFW_OpenGL::GetActiveWidgetID() const {
+uint32_t ImGuiContext_GLFW_OpenGL::GetActiveWidgetID() {
 	return GImGui->ActiveId;
 }
 
