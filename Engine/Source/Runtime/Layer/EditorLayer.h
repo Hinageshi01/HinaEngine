@@ -45,8 +45,7 @@ private:
 
 	std::shared_ptr<Framebuffer> m_sceneFramebuffer;
 	
-	glm::vec2 m_sceneSize;
-	bool m_show = true;
+	glm::vec2 m_sceneSize = glm::vec2(0.0f, 0.0f);
 };
 
 } // namespace Hina

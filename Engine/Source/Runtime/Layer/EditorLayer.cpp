@@ -15,8 +15,7 @@ constexpr ImGuiWindowFlags EDITOR_FLAG = ImGuiWindowFlags_MenuBar | ImGuiWindowF
 }
 
 void EditorLayer::OnAttach() {
-	Window &window = Application::Get().GetWindow();
-	m_sceneSize = { window.GetHeight(), window.GetWidth() };
+
 }
 
 void EditorLayer::OnDetach() {
@@ -59,7 +58,7 @@ void EditorLayer::ShowDockSpace() {
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-	ImGui::Begin("DockSpace", &m_show, EDITOR_FLAG);
+	ImGui::Begin("DockSpace", nullptr, EDITOR_FLAG);
 	ImGui::PopStyleVar(3);
 
 	// Submit the DockSpace
@@ -83,6 +82,7 @@ void EditorLayer::ShowDockSpace() {
 }
 
 void EditorLayer::ShowScene() {
+	// TODO : Abstract to a class?
 	ImGui::Begin("Scene");
 
 	ImGui::Image((void *)m_sceneFramebuffer->GetColorAttachmentRenderID(0),
