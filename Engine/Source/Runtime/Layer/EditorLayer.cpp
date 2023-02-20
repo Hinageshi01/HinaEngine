@@ -44,7 +44,12 @@ void EditorLayer::OnImGuiRender() {
 }
 
 void EditorLayer::OnEvent(Event &event) {
-
+	// tmp
+	if(m_blockEvents) {
+		ImGuiIO &io = ImGui::GetIO();
+		event.m_isHandled |= event.IsInCategory(EventCategory::Mouse);
+		event.m_isHandled |= event.IsInCategory(EventCategory::Keyboard);
+	}
 }
 
 void EditorLayer::ShowDockSpace() {
@@ -84,6 +89,8 @@ void EditorLayer::ShowDockSpace() {
 void EditorLayer::ShowScene() {
 	// TODO : Abstract to a class?
 	ImGui::Begin("Scene");
+
+	m_blockEvents = !ImGui::IsWindowFocused();
 
 	ImGui::Image((void *)m_sceneFramebuffer->GetColorAttachmentRenderID(0),
 		ImGui::GetWindowSize(), ImVec2(0, 1), ImVec2(1, 0));
