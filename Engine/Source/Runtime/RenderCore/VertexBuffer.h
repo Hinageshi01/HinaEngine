@@ -17,7 +17,7 @@ public:
 	virtual void SetLayout(const BufferLayout &layout) = 0;
 	virtual void SetLayout(BufferLayout &&layout) = 0;
 
-	static std::unique_ptr<VertexBuffer> Create(const uint32_t size, const float *vertices);
+	static std::shared_ptr<VertexBuffer> Create(const uint32_t size, const float *vertices);
 };
 
 } // namespace Hina

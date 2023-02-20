@@ -15,18 +15,18 @@ std::unique_ptr<ImGuiContext> ImGuiContext::Creat() {
 #ifdef HN_PLATFORM_WIN
 	switch(RenderAPI::GetAPI()) {
 		case GraphicsAPI::None:
-			HN_CORE_ERROR("RendererAPI::API::None is currently not supported!");
+			HN_CORE_ERROR("GraphicsAPI::API::None is currently not supported!");
 			return nullptr;
 
 		case GraphicsAPI::OpenGL:
 			return std::make_unique<ImGuiContext_GLFW_OpenGL>();
 	}
 
-	HN_CORE_ERROR("Rendering api undefined!");
+	HN_CORE_ERROR("Unknown Graphics API!");
 	return nullptr;
 #endif
 
-	HN_CORE_FATAL("Platform undefined!");
+	HN_CORE_FATAL("Unknown Platform!");
 	return nullptr;
 }
 

@@ -7,17 +7,17 @@
 namespace Hina
 {
 
-std::unique_ptr<IndexBuffer> IndexBuffer::Create(const uint32_t count, const uint32_t *indices) {
+std::shared_ptr<IndexBuffer> IndexBuffer::Create(const uint32_t count, const uint32_t *indices) {
 	switch(RenderAPI::GetAPI()) {
 		case GraphicsAPI::None:
-			HN_CORE_ERROR("RendererAPI::API::None is currently not supported!");
+			HN_CORE_ERROR("GraphicsAPI::None is currently not supported!");
 			return nullptr;
 
 		case GraphicsAPI::OpenGL:
-			return std::make_unique<OpenGLIndexBuffer>(count, indices);
+			return std::make_shared<OpenGLIndexBuffer>(count, indices);
 	}
 
-	HN_CORE_FATAL("Rendering api undefined!");
+	HN_CORE_ERROR("Unknown Graphics API!");
 	return nullptr;
 }
 

@@ -13,11 +13,11 @@ std::unique_ptr<RenderContext> RenderContext::Create(void *window) {
 			return std::make_unique<OpenGLContext>(static_cast<GLFWwindow *>(window));
 
 		case GraphicsAPI::None:
-			HN_CORE_ERROR("RendererAPI::API::None is currently not supported!");
+			HN_CORE_ERROR("GraphicsAPI::None is currently not supported!");
 			return nullptr;
 	}
 
-	HN_CORE_FATAL("Rendering api undefined!");
+	HN_CORE_ERROR("Unknown Graphics API!");
 	return nullptr;
 }
 

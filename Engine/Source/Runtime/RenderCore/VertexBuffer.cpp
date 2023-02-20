@@ -7,17 +7,17 @@
 namespace Hina
 {
 
-std::unique_ptr<VertexBuffer> VertexBuffer::Create(const uint32_t size, const float *vertices) {
+std::shared_ptr<VertexBuffer> VertexBuffer::Create(const uint32_t size, const float *vertices) {
 	switch(RenderAPI::GetAPI()) {
 		case GraphicsAPI::OpenGL:
-			return std::make_unique<OpenGLVertexBuffer>(size, vertices);
+			return std::make_shared<OpenGLVertexBuffer>(size, vertices);
 	
 		case GraphicsAPI::None:
-			HN_CORE_ERROR("RendererAPI::API::None is currently not supported!");
+			HN_CORE_ERROR("GraphicsAPI::None is currently not supported!");
 			return nullptr;
 	}
 
-	HN_CORE_FATAL("Rendering api undefined!");
+	HN_CORE_ERROR("Unknown Graphics API!");
 	return nullptr;
 }
 

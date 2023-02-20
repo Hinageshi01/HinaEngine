@@ -49,8 +49,6 @@ void RenderCore::ClearBuffers(const glm::vec4 &color, const float depth) {
 void RenderCore::OnFrameResize(uint32_t width, uint32_t height) {
 	m_width = width;
 	m_height = height;
-
-	RenderCommand::SetViewport(0, 0, m_width, m_height);
 }
 
 void RenderCore::SetModelMatrix(const glm::mat4 &mat) {

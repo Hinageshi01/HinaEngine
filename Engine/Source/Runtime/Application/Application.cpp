@@ -116,10 +116,9 @@ bool Application::OnWindowResize(WindowResizeEvent &event) {
 
 	if(event.GetWidth() == 0 || event.GetHeight() == 0) {
 		m_isMinimized = true;
-		return false;
 	}
 
-	return true;
+	return false;
 }
 
 } // namespace Hina

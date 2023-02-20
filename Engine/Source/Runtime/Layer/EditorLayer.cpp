@@ -90,7 +90,7 @@ void EditorLayer::ShowScene() {
 
 	glm::vec2 crtSceneSize = { ImGui::GetWindowSize().x, ImGui::GetWindowSize().y };
 	if(m_sceneSize != crtSceneSize) {
-		m_sceneSize = crtSceneSize;
+		m_sceneSize = std::move(crtSceneSize);
 
 		RenderCore::OnFrameResize(m_sceneSize.x, m_sceneSize.y);
 		m_sceneFramebuffer->Resize(m_sceneSize.x, m_sceneSize.y);

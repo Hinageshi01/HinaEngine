@@ -182,7 +182,7 @@ const char *ImGuiLog::GetLevelButtonNume(LogLevel level) const {
         case LogLevel::Fatal:
             return ICON_FA_BUG" Fatal";
         default:
-            return "Undefined";
+            return "Unknown LogLevel!";
     }
 }
 

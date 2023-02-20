@@ -13,7 +13,7 @@ public:
 
 	virtual const uint32_t GetCount() const = 0;
 
-	static std::unique_ptr<IndexBuffer> Create(const uint32_t count, const uint32_t *indices);
+	static std::shared_ptr<IndexBuffer> Create(const uint32_t count, const uint32_t *indices);
 };
 
 } // namespace Hina
