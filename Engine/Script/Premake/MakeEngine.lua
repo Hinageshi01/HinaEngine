@@ -51,6 +51,7 @@ project("Hina")
 		path.join(ThirdPartyPath, "glm/**.*"),
 		path.join(ThirdPartyPath, "stb/**.*"),
 		path.join(ThirdPartyPath, "spdlog/include/**.*"),
+		path.join(ThirdPartyPath, "entt/src/**.*"),
 	}
 	
 	-- Set filter.

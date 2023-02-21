@@ -1,4 +1,4 @@
-print("Generating thirdpart projects by premake...")
+print("Generating thirdparty projects by premake...")
 
 group("ThirdParty")
 	dofile("MakeGlad.lua")
@@ -37,6 +37,6 @@ group("ThirdParty")
 -- 		location(spdlogProjectPath)
 -- 		targetdir(BinaryPath)
 
-group ""
+group("")
 
 print("")
