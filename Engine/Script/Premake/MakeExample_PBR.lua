@@ -57,6 +57,7 @@ project("Example_PBR")
 		path.join(ThirdPartyPath, "imgui"),
 		path.join(ThirdPartyPath, "glm"),
 		path.join(ThirdPartyPath, "stb"),
+		path.join(ThirdPartyPath, "entt/src"),
 		path.join(ThirdPartyPath, "assimp/include"),
 		path.join(ThirdPartyPath, "assimp/build/include"),
 		path.join(SourcePath, "Asset"),
