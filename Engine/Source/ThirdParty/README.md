@@ -4,10 +4,10 @@
 3. spdlog
 4. stb
 
-# Generate .sln by CMake
+# Generate project by CMake
 1. assimp
 2. glfw
 
-# Generate .sln by Premake manual
+# Generate project by Premake manual
 1. glad
 2. imgui
