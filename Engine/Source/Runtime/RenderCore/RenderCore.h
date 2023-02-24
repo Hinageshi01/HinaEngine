@@ -27,8 +27,11 @@ public:
 	static void OnFrameResize(uint32_t width, uint32_t height);
 
 	static void SetModelMatrix(const glm::mat4 &mat);
+	static void SetModelMatrix(glm::mat4 &&mat);
 	static void SetViewMatrix(const glm::mat4 &mat);
+	static void SetViewMatrix(glm::mat4 &&mat);
 	static void SetProjectionMatrix(const glm::mat4 &mat);
+	static void SetProjectionMatrix(glm::mat4 &&mat);
 
 	static const uint32_t GetWidth() { return m_width; }
 	static const uint32_t GetHeight() { return m_height; }

@@ -118,12 +118,12 @@ public:
 		m_camera.OnUpdate(deltaTime);
 
 		Hina::Window &window = Hina::Application::Get().GetWindow();
-		const glm::mat4 view = m_camera.GetCamera().GetViewMatrix();
-		const glm::mat4 projection = m_camera.GetCamera().GetProjectionMatrix(
+		glm::mat4 view = m_camera.GetCamera().GetViewMatrix();
+		glm::mat4 projection = m_camera.GetCamera().GetProjectionMatrix(
 			Hina::RenderCore::GetWidth(), Hina::RenderCore::GetHeight());
 
-		Hina::RenderCore::SetViewMatrix(view);
-		Hina::RenderCore::SetProjectionMatrix(projection);
+		Hina::RenderCore::SetViewMatrix(std::move(view));
+		Hina::RenderCore::SetProjectionMatrix(std::move(projection));
 
 		// tmp
 		m_shader->Bind();

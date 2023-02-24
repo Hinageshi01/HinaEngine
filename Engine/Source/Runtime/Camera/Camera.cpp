@@ -21,15 +21,15 @@ void Camera::Init(const CameraInitializer &init) {
     CalculateDirections();
 }
 
-const glm::mat4 Camera::GetViewMatrix() const {
+glm::mat4 Camera::GetViewMatrix() const {
     return glm::lookAt(m_position, m_position + m_front, m_up);
 }
 
-const glm::mat4 Camera::GetProjectionMatrix(const uint32_t width, const uint32_t height) const {
+glm::mat4 Camera::GetProjectionMatrix(const uint32_t width, const uint32_t height) const {
     return glm::perspective(glm::radians(m_zoom), static_cast<float>(width) / static_cast<float>(height), 0.1f, 1000.0f);
 }
 
-const glm::mat4 Camera::GetViewProjectionMatrix(const uint32_t width, const uint32_t height) const {
+glm::mat4 Camera::GetViewProjectionMatrix(const uint32_t width, const uint32_t height) const {
     return GetProjectionMatrix(width, height) * GetViewMatrix();
 }
 
@@ -40,10 +40,10 @@ void Camera::CalculateDirections() {
         sin(glm::radians(m_yaw)) * cos(glm::radians(m_pitch))
     };
 
-    m_front = std::move(glm::normalize(front));
-    m_right = std::move(glm::normalize(glm::cross(m_front, m_worldUp)));
-    m_up = std::move(glm::normalize(glm::cross(m_right, m_front)));
-    m_worldFront = std::move(glm::normalize(glm::cross(m_worldUp, m_right)));
+    m_front      = glm::normalize(std::move(front));
+    m_right      = glm::normalize(glm::cross(m_front, m_worldUp));
+    m_up         = glm::normalize(glm::cross(m_right, m_front));
+    m_worldFront = glm::normalize(glm::cross(m_worldUp, m_right));
 }
 
 } // namespace Hina

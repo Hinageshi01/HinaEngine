@@ -57,12 +57,21 @@ void RenderCore::OnFrameResize(uint32_t width, uint32_t height) {
 void RenderCore::SetModelMatrix(const glm::mat4 &mat) {
 	m_modelMatrix = mat;
 }
+void RenderCore::SetModelMatrix(glm::mat4 &&mat) {
+	m_modelMatrix = mat;
+}
 
 void RenderCore::SetViewMatrix(const glm::mat4 &mat) {
 	m_viewMatrix = mat;
 }
+void RenderCore::SetViewMatrix(glm::mat4 &&mat) {
+	m_viewMatrix = mat;
+}
 
 void RenderCore::SetProjectionMatrix(const glm::mat4 &mat) {
+	m_projectionMatrix = mat;
+}
+void RenderCore::SetProjectionMatrix(glm::mat4 &&mat) {
 	m_projectionMatrix = mat;
 }
 
