@@ -6,7 +6,7 @@
 #include "Event/KeyEvent.h"
 #include "Event/MouseEvent.h"
 
-#include "ImGui/ImGuiContext.h"
+#include "Editor/EditorContext.h"
 #include "Layer/LayerStack.h"
 #include "RenderCore/Framebuffer.h"
 
@@ -37,7 +37,7 @@ private:
 	static Application *m_instance;
 
 	std::unique_ptr<Window> m_window;
-	std::unique_ptr<ImGuiContext> m_imgui;
+	std::unique_ptr<EditorContext> m_editor;
 	LayerStack m_layerStack;
 	
 	std::shared_ptr<Framebuffer> m_sceneFramebuffer;

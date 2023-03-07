@@ -2,8 +2,8 @@
 
 #include "Layer/Layer.h"
 
-#include "ImGui/ImGuiLog.h"
-#include "ImGui/ImGuiInstrumentor.h"
+#include "Editor/EditorLog.h"
+#include "Editor/EditorInstrumentor.h"
 
 #include "RenderCore/Framebuffer.h"
 
@@ -40,8 +40,8 @@ private:
 	void ShowLog();
 	void ShowInstrumentor();
 
-	ImGuiLog m_log;
-	ImGuiInstrumentor m_instrumentor;
+	EditorLog m_log;
+	EditorInstrumentor m_instrumentor;
 
 	std::shared_ptr<Framebuffer> m_sceneFramebuffer;
 	

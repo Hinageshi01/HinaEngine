@@ -3,10 +3,10 @@
 namespace Hina
 {
 
-class ImGuiContext
+class EditorContext
 {
 public:
-	virtual ~ImGuiContext() = default;
+	virtual ~EditorContext() = default;
 
 	virtual void Init() = 0;
 	virtual void Shutdown() = 0;
@@ -14,11 +14,9 @@ public:
 	virtual void Begin() = 0;
 	virtual void End() = 0;
 
-	virtual void SetDarkTheme() = 0;
-
 	virtual uint32_t GetActiveWidgetID() = 0;
 
-	static std::unique_ptr<ImGuiContext> Creat();
+	static std::unique_ptr<EditorContext> Creat();
 };
 
 } // namespace Hina

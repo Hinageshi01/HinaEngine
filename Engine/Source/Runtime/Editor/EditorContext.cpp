@@ -1,8 +1,8 @@
 #include "hnpch.h"
-#include "ImGuiContext.h"
+#include "EditorContext.h"
 
 #ifdef HN_PLATFORM_WIN
-	#include "Platform/ImGui/ImGuiContext_GLFW_OpenGL.h"
+	#include "Platform/ImGui/ImGui_GLFW_OpenGL.h"
 #endif
 
 #include "RenderCore/RenderAPI.h"
@@ -10,7 +10,7 @@
 namespace Hina
 {
 
-std::unique_ptr<ImGuiContext> ImGuiContext::Creat() {
+std::unique_ptr<EditorContext> EditorContext::Creat() {
 
 #ifdef HN_PLATFORM_WIN
 	switch(RenderAPI::GetAPI()) {
@@ -19,7 +19,7 @@ std::unique_ptr<ImGuiContext> ImGuiContext::Creat() {
 			return nullptr;
 
 		case GraphicsAPI::OpenGL:
-			return std::make_unique<ImGuiContext_GLFW_OpenGL>();
+			return std::make_unique<ImGui_GLFW_OpenGL>();
 	}
 
 	HN_CORE_ERROR("Unknown Graphics API!");

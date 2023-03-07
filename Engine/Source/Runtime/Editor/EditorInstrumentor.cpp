@@ -1,5 +1,5 @@
 #include "hnpch.h"
-#include "ImGuiInstrumentor.h"
+#include "EditorInstrumentor.h"
 
 #include <ImGui/imgui.h>
 
@@ -11,7 +11,7 @@ namespace
 constexpr float UPDATE_FREQUENCY = 0.5f;
 }
 
-void ImGuiInstrumentor::Draw(const char *title) {
+void EditorInstrumentor::Draw(const char *title) {
 	ImGui::Begin(title);
 
 	ImGui::Text("FPS: %.1f", GetFPS());
@@ -22,7 +22,7 @@ void ImGuiInstrumentor::Draw(const char *title) {
 	ImGui::End();
 }
 
-float ImGuiInstrumentor::GetFPS() {
+float EditorInstrumentor::GetFPS() {
 	m_second += timer.ElapsedSeconds();
 	++m_frams;
 
@@ -30,7 +30,7 @@ float ImGuiInstrumentor::GetFPS() {
 		m_fps = m_frams / m_second;
 
 		m_frams = 0.0f;
-		m_second = 0.0f; 
+		m_second = 0.0f;
 	}
 
 	return m_fps;

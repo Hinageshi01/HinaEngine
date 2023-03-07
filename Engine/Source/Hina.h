@@ -9,6 +9,7 @@
 #include "Window/Window.h"
 
 // ECS
+#include "Scene/Entity.h"
 #include "Scene/Scene.h"
 
 // Rendering
@@ -20,7 +21,6 @@
 
 // Editor
 #include "Layer/EditorLayer.h"
-#include "Icon/IconsFontAwesome6.h"
 
 // Utils
 #include "Core/DeltaTime.h"

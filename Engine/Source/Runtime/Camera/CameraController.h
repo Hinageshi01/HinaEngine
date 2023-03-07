@@ -3,9 +3,8 @@
 namespace Hina
 {
 
-class CameraComponent final
+class CameraController
 {
-public:
 
 };
 

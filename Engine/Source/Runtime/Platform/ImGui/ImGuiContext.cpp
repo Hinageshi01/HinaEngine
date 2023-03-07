@@ -1,31 +1,13 @@
 #include "hnpch.h"
-#include "ImGuiContext_GLFW_OpenGL.h"
+#include "ImGuiContext.h"
 
-#include "Platform/ImGui/Backend/imgui_impl_glfw.h"
-#include "Platform/ImGui/Backend/imgui_impl_opengl3.h"
-
-#include "Application/Application.h"
 #include "Icon/IconsFontAwesome6.h"
 #include "Path/Path.h"
-
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
-#include <imgui.h>
-#include <imgui_internal.h>
 
 namespace Hina
 {
 
-ImGuiContext_GLFW_OpenGL::ImGuiContext_GLFW_OpenGL() {
-	Init();
-}
-
-ImGuiContext_GLFW_OpenGL::~ImGuiContext_GLFW_OpenGL() {
-	Shutdown();
-}
-
-void ImGuiContext_GLFW_OpenGL::Init() {
+void ImGuiContext::Init() {
 	HN_PROFILE_FUNCTION();
 
 	IMGUI_CHECKVERSION();
@@ -38,7 +20,6 @@ void ImGuiContext_GLFW_OpenGL::Init() {
 	ImGuiIO &io = ImGui::GetIO();
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-	// io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
 	{
 		HN_PROFILE_SCOPE("ImGui load Font");
@@ -55,58 +36,11 @@ void ImGuiContext_GLFW_OpenGL::Init() {
 		io.Fonts->AddFontFromFileTTF(Path::FromAsset("Icon/fa-solid-900.ttf").c_str(), 13.0f, &config, icon_ranges);
 	}
 
-	// When viewports are enabled we tweak WindowRounding/WindowBg,
-	// so platform windows can look identical to regular ones.
-	ImGuiStyle &style = ImGui::GetStyle();
-	if(io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
-		style.WindowRounding = 0.0f;
-		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
-	}
-
 	ImGui::StyleColorsDark();
 	SetDarkTheme();
-
-	{
-		HN_PROFILE_SCOPE("ImGui backend Init");
-		GLFWwindow *window = static_cast<GLFWwindow *>(Application::Get().GetWindow().GetNativeWindow());
-		ImGui_ImplGlfw_InitForOpenGL(window, true);
-		ImGui_ImplOpenGL3_Init("#version 460");
-	}
 }
 
-void ImGuiContext_GLFW_OpenGL::Shutdown() {
-	ImGui_ImplOpenGL3_Shutdown();
-	ImGui_ImplGlfw_Shutdown();
-	ImGui::DestroyContext();
-}
-
-void ImGuiContext_GLFW_OpenGL::Begin() {
-	HN_PROFILE_FUNCTION();
-
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplGlfw_NewFrame();
-	ImGui::NewFrame();
-}
-
-void ImGuiContext_GLFW_OpenGL::End() {
-	HN_PROFILE_FUNCTION();
-
-	ImGui::Render();
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-	ImGuiIO &io = ImGui::GetIO();
-	Window &window = Application::Get().GetWindow();
-
-	io.DisplaySize = ImVec2(static_cast<float>(window.GetWidth()), static_cast<float>(window.GetHeight()));
-	if(io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
-		GLFWwindow *backupCurrentContext = glfwGetCurrentContext();
-		ImGui::UpdatePlatformWindows();
-		ImGui::RenderPlatformWindowsDefault();
-		glfwMakeContextCurrent(backupCurrentContext);
-	}
-}
-
-void ImGuiContext_GLFW_OpenGL::SetDarkTheme() {
+void ImGuiContext::SetDarkTheme() {
 	auto &colors = ImGui::GetStyle().Colors;
 	colors[ImGuiCol_WindowBg] = ImVec4{ 0.1f, 0.105f, 0.11f, 1.0f };
 
@@ -136,10 +70,6 @@ void ImGuiContext_GLFW_OpenGL::SetDarkTheme() {
 	colors[ImGuiCol_TitleBg] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
 	colors[ImGuiCol_TitleBgActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
 	colors[ImGuiCol_TitleBgCollapsed] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
-}
-
-uint32_t ImGuiContext_GLFW_OpenGL::GetActiveWidgetID() {
-	return GImGui->ActiveId;
 }
 
 } // namespace Hina

@@ -7,24 +7,24 @@ namespace Hina
 
 enum class LogLevel : uint8_t
 {
-    None =  0x00,
+    None = 0x00,
     Trace = 1 << 0,
-    Info =  1 << 1,
-    Warn =  1 << 2,
+    Info = 1 << 1,
+    Warn = 1 << 2,
     Error = 1 << 3,
     Fatal = 1 << 4,
-    All =   0xff,
+    All = 0xff,
 };
 
-class ImGuiLog final
+class EditorLog final
 {
 public:
-    ImGuiLog() = default;
-    ImGuiLog(const ImGuiLog &) = delete;
-    ImGuiLog &operator=(const ImGuiLog &) = delete;
-    ImGuiLog(ImGuiLog &&) = default;
-    ImGuiLog &operator=(ImGuiLog &&) = default;
-    ~ImGuiLog() = default;
+    EditorLog() = default;
+    EditorLog(const EditorLog &) = delete;
+    EditorLog &operator=(const EditorLog &) = delete;
+    EditorLog(EditorLog &&) = default;
+    EditorLog &operator=(EditorLog &&) = default;
+    ~EditorLog() = default;
 
     void Clear();
     void AddLog(const char *fmt, ...);
