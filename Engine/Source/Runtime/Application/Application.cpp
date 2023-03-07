@@ -24,7 +24,6 @@ Application::Application() {
 	RenderCore::Init();
 
 	m_imgui = ImGuiContext::Creat();
-	m_imgui->Init();
 
 	FramebufferInitializer framebufferInit;
 	framebufferInit.m_width = RenderCore::GetWidth();

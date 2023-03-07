@@ -20,12 +20,8 @@ void RenderCore::Init() {
 	HN_CORE_INFO("Initializing Renderer");
 	RenderCommand::Init();
 
-	// I'm not sure about the design here yet.
-	// RenderCore::size will be initialized as Window::size before the first frame.
-	// But RenderCore::size will be reset to Framebuffer::size at the first frame.
-	const Window &window = Application::Get().GetWindow();
-	m_width = window.GetWidth();
-	m_height = window.GetHeight();
+	m_width = 800;
+	m_height = 600;
 	m_modelMatrix = glm::identity<glm::mat4>();
 }
 

@@ -8,7 +8,7 @@ namespace Hina
 class ImGuiContext_GLFW_OpenGL final : public ImGuiContext
 {
 public:
-	ImGuiContext_GLFW_OpenGL() = default;
+	ImGuiContext_GLFW_OpenGL();
 	ImGuiContext_GLFW_OpenGL(const ImGuiContext_GLFW_OpenGL &) = default;
 	ImGuiContext_GLFW_OpenGL &operator=(const ImGuiContext_GLFW_OpenGL &) = default;
 	ImGuiContext_GLFW_OpenGL(ImGuiContext_GLFW_OpenGL &&) = default;

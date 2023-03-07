@@ -17,6 +17,10 @@
 namespace Hina
 {
 
+ImGuiContext_GLFW_OpenGL::ImGuiContext_GLFW_OpenGL() {
+	Init();
+}
+
 ImGuiContext_GLFW_OpenGL::~ImGuiContext_GLFW_OpenGL() {
 	Shutdown();
 }
