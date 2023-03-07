@@ -51,6 +51,8 @@ void EditorLog::AddSpdLog(const std::ostringstream &oss, bool clearBuffer) {
 void EditorLog::Draw(const char *title) {
     HN_PROFILE_FUNCTION();
 
+    ImGui::Begin(title);
+    
     // Main window.
     CreateButton(LogLevel::Trace);
     ImGui::SameLine();

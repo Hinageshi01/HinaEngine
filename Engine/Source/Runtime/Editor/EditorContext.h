@@ -6,6 +6,11 @@ namespace Hina
 class EditorContext
 {
 public:
+	EditorContext() = default;
+	EditorContext(const EditorContext &) = default;
+	EditorContext &operator=(const EditorContext &) = default;
+	EditorContext(EditorContext &&) = default;
+	EditorContext &operator=(EditorContext &&) = default;
 	virtual ~EditorContext() = default;
 
 	virtual void Init() = 0;

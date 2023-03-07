@@ -23,7 +23,7 @@ Application::Application() {
 
 	RenderCore::Init();
 
-	m_editor = EditorContext::Creat();
+	m_editorContext = EditorContext::Creat();
 
 	FramebufferInitializer framebufferInit;
 	framebufferInit.m_width = RenderCore::GetWidth();
@@ -71,14 +71,14 @@ void Application::Run() {
 				m_sceneFramebuffer->Unbind();
 			}
 
-			m_editor->Begin();
+			m_editorContext->Begin();
 			{
 				HN_PROFILE_SCOPE("ImGuiLayers Render");
 				for(Layer *layer : m_layerStack) {
 					layer->OnImGuiRender();
 				}
 			}
-			m_editor->End();
+			m_editorContext->End();
 		}
 
 		m_window->EndOfFrame();

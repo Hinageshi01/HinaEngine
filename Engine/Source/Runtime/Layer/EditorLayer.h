@@ -2,8 +2,9 @@
 
 #include "Layer/Layer.h"
 
-#include "Editor/EditorLog.h"
+#include "Editor/EditorHierarchy.h"
 #include "Editor/EditorInstrumentor.h"
+#include "Editor/EditorLog.h"
 
 #include "RenderCore/Framebuffer.h"
 
@@ -13,7 +14,7 @@ namespace Hina
 class EditorLayer final : public Layer
 {
 public:
-	EditorLayer(std::shared_ptr<Framebuffer> buffer) :
+	EditorLayer(const std::shared_ptr<Framebuffer> &buffer) :
 		Layer("Editor"), m_sceneFramebuffer(buffer) {}
 	
 	EditorLayer() = delete;
@@ -37,13 +38,17 @@ public:
 private:
 	void ShowDockSpace();
 	void ShowScene();
+
+	void ShowHierarchy();
 	void ShowLog();
 	void ShowInstrumentor();
 
-	EditorLog m_log;
+	EditorHierarchy m_hierarchy;
 	EditorInstrumentor m_instrumentor;
+	EditorLog m_log;
 
 	std::shared_ptr<Framebuffer> m_sceneFramebuffer;
+	std::shared_ptr<Scene> m_scene;
 	
 	glm::vec2 m_sceneSize = glm::vec2(0.0f, 0.0f);
 

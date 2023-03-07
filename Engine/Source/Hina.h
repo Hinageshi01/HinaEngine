@@ -8,10 +8,6 @@
 #include "Layer/Layer.h"
 #include "Window/Window.h"
 
-// ECS
-#include "Scene/Entity.h"
-#include "Scene/Scene.h"
-
 // Rendering
 #include "RenderCore/RenderCore.h"
 #include "RenderCore/Shader.h"

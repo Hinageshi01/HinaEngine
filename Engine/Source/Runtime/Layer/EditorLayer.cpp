@@ -37,10 +37,11 @@ void EditorLayer::End() {
 void EditorLayer::OnImGuiRender() {
 	HN_PROFILE_FUNCTION();
 	ShowDockSpace();
-
 	ShowScene();
-	ShowLog();
+
+	ShowHierarchy();
 	ShowInstrumentor();
+	ShowLog();
 }
 
 void EditorLayer::OnEvent(Event &event) {
@@ -106,13 +107,17 @@ void EditorLayer::ShowScene() {
 	ImGui::End();
 }
 
-void EditorLayer::ShowLog() {
-	m_log.AddSpdLog(Hina::Log::GetSpdOutput());
-	m_log.Draw("Log");
+void EditorLayer::ShowHierarchy() {
+	m_hierarchy.OnImGuiRender();
 }
 
 void EditorLayer::ShowInstrumentor() {
 	m_instrumentor.Draw("Instrumentor");
+}
+
+void EditorLayer::ShowLog() {
+	m_log.AddSpdLog(Hina::Log::GetSpdOutput());
+	m_log.Draw("Log");
 }
 
 } //namespace Hina

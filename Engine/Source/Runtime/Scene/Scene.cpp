@@ -9,10 +9,8 @@ namespace Hina
 Entity Scene::CreateEntity(const std::string &name, const glm::vec3 &translation) {
 	Entity entity = { m_registry.create(), this };
 
-	std::string entityName = name.empty() ? "Empty Entity" : name;
+	std::string entityName = name.empty() ? "New Entity" : name;
 	entity.AddComponent<NameComponent>(std::move(entityName));
-
-	// mentity.AddComponent<TransformComponent>(translation);
 
 	return entity;
 }

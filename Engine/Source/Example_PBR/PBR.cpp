@@ -3,7 +3,6 @@
 
 #include <GLFW/glfw3.h>
 
-
 static constexpr float vertices[] = {
 //   pos,              normal,          uv
 	-1.0,  1.0, -1.0,  0.0,  1.0,  0.0, 0.0, 1.0,
@@ -106,6 +105,8 @@ public:
 			Hina::Path::FromAsset("Shader/f_testShader.glsl"));
 		
 		m_texture = Hina::Texture2D::Create(Hina::Path::FromAsset("Texture/japanese_stone_wall_diff.png"));
+
+		Hina::Application::Get().GetScene().CreateEntity("Test entity");
 	}
 
 	virtual void OnDetach() override {
@@ -141,7 +142,7 @@ public:
 	}
 
 	virtual void OnImGuiRender() override {
-	
+
 	}
 
 private:
