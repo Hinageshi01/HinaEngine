@@ -8,9 +8,8 @@
 #include "Layer/Layer.h"
 #include "Window/Window.h"
 
-// Editor
-#include "Layer/EditorLayer.h"
-#include "Icon/IconsFontAwesome6.h"
+// ECS
+#include "Scene/Scene.h"
 
 // Rendering
 #include "RenderCore/RenderCore.h"
@@ -18,6 +17,10 @@
 #include "RenderCore/ShaderLibrary.h"
 #include "RenderCore/Texture2D.h"
 #include "RenderCore/VertexArray.h"
+
+// Editor
+#include "Layer/EditorLayer.h"
+#include "Icon/IconsFontAwesome6.h"
 
 // Utils
 #include "Core/DeltaTime.h"

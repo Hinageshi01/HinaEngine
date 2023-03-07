@@ -149,6 +149,8 @@ private:
 	std::shared_ptr<Hina::Shader> m_shader;
 	std::shared_ptr<Hina::Texture2D> m_texture;
 	Hina::FirstPersonCamera m_camera;
+
+	Hina::Scene m_scene;
 };
 
 class PBR : public Hina::Application

@@ -10,7 +10,7 @@ namespace Hina
 struct CameraInitializer
 {
     const glm::vec3 m_position = { 0.0f, 0.0f, -5.0f };
-    const glm::vec3 m_worldUp = { 0.0f, 1.0f, 0.0f };
+
     // Means that m_front will be inlitialied as (0.0f, 1.0f, 0.0f).
     const float m_yaw = 90.0f;
     const float m_pitch = 0.0f;
@@ -22,6 +22,9 @@ struct CameraInitializer
 
 class Camera final
 {
+public:
+    static constexpr glm::vec3 s_worldUp = { 0.0f, 1.0f, 0.0f };
+
 public:
     explicit Camera(const CameraInitializer &init = CameraInitializer());
     
@@ -43,9 +46,6 @@ public:
     glm::vec3 m_front;
     glm::vec3 m_up;
     glm::vec3 m_right;
-
-    glm::vec3 m_worldUp;
-    glm::vec3 m_worldFront;
 
     float m_yaw;
     float m_pitch;

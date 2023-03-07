@@ -12,7 +12,7 @@ Entity Scene::CreateEntity(const std::string &name, const glm::vec3 &translation
 	std::string entityName = name.empty() ? "Empty Entity" : name;
 	entity.AddComponent<NameComponent>(std::move(entityName));
 
-	entity.AddComponent<TransformComponent>(translation);
+	// mentity.AddComponent<TransformComponent>(translation);
 
 	return entity;
 }

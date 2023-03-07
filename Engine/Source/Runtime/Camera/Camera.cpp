@@ -10,7 +10,6 @@ Camera::Camera(const CameraInitializer &init) {
 
 void Camera::Init(const CameraInitializer &init) {
     m_position = init.m_position;
-    m_worldUp = init.m_worldUp;
     m_yaw = init.m_yaw;
     m_pitch = init.m_pitch;
     m_zoom = init.m_zoom;
@@ -40,10 +39,9 @@ void Camera::CalculateDirections() {
         sin(glm::radians(m_yaw)) * cos(glm::radians(m_pitch))
     };
 
-    m_front      = glm::normalize(std::move(front));
-    m_right      = glm::normalize(glm::cross(m_front, m_worldUp));
-    m_up         = glm::normalize(glm::cross(m_right, m_front));
-    m_worldFront = glm::normalize(glm::cross(m_worldUp, m_right));
+    m_front = glm::normalize(std::move(front));
+    m_right = glm::normalize(glm::cross(m_front, s_worldUp));
+    m_up    = glm::normalize(glm::cross(m_right, m_front));
 }
 
 } // namespace Hina
