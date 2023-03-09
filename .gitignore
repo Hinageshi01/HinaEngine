@@ -1,9 +1,11 @@
 # Files build by Premake.
 .vs/
 x64/
-Engine/bin/
-Engine/int/
 build/
+
+Engine/bin/
+Engine/int/*
+!Engine/int/imgui.ini
 
 *.sln
 *.vcxproj
