@@ -1,8 +1,9 @@
 #include "hnpch.h"
 #include "ImGuiContext.h"
 
-#include "Icon/IconsFontAwesome6.h"
 #include "Path/Path.h"
+
+#include <Icon/IconsFontAwesome6.h>
 
 namespace Hina
 {

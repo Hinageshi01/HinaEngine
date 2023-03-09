@@ -106,7 +106,8 @@ public:
 		
 		m_texture = Hina::Texture2D::Create(Hina::Path::FromAsset("Texture/japanese_stone_wall_diff.png"));
 
-		Hina::Application::Get().GetScene().CreateEntity("Test entity");
+		auto ent = Hina::Application::Get().GetScene().CreateEntity("Test entity");
+		ent.AddComponent<Hina::TransformComponent>();
 	}
 
 	virtual void OnDetach() override {

@@ -2,9 +2,10 @@
 
 #include "Layer/Layer.h"
 
-#include "Editor/EditorHierarchy.h"
-#include "Editor/EditorInstrumentor.h"
+#include "Editor/EditorDetails.h"
 #include "Editor/EditorLog.h"
+#include "Editor/EditorOutliner.h"
+#include "Editor/EditorProfiler.h"
 
 #include "RenderCore/Framebuffer.h"
 
@@ -39,16 +40,19 @@ private:
 	void ShowDockSpace();
 	void ShowScene();
 
-	void ShowHierarchy();
+	void ShowDetails();
 	void ShowLog();
-	void ShowInstrumentor();
+	void ShowOutLiner();
+	void ShowProfiler();
 
-	EditorHierarchy m_hierarchy;
-	EditorInstrumentor m_instrumentor;
+	void SetSelectedEntity();
+
+	EditorDetails m_detaills;
 	EditorLog m_log;
+	EditorOutliner m_outliner;
+	EditorProfiler m_profiler;
 
 	std::shared_ptr<Framebuffer> m_sceneFramebuffer;
-	std::shared_ptr<Scene> m_scene;
 	
 	glm::vec2 m_sceneSize = glm::vec2(0.0f, 0.0f);
 

@@ -1,5 +1,5 @@
 #include "hnpch.h"
-#include "EditorInstrumentor.h"
+#include "EditorProfiler.h"
 
 #include <ImGui/imgui.h>
 
@@ -11,19 +11,20 @@ namespace
 constexpr float UPDATE_FREQUENCY = 0.5f;
 }
 
-void EditorInstrumentor::Draw(const char *title) {
-	ImGui::Begin(title);
+void EditorProfiler::OnImGuiRender() {
+	
+	ImGui::Begin("Profiler");
 
 	ImGui::Text("FPS: %.1f", GetFPS());
-	ImGui::Text("One frame: %.3f ms", timer.ElapsedMillis());
+	ImGui::Text("One frame: %.3f ms", m_timer.ElapsedMillis());
 
-	timer.Reset();
+	m_timer.Reset();
 
 	ImGui::End();
 }
 
-float EditorInstrumentor::GetFPS() {
-	m_second += timer.ElapsedSeconds();
+float EditorProfiler::GetFPS() {
+	m_second += m_timer.ElapsedSeconds();
 	++m_frams;
 
 	if(m_second >= UPDATE_FREQUENCY) {

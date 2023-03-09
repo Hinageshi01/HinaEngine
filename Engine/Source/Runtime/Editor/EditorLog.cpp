@@ -1,7 +1,7 @@
 #include "hnpch.h"
 #include "EditorLog.h"
 
-#include "Icon/IconsFontAwesome6.h"
+#include <Icon/IconsFontAwesome6.h>
 
 namespace Hina
 {
@@ -38,8 +38,6 @@ void EditorLog::AddLog(const char *fmt, ...) {
 }
 
 void EditorLog::AddSpdLog(const std::ostringstream &oss, bool clearBuffer) {
-    HN_PROFILE_FUNCTION();
-
     if(!oss.str().empty()) {
         AddLog(oss.str().c_str());
         if(clearBuffer) {
@@ -48,10 +46,10 @@ void EditorLog::AddSpdLog(const std::ostringstream &oss, bool clearBuffer) {
     }
 }
 
-void EditorLog::Draw(const char *title) {
+void EditorLog::OnImGuiRender() {
     HN_PROFILE_FUNCTION();
 
-    ImGui::Begin(title);
+    ImGui::Begin("Log");
     
     // Main window.
     CreateButton(LogLevel::Trace);

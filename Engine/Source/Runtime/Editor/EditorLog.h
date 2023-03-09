@@ -26,10 +26,11 @@ public:
     EditorLog &operator=(EditorLog &&) = default;
     ~EditorLog() = default;
 
+    void OnImGuiRender();
+
     void Clear();
     void AddLog(const char *fmt, ...);
     void AddSpdLog(const std::ostringstream &oss, bool cearBuffer = true);
-    void Draw(const char *title);
 
 private:
     void CreateButton(LogLevel level);

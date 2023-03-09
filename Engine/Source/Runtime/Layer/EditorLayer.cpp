@@ -36,11 +36,16 @@ void EditorLayer::End() {
 
 void EditorLayer::OnImGuiRender() {
 	HN_PROFILE_FUNCTION();
+
 	ShowDockSpace();
 	ShowScene();
 
-	ShowHierarchy();
-	ShowInstrumentor();
+	ShowProfiler();
+
+	ShowOutLiner();
+	SetSelectedEntity();
+	ShowDetails();
+
 	ShowLog();
 }
 
@@ -54,6 +59,8 @@ void EditorLayer::OnEvent(Event &event) {
 }
 
 void EditorLayer::ShowDockSpace() {
+	HN_PROFILE_FUNCTION();
+
 	static ImGuiDockNodeFlags dockspaceFlag = ImGuiDockNodeFlags_AutoHideTabBar;
 
 	const ImGuiViewport *viewport = ImGui::GetMainViewport();
@@ -88,7 +95,8 @@ void EditorLayer::ShowDockSpace() {
 }
 
 void EditorLayer::ShowScene() {
-	// TODO : Abstract to a class?
+	HN_PROFILE_FUNCTION();
+
 	ImGui::Begin("Scene");
 
 	m_blockEvents = !ImGui::IsWindowFocused();
@@ -107,17 +115,29 @@ void EditorLayer::ShowScene() {
 	ImGui::End();
 }
 
-void EditorLayer::ShowHierarchy() {
-	m_hierarchy.OnImGuiRender();
-}
+void EditorLayer::ShowDetails() {
+	HN_PROFILE_FUNCTION();
 
-void EditorLayer::ShowInstrumentor() {
-	m_instrumentor.Draw("Instrumentor");
+	m_detaills.OnImGuiRender();
 }
 
 void EditorLayer::ShowLog() {
+	HN_PROFILE_FUNCTION();
+
 	m_log.AddSpdLog(Hina::Log::GetSpdOutput());
-	m_log.Draw("Log");
+	m_log.OnImGuiRender();
+}
+
+void EditorLayer::ShowOutLiner() {
+	m_outliner.OnImGuiRender();
+}
+
+void EditorLayer::ShowProfiler() {
+	m_profiler.OnImGuiRender();
+}
+
+void EditorLayer::SetSelectedEntity() {
+	m_detaills.SetSelection(m_outliner.GetSelection());
 }
 
 } //namespace Hina

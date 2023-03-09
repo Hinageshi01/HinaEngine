@@ -1,5 +1,5 @@
 #include "hnpch.h"
-#include "EditorHierarchy.h"
+#include "EditorOutliner.h"
 
 #include "Application/Application.h"
 
@@ -9,7 +9,7 @@
 namespace Hina
 {
 
-void EditorHierarchy::OnImGuiRender()
+void EditorOutliner::OnImGuiRender()
 {
 	ImGui::Begin("Hierarchy");
 	Application::Get().GetScene().GetRegistry().each([&](auto entityID) {
@@ -18,7 +18,7 @@ void EditorHierarchy::OnImGuiRender()
 	});
 
 	if(ImGui::IsMouseDown(0) && ImGui::IsWindowHovered()) {
-		m_selectionEntity = {};
+		m_selectedEntity = {};
 	}
 
 	// Right-click on blank space
@@ -32,15 +32,15 @@ void EditorHierarchy::OnImGuiRender()
 	ImGui::End();
 }
 
-void EditorHierarchy::DrawEntityNode(Entity entity) {
+void EditorOutliner::DrawEntityNode(Entity entity) {
 	const std::string &name = entity.GetComponent<NameComponent>().name;
 
-	ImGuiTreeNodeFlags flags = ((m_selectionEntity == entity) ? ImGuiTreeNodeFlags_Selected : 0) |
+	ImGuiTreeNodeFlags flags = ((m_selectedEntity == entity) ? ImGuiTreeNodeFlags_Selected : 0) |
 		ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
 	bool open = ImGui::TreeNodeEx((void *)(uint64_t)entity.GetIDu32(), flags, name.c_str());
 
 	if(ImGui::IsItemClicked()) {
-		m_selectionEntity = entity;
+		m_selectedEntity = entity;
 	}
 
 	if(open) {
