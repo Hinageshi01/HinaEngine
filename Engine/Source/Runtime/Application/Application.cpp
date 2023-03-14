@@ -30,6 +30,10 @@ Application::Application() {
 
 	m_primaryFramebuffer = Framebuffer::Create();
 
+	m_pCamera = std::make_shared<Camera>();
+	auto cameraEntitty = m_scene.CreateEntity("Primary Camera");
+	cameraEntitty.AddComponent<CameraComponent>(m_pCamera);
+
 	PushLayer(new EditorLayer());
 }
 

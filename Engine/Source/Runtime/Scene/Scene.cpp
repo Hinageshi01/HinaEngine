@@ -6,7 +6,7 @@
 namespace Hina
 {
 
-Entity Scene::CreateEntity(const std::string &name, const glm::vec3 &translation) {
+Entity Scene::CreateEntity(const std::string &name) {
 	Entity entity = { m_registry.create(), this };
 
 	std::string entityName = name.empty() ? "New Entity" : name;

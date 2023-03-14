@@ -85,8 +85,7 @@ public:
 	virtual void OnAttach() override {
 		HN_PROFILE_FUNCTION();
 
-		m_pCamera = std::make_shared<Hina::Camera>();
-		m_cameraController.SetCamera(m_pCamera);
+		Hina::Application::Get().SetCameraController(m_cameraController);
 
 		m_pVertexArray = Hina::VertexArray::Create();
 		std::shared_ptr<Hina::VertexBuffer> m_vertexBuffer = Hina::VertexBuffer::Create(sizeof(vertices), vertices);
@@ -108,9 +107,6 @@ public:
 			Hina::Path::FromAsset("Shader/f_testShader.glsl"));
 		
 		m_pTexture = Hina::Texture2D::Create(Hina::Path::FromAsset("Texture/japanese_stone_wall_diff.png"));
-
-		auto ent = Hina::Application::Get().GetScene().CreateEntity("Test entity");
-		ent.AddComponent<Hina::TransformComponent>();
 	}
 
 	virtual void OnDetach() override {
@@ -154,7 +150,6 @@ private:
 	std::shared_ptr<Hina::Shader> m_pShader;
 	std::shared_ptr<Hina::Texture2D> m_pTexture;
 
-	std::shared_ptr<Hina::Camera> m_pCamera;
 	Hina::FirstPersonCamera m_cameraController;
 };
 

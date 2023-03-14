@@ -20,7 +20,7 @@ public:
 	Scene(Scene &&) = default;
 	~Scene() = default;
 
-	Entity CreateEntity(const std::string &name = "", const glm::vec3 &translation = glm::vec3(0.0f, 0.0f, 0.0f));
+	Entity CreateEntity(const std::string &name = "New Entity");
 	void DestroyEntity(Entity entity);
 
 	void OnUpdate(DeltaTime time);

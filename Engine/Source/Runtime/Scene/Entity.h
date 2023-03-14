@@ -2,6 +2,7 @@
 
 #include "Scene/Scene.h"
 #include "Scene/Component/NameComponent.h"
+#include "Scene/Component/CameraComponent.h"
 #include "Scene/Component/TransformComponent.h"
 
 #include <entt/entt.hpp>

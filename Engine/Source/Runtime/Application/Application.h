@@ -6,6 +6,7 @@
 #include "Event/KeyEvent.h"
 #include "Event/MouseEvent.h"
 
+#include "Camera/Camera.h"
 #include "Editor/EditorContext.h"
 #include "Layer/LayerStack.h"
 #include "RenderCore/Framebuffer.h"
@@ -47,6 +48,11 @@ public:
 	uint32_t GetPrimaryFramebufferColorAttachmentRenderID() const;
 	void OnPrimaryFramebufferResize(const float width, const float height);
 
+	template<class T>
+	void SetCameraController(T &controller) {
+		controller.SetCamera(m_pCamera);
+	}
+
 private:
 	static Application *m_instance;
 
@@ -54,12 +60,14 @@ private:
 	bool OnWindowClose(WindowCloseEvent &event);
 	bool OnWindowResize(WindowResizeEvent &event);
 
+	std::shared_ptr<Camera> m_pCamera;
+
 	std::unique_ptr<Window> m_window;
 	std::unique_ptr<EditorContext> m_editorContext;
 	std::unique_ptr<Framebuffer> m_primaryFramebuffer;
 
-	LayerStack m_layerStack;
 	Scene m_scene;
+	LayerStack m_layerStack;
 
 	bool m_isRunning = false;
 	bool m_isMinimized = false;
