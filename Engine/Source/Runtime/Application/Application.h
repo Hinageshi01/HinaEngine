@@ -19,6 +19,9 @@ namespace Hina
 class Application
 {
 public:
+	static Application &Get() { return *m_instance; }
+
+public:
 	Application();
 	virtual ~Application();
 
@@ -28,19 +31,21 @@ public:
 	Application &operator=(Application &&) = delete;
 
 	void Run();
-
 	void OnEvent(Event &event);
-
 	void PushLayer(Layer *layer);
 	void PushOverlay(Layer *layer);
-
-	static Application &Get() { return *m_instance; }
 
 	Window &GetWindow() { return *m_window; }
 	const Window &GetWindow() const { return *m_window; }
 
 	Scene &GetScene() { return m_scene; }
 	const Scene &GetScene() const { return m_scene; }
+
+	Framebuffer &GetPrimaryFramebuffer() { return *m_primaryFramebuffer; }
+	const Framebuffer &GetPrimaryFramebuffer() const { return *m_primaryFramebuffer; }
+	
+	uint32_t GetPrimaryFramebufferColorAttachmentRenderID() const;
+	void OnPrimaryFramebufferResize(float width, float height);
 
 private:
 	static Application *m_instance;
@@ -51,8 +56,7 @@ private:
 
 	std::unique_ptr<Window> m_window;
 	std::unique_ptr<EditorContext> m_editorContext;
-	
-	std::shared_ptr<Framebuffer> m_sceneFramebuffer;
+	std::unique_ptr<Framebuffer> m_primaryFramebuffer;
 
 	LayerStack m_layerStack;
 	Scene m_scene;

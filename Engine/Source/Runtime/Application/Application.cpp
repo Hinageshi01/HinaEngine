@@ -29,9 +29,9 @@ Application::Application() {
 	framebufferInit.m_width = RenderCore::GetWidth();
 	framebufferInit.m_height = RenderCore::GetHeight();
 	framebufferInit.m_attachmentFormats = { FramebufferFormat::RGBA8, FramebufferFormat::DEPTH24STENCIL8 };
-	m_sceneFramebuffer = Framebuffer::Create(framebufferInit);
+	m_primaryFramebuffer = Framebuffer::Create(framebufferInit);
 
-	PushLayer(new EditorLayer(m_sceneFramebuffer));
+	PushLayer(new EditorLayer());
 
 	m_isRunning = true;
 }
@@ -64,11 +64,11 @@ void Application::Run() {
 			{
 				HN_PROFILE_SCOPE("Layers Update");
 
-				m_sceneFramebuffer->Bind();
+				m_primaryFramebuffer->Bind();
 				for(Layer *layer : m_layerStack) {
 					layer->OnUpdate(deltaTime);
 				}
-				m_sceneFramebuffer->Unbind();
+				m_primaryFramebuffer->Unbind();
 			}
 
 			m_editorContext->Begin();
@@ -118,6 +118,14 @@ bool Application::OnWindowResize(WindowResizeEvent &event) {
 	}
 
 	return false;
+}
+
+uint32_t Application::GetPrimaryFramebufferColorAttachmentRenderID() const {
+	return m_primaryFramebuffer->GetColorAttachmentRenderID();
+}
+
+void Application::OnPrimaryFramebufferResize(float width, float height) {
+	m_primaryFramebuffer->Resize(width, height);
 }
 
 } // namespace Hina

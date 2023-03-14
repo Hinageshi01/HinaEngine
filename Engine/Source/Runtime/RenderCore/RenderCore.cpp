@@ -20,8 +20,8 @@ void RenderCore::Init() {
 	HN_CORE_INFO("Initializing Renderer");
 	RenderCommand::Init();
 
-	m_width = 800;
-	m_height = 600;
+	m_width = 1600;
+	m_height = 900;
 	m_modelMatrix = glm::identity<glm::mat4>();
 }
 

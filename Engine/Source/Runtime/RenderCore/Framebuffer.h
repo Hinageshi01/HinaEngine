@@ -50,7 +50,7 @@ public:
 
 	virtual uint32_t GetColorAttachmentRenderID(uint32_t index = 0) const = 0;
 
-	static std::shared_ptr<Framebuffer> Create(const FramebufferInitializer &init);
+	static std::unique_ptr<Framebuffer> Create(const FramebufferInitializer &init);
 };
 
 } // namespace Hina

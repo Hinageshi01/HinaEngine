@@ -8,8 +8,8 @@ namespace Hina
 struct WindowInitializer
 {
 	std::string m_title = "Hina Engine";
-	uint32_t m_width = 1280;
-	uint32_t m_height = 720;
+	uint32_t m_width = 1600;
+	uint32_t m_height = 900;
 
 	uint32_t m_major = 4;
 	uint32_t m_minor = 6;

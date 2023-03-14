@@ -7,18 +7,14 @@
 #include "Editor/EditorOutliner.h"
 #include "Editor/EditorProfiler.h"
 
-#include "RenderCore/Framebuffer.h"
-
 namespace Hina
 {
 
 class EditorLayer final : public Layer
 {
 public:
-	EditorLayer(const std::shared_ptr<Framebuffer> &buffer) :
-		Layer("Editor"), m_sceneFramebuffer(buffer) {}
+	EditorLayer() : Layer("Editor") {}
 	
-	EditorLayer() = delete;
 	EditorLayer(const EditorLayer &) = default;
 	EditorLayer &operator=(const EditorLayer &) = default;
 	EditorLayer(EditorLayer &&) = default;
@@ -52,9 +48,7 @@ private:
 	EditorOutliner m_outliner;
 	EditorProfiler m_profiler;
 
-	std::shared_ptr<Framebuffer> m_sceneFramebuffer;
-	
-	glm::vec2 m_sceneSize = glm::vec2(0.0f, 0.0f);
+	glm::vec2 m_primaryFramebufferSize = glm::vec2(0.0f, 0.0f);
 
 	bool m_blockEvents = false;
 };
