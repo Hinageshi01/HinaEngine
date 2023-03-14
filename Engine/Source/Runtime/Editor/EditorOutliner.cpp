@@ -33,7 +33,7 @@ void EditorOutliner::OnImGuiRender()
 }
 
 void EditorOutliner::DrawEntityNode(Entity entity) {
-	const std::string &name = entity.GetComponent<NameComponent>().name;
+	const std::string &name = entity.GetComponent<NameComponent>().GetName();
 
 	ImGuiTreeNodeFlags flags = ((m_selectedEntity == entity) ? ImGuiTreeNodeFlags_Selected : 0) |
 		ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;

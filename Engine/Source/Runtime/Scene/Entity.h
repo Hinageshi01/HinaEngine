@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Scene/Component/Components.h"
 #include "Scene/Scene.h"
+#include "Scene/Component/NameComponent.h"
+#include "Scene/Component/TransformComponent.h"
 
 #include <entt/entt.hpp>
 
@@ -54,8 +55,8 @@ public:
 	uint32_t GetIDu32() const { return static_cast<uint32_t>(m_entityHandle); }
 	bool IsValid() const { return m_entityHandle != entt::null; }
 
-	std::string &GetName() { return GetComponent<NameComponent>().name; }
-	const std::string &GetName() const { return GetComponent<NameComponent>().name; }
+	std::string &GetName() { return GetComponent<NameComponent>().GetName(); }
+	const std::string &GetName() const { return GetComponent<NameComponent>().GetName(); }
 
 	bool operator==(const Entity &other) const {
 		return m_entityHandle == other.m_entityHandle && m_scene == other.m_scene;

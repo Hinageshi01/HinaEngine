@@ -19,20 +19,13 @@ void EditorDetails::OnImGuiRender() {
 
 void EditorDetails::DrawComponents() {
 	if(m_selectedEntity.HasComponent<NameComponent>()) {
-		auto &name = m_selectedEntity.GetComponent<NameComponent>().name;
+		auto &name = m_selectedEntity.GetComponent<NameComponent>().GetName();
 	
 		ImGui::Columns(2);
 		ImGui::SetColumnWidth(0, 95.0f);
 		ImGui::Text("Name :");
 		ImGui::NextColumn();
 	
-		// char buffer[256];
-		// memset(buffer, 0, sizeof(buffer));
-		// strncpy_s(buffer, sizeof(buffer), name.c_str(), sizeof(buffer));
-		// if(ImGui::InputText("##Name", buffer, sizeof(buffer))) {
-		// 	name = std::string(buffer);
-		// }
-
 		ImGui::Text(name.c_str());
 
 		ImGui::Columns(1);
@@ -43,11 +36,11 @@ void EditorDetails::DrawComponents() {
 
 		auto &component = m_selectedEntity.GetComponent<TransformComponent>();
 
-		DrawVec3Control("Translation :", component.translation);
-		glm::vec3 rotation = glm::degrees(component.rotation);
+		DrawVec3Control("Translation :", component.GetTranslation());
+		glm::vec3 rotation = glm::degrees(component.GetRotation());
 		DrawVec3Control("Rotation :", rotation);
-		component.rotation = glm::radians(rotation);
-		DrawVec3Control("Scale :", component.scale, 1.0f);
+		component.SetRotation(glm::radians(rotation));
+		DrawVec3Control("Scale :", component.GetScale(), 1.0f);
 	}
 }
 
