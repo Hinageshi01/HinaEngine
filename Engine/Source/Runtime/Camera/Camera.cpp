@@ -13,9 +13,8 @@ void Camera::Init(const CameraInitializer &init) {
     m_yaw = init.m_yaw;
     m_pitch = init.m_pitch;
     m_zoom = init.m_zoom;
-    m_moveSensitive = init.m_moveSensitive;
-    m_rotateSensitive = init.m_rotateSensitive;
-    m_scrollSensitive = init.m_scrollSensitive;
+    m_near = init.m_near;
+    m_far = init.m_far;
 
     CalculateDirections();
 }
@@ -25,7 +24,7 @@ glm::mat4 Camera::GetViewMatrix() const {
 }
 
 glm::mat4 Camera::GetProjectionMatrix(const uint32_t width, const uint32_t height) const {
-    return glm::perspective(glm::radians(m_zoom), static_cast<float>(width) / static_cast<float>(height), 0.1f, 1000.0f);
+    return glm::perspective(glm::radians(m_zoom), static_cast<float>(width) / static_cast<float>(height), m_near, m_far);
 }
 
 glm::mat4 Camera::GetViewProjectionMatrix(const uint32_t width, const uint32_t height) const {
@@ -40,7 +39,7 @@ void Camera::CalculateDirections() {
     };
 
     m_front = glm::normalize(std::move(front));
-    m_right = glm::normalize(glm::cross(m_front, s_worldUp));
+    m_right = glm::normalize(glm::cross(m_front, m_worldUp));
     m_up    = glm::normalize(glm::cross(m_right, m_front));
 }
 
