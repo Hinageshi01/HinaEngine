@@ -15,6 +15,12 @@ enum class GraphicsAPI
 class RenderAPI
 {
 public:
+	static std::unique_ptr<RenderAPI> Create();
+
+	static void SetAPI(const GraphicsAPI api) { m_API = api; }
+	static GraphicsAPI GetAPI() { return m_API; }
+
+public:
 	RenderAPI() = default;
 	RenderAPI(const RenderAPI &) = default;
 	RenderAPI &operator=(const RenderAPI &) = default;
@@ -35,10 +41,6 @@ public:
 	virtual void DrawLines(const std::shared_ptr<VertexArray> &vertexArray, const uint32_t vertexCount) = 0;
 
 	virtual void SetLineWidth(float width) = 0;
-
-	static void SetAPI(const GraphicsAPI api) { m_API = api; }
-	static GraphicsAPI GetAPI() { return m_API; }
-	static std::unique_ptr<RenderAPI> Create();
 
 private:
 	static GraphicsAPI m_API;

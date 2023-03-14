@@ -8,6 +8,14 @@ namespace Hina
 class Shader
 {
 public:
+	// TODO : Compute shader.
+	static std::shared_ptr<Shader> Create(
+		const std::string &name,
+		const std::string &vertexShaderPath,
+		const std::string &fragmentShaderPath,
+		const std::string &geometryShaderPath = "");
+
+public:
 	Shader() = default;
 	Shader(const Shader &) = default;
 	Shader &operator=(const Shader &) = default;
@@ -30,13 +38,6 @@ public:
 	virtual void SetVec4(const std::string &name, const glm::vec4 &value) = 0;
 	virtual void SetMat3(const std::string &name, const glm::mat3 &value) = 0;
 	virtual void SetMat4(const std::string &name, const glm::mat4 &value) = 0;
-
-	// TODO : Compute shader.
-	static std::shared_ptr<Shader> Create(
-		const std::string &name,
-		const std::string &vertexShaderPath,
-		const std::string &fragmentShaderPath,
-		const std::string &geometryShaderPath = "");
 };
 
 } // namespace Hina

@@ -24,14 +24,17 @@ struct FramebufferInitializer
 	FramebufferInitializer &operator=(FramebufferInitializer &&) = default;
 	~FramebufferInitializer() = default;
 
-	uint32_t m_width = 0, m_height = 0;
-	std::vector<FramebufferFormat> m_attachmentFormats;
+	uint32_t m_width = 1600, m_height = 900;
+	std::vector<FramebufferFormat> m_attachmentFormats = { FramebufferFormat::RGBA8, FramebufferFormat::DEPTH24STENCIL8 };
 
 	bool m_swapChainTarget = false;
 };
 
 class Framebuffer
 {
+public:
+	static std::unique_ptr<Framebuffer> Create(const FramebufferInitializer &init = FramebufferInitializer());
+
 public:
 	Framebuffer() = default;
 	Framebuffer(const Framebuffer &) = default;
@@ -43,14 +46,12 @@ public:
 	virtual void Bind() = 0;
 	virtual void Unbind() = 0;
 
-	virtual void Resize(uint32_t width, uint32_t height) = 0;
-	virtual int ReadPixel(uint32_t attachmentIndex, int x, int y) = 0;
+	virtual void Resize(const uint32_t width, const uint32_t height) = 0;
+	virtual int ReadPixel(const uint32_t attachmentIndex, const int x, const int y) = 0;
 
-	virtual void ClearAttachment(uint32_t attachmentIndex, int value) = 0;
+	virtual void ClearAttachment(const uint32_t attachmentIndex, const int value) = 0;
 
-	virtual uint32_t GetColorAttachmentRenderID(uint32_t index = 0) const = 0;
-
-	static std::unique_ptr<Framebuffer> Create(const FramebufferInitializer &init);
+	virtual uint32_t GetColorAttachmentRenderID(const uint32_t index = 0) const = 0;
 };
 
 } // namespace Hina

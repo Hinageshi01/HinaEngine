@@ -164,7 +164,7 @@ void OpenGLFramebuffer::Unbind() {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void OpenGLFramebuffer::Resize(uint32_t width, uint32_t height) {
+void OpenGLFramebuffer::Resize(const uint32_t width, const uint32_t height) {
 	if(width == 0 || height == 0 || width > MAX_FRAMEBUFFER_SIZE || height > MAX_FRAMEBUFFER_SIZE) {
 		HN_CORE_WARN("Attempted to rezize framebuffer to {0}, {1}", width, height);
 		return;
@@ -176,7 +176,7 @@ void OpenGLFramebuffer::Resize(uint32_t width, uint32_t height) {
 	Invalidate();
 }
 
-int OpenGLFramebuffer::ReadPixel(uint32_t attachmentIndex, int x, int y) {
+int OpenGLFramebuffer::ReadPixel(const uint32_t attachmentIndex, const int x, const int y) {
 	assert(attachmentIndex < m_colorAttachmentsRenderID.size());
 
 	glReadBuffer(GL_COLOR_ATTACHMENT0 + attachmentIndex);
@@ -186,7 +186,7 @@ int OpenGLFramebuffer::ReadPixel(uint32_t attachmentIndex, int x, int y) {
 
 }
 
-void OpenGLFramebuffer::ClearAttachment(uint32_t attachmentIndex, int value) {
+void OpenGLFramebuffer::ClearAttachment(const uint32_t attachmentIndex, const int value) {
 	assert(attachmentIndex < m_colorAttachmentsRenderID.size());
 
 	auto &format = m_colorAttachmentFormats[attachmentIndex];

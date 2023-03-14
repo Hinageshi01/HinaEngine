@@ -19,6 +19,9 @@ struct WindowInitializer
 class Window
 {
 public:
+	static std::unique_ptr<Window> Create(const WindowInitializer &init = WindowInitializer());
+
+public:
 	using EventCallbackFn = std::function<void(Event &)>;
 
 	Window() = default;
@@ -40,9 +43,6 @@ public:
 	virtual bool IsVSync() const = 0;
 
 	virtual void *GetNativeWindow() const = 0;
-
-	// Creat a derived class of Window which determined by the platform.
-	static std::unique_ptr<Window> Create(const WindowInitializer &init = WindowInitializer());
 };
 
 } // namespace Hina

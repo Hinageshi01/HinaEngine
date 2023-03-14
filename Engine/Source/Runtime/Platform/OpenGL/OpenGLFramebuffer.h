@@ -22,12 +22,12 @@ public:
 	virtual void Bind() override;
 	virtual void Unbind() override;
 
-	virtual void Resize(uint32_t width, uint32_t height) override;
-	virtual int ReadPixel(uint32_t attachmentIndex, int x, int y) override;
+	virtual void Resize(const uint32_t width, const uint32_t height) override;
+	virtual int ReadPixel(const uint32_t attachmentIndex, const int x, const int y) override;
 
-	virtual void ClearAttachment(uint32_t attachmentIndex, int value) override;
+	virtual void ClearAttachment(const uint32_t attachmentIndex, const int value) override;
 
-	virtual uint32_t GetColorAttachmentRenderID(uint32_t index = 0) const override {
+	virtual uint32_t GetColorAttachmentRenderID(const uint32_t index = 0) const override {
 		assert(index < m_colorAttachmentsRenderID.size());
 		return m_colorAttachmentsRenderID[index];
 	}

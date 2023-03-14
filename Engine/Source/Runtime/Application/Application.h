@@ -45,7 +45,7 @@ public:
 	const Framebuffer &GetPrimaryFramebuffer() const { return *m_primaryFramebuffer; }
 	
 	uint32_t GetPrimaryFramebufferColorAttachmentRenderID() const;
-	void OnPrimaryFramebufferResize(float width, float height);
+	void OnPrimaryFramebufferResize(const float width, const float height);
 
 private:
 	static Application *m_instance;

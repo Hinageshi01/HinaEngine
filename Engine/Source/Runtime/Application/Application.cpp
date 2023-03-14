@@ -13,9 +13,12 @@ Application *Application::m_instance = nullptr;
 Application::Application() {
 	HN_PROFILE_FUNCTION();
 
-	assert(!m_instance && "Application instance already exist.");
+	assert(!m_instance && "Application instance already exist!");
 	m_instance = this;
 
+	m_isRunning = true;
+
+	// TODO : Move to app.
 	RenderCore::SetAPI(GraphicsAPI::OpenGL);
 
 	m_window = Window::Create();
@@ -25,15 +28,9 @@ Application::Application() {
 
 	m_editorContext = EditorContext::Creat();
 
-	FramebufferInitializer framebufferInit;
-	framebufferInit.m_width = RenderCore::GetWidth();
-	framebufferInit.m_height = RenderCore::GetHeight();
-	framebufferInit.m_attachmentFormats = { FramebufferFormat::RGBA8, FramebufferFormat::DEPTH24STENCIL8 };
-	m_primaryFramebuffer = Framebuffer::Create(framebufferInit);
+	m_primaryFramebuffer = Framebuffer::Create();
 
 	PushLayer(new EditorLayer());
-
-	m_isRunning = true;
 }
 
 Application::~Application() {
@@ -124,7 +121,7 @@ uint32_t Application::GetPrimaryFramebufferColorAttachmentRenderID() const {
 	return m_primaryFramebuffer->GetColorAttachmentRenderID();
 }
 
-void Application::OnPrimaryFramebufferResize(float width, float height) {
+void Application::OnPrimaryFramebufferResize(const float width, const float height) {
 	m_primaryFramebuffer->Resize(width, height);
 }
 
