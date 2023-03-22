@@ -35,13 +35,13 @@ void EditorDetails::DrawComponents() {
 		ImGui::Separator();
 
 		auto &component = m_selectedEntity.GetComponent<TransformComponent>();
-		DrawVec3("Translation :", component.GetTranslation());
+		DrawVec3("Translation :", component.GetTranslation(), 0.0f);
 
 		glm::vec3 rotation = glm::degrees(component.GetRotation());
-		DrawVec3("Rotation :", rotation);
+		DrawVec3("Rotation :", rotation, 0.0f);
 		component.SetRotation(glm::radians(rotation));
 
-		DrawVec3("Scale :", component.GetScale());
+		DrawVec3("Scale :", component.GetScale(), 1.0f);
 	}
 
 	if(m_selectedEntity.HasComponent<CameraComponent>()) {
@@ -52,15 +52,13 @@ void EditorDetails::DrawComponents() {
 
 		float yaw = glm::degrees(component.GetYaw());
 		float pitch = glm::degrees(component.GetPitch());
-		DrawVec2("Frustum :", yaw, pitch, "Y", "P");
+		DrawVec2("Frustum :", yaw, pitch, "Y", "P", 0.0f);
 		component.SetYaw(glm::radians(yaw));
 		component.SetPitch(glm::radians(pitch));
-
-		//DrawVec2("Frustum :", component.GetNear(), component.GetFar(), "N", "F");
 	}
 }
 
-void EditorDetails::DrawVec3(const std::string &label, glm::vec3 &values) {
+void EditorDetails::DrawVec3(const std::string &label, glm::vec3 &values, float resetValue) {
 	ImGui::PushID(label.c_str());
 	ImGui::Columns(2);
 	ImGui::SetColumnWidth(0, 75.0f);
@@ -78,17 +76,23 @@ void EditorDetails::DrawVec3(const std::string &label, glm::vec3 &values) {
 	float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
 	ImVec2 buttonSize = { lineHeight, lineHeight };
 
-	ImGui::Button("X", buttonSize);
+	if(ImGui::Button("X", buttonSize)) {
+		values.x = resetValue;
+	}
 	ImGui::SameLine();
 	ImGui::DragFloat("##X", &values.x, 0.1f, 0.0f, 0.0f, "%.2f");
 
 	ImGui::SameLine();
-	ImGui::Button("Y", buttonSize);
+	if(ImGui::Button("Y", buttonSize)) {
+		values.y = resetValue;
+	}
 	ImGui::SameLine();
 	ImGui::DragFloat("##Y", &values.y, 0.1f, 0.0f, 0.0f, "%.2f");
 	
 	ImGui::SameLine();
-	ImGui::Button("Z", buttonSize);
+	if(ImGui::Button("Z", buttonSize)) {
+		values.z = resetValue;
+	}
 	ImGui::SameLine();
 	ImGui::DragFloat("##Z", &values.z, 0.1f, 0.0f, 0.0f, "%.2f");
 
@@ -100,7 +104,10 @@ void EditorDetails::DrawVec3(const std::string &label, glm::vec3 &values) {
 	ImGui::PopID();
 }
 
-void EditorDetails::DrawVec2(const std::string &label, float &value1, float &value2, const std::string &name1, const std::string &name2) {
+void EditorDetails::DrawVec2(const std::string &label,
+							 float &value1, float &value2,
+							 const std::string &name1, const std::string &name2,
+							 float resetValue) {
 	ImGui::PushID(label.c_str());
 	ImGui::Columns(2);
 	ImGui::SetColumnWidth(0, 75.0f);
@@ -118,13 +125,16 @@ void EditorDetails::DrawVec2(const std::string &label, float &value1, float &val
 	float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
 	ImVec2 buttonSize = { lineHeight, lineHeight };
 
-	ImGui::Button(name1.c_str(), buttonSize);
+	if(ImGui::Button(name1.c_str(), buttonSize)) {
+		value1 = resetValue;
+	}
 	ImGui::SameLine();
 	ImGui::DragFloat("##X", &value1, 0.1f, 0.0f, 0.0f, "%.2f");
 	
 	ImGui::SameLine();
-	ImGui::Button(name2.c_str(), buttonSize);
-	
+	if(ImGui::Button(name2.c_str(), buttonSize)) {
+		value2 = resetValue;
+	}
 	ImGui::SameLine();
 	ImGui::DragFloat("##Y", &value2, 0.1f, 0.0f, 0.0f, "%.2f");
 	
