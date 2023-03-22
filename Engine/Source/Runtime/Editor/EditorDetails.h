@@ -16,7 +16,8 @@ public:
 private:
 	void DrawComponents();
 
-	void DrawVec3Control(const std::string &label, glm::vec3 &values, float resetValue = 0.0f, float columnWidth = 95.0f);
+	void DrawVec3(const std::string &label, glm::vec3 &values);
+	void DrawVec2(const std::string &label, float &value1, float &value2, const std::string &name1 = "", const std::string &name2 = "");
 
 	Entity m_selectedEntity = {};
 };

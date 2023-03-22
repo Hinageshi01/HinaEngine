@@ -42,6 +42,7 @@ public:
 
 private:
 	glm::vec3 m_translation = { 0.0f, 0.0f, 0.0f };
+	// Store as radians.
 	glm::vec3 m_rotation = { 0.0f, 0.0f, 0.0f };
 	glm::vec3 m_scale = { 1.0f, 1.0f, 1.0f };
 };

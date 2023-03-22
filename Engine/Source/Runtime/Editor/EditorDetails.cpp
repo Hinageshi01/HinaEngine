@@ -22,7 +22,7 @@ void EditorDetails::DrawComponents() {
 		auto &name = m_selectedEntity.GetComponent<NameComponent>().GetName();
 	
 		ImGui::Columns(2);
-		ImGui::SetColumnWidth(0, 95.0f);
+		ImGui::SetColumnWidth(0, 75.0f);
 		ImGui::Text("Name :");
 		ImGui::NextColumn();
 	
@@ -35,80 +35,104 @@ void EditorDetails::DrawComponents() {
 		ImGui::Separator();
 
 		auto &component = m_selectedEntity.GetComponent<TransformComponent>();
+		DrawVec3("Translation :", component.GetTranslation());
 
-		DrawVec3Control("Translation :", component.GetTranslation());
 		glm::vec3 rotation = glm::degrees(component.GetRotation());
-		DrawVec3Control("Rotation :", rotation);
+		DrawVec3("Rotation :", rotation);
 		component.SetRotation(glm::radians(rotation));
-		DrawVec3Control("Scale :", component.GetScale(), 1.0f);
+
+		DrawVec3("Scale :", component.GetScale());
+	}
+
+	if(m_selectedEntity.HasComponent<CameraComponent>()) {
+		ImGui::Separator();
+
+		auto &component = m_selectedEntity.GetComponent<CameraComponent>();
+		DrawVec3("Position :", component.GetPosition());
+
+		float yaw = glm::degrees(component.GetYaw());
+		float pitch = glm::degrees(component.GetPitch());
+		DrawVec2("Frustum :", yaw, pitch, "Y", "P");
+		component.SetYaw(glm::radians(yaw));
+		component.SetPitch(glm::radians(pitch));
+
+		//DrawVec2("Frustum :", component.GetNear(), component.GetFar(), "N", "F");
 	}
 }
 
-void EditorDetails::DrawVec3Control(const std::string &label, glm::vec3 &values, float resetValue, float columnWidth) {
-	ImGuiIO &io = ImGui::GetIO();
-	auto boldFont = io.Fonts->Fonts[0];
-
+void EditorDetails::DrawVec3(const std::string &label, glm::vec3 &values) {
 	ImGui::PushID(label.c_str());
-
 	ImGui::Columns(2);
-	ImGui::SetColumnWidth(0, columnWidth);
+	ImGui::SetColumnWidth(0, 75.0f);
 	ImGui::Text(label.c_str());
 	ImGui::NextColumn();
 
 	ImGui::PushMultiItemsWidths(3, ImGui::CalcItemWidth());
-	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{ 0, 0 });
+	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{ 0.0f, 0.0f });
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.45f, 0.45f, 0.45f, 1.0f });
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.6f, 0.6f, 0.6f, 1.0f });
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.45f, 0.45f, 0.45f, 1.0f });
+	ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[0]);
+	ImGui::PushItemWidth(50.0f);
 
 	float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
-	ImVec2 buttonSize = { lineHeight + 3.0f, lineHeight };
+	ImVec2 buttonSize = { lineHeight, lineHeight };
 
-	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.9f, 0.2f, 0.2f, 1.0f });
-	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-	ImGui::PushFont(boldFont);
-	if(ImGui::Button("X", buttonSize)) {
-		values.x = resetValue;
-	}
-	ImGui::PopFont();
-	ImGui::PopStyleColor(3);
-
+	ImGui::Button("X", buttonSize);
 	ImGui::SameLine();
 	ImGui::DragFloat("##X", &values.x, 0.1f, 0.0f, 0.0f, "%.2f");
-	ImGui::PopItemWidth();
+
 	ImGui::SameLine();
-
-	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
-	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f, 0.8f, 0.3f, 1.0f });
-	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
-	ImGui::PushFont(boldFont);
-	if(ImGui::Button("Y", buttonSize)) {
-		values.y = resetValue;
-	}
-	ImGui::PopFont();
-	ImGui::PopStyleColor(3);
-
+	ImGui::Button("Y", buttonSize);
 	ImGui::SameLine();
 	ImGui::DragFloat("##Y", &values.y, 0.1f, 0.0f, 0.0f, "%.2f");
-	ImGui::PopItemWidth();
+	
 	ImGui::SameLine();
-
-	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
-	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.2f, 0.35f, 0.9f, 1.0f });
-	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
-	ImGui::PushFont(boldFont);
-	if(ImGui::Button("Z", buttonSize)) {
-		values.z = resetValue;
-	}
-	ImGui::PopFont();
-	ImGui::PopStyleColor(3);
-
+	ImGui::Button("Z", buttonSize);
 	ImGui::SameLine();
 	ImGui::DragFloat("##Z", &values.z, 0.1f, 0.0f, 0.0f, "%.2f");
+
 	ImGui::PopItemWidth();
-
+	ImGui::PopFont();
+	ImGui::PopStyleColor(3);
 	ImGui::PopStyleVar();
-
 	ImGui::Columns(1);
+	ImGui::PopID();
+}
 
+void EditorDetails::DrawVec2(const std::string &label, float &value1, float &value2, const std::string &name1, const std::string &name2) {
+	ImGui::PushID(label.c_str());
+	ImGui::Columns(2);
+	ImGui::SetColumnWidth(0, 75.0f);
+	ImGui::Text(label.c_str());
+	ImGui::NextColumn();
+	 
+	ImGui::PushMultiItemsWidths(2, ImGui::CalcItemWidth());
+	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{ 0.0f, 0.0f });
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.45f, 0.45f, 0.45f, 1.0f });
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.6f, 0.6f, 0.6f, 1.0f });
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.45f, 0.45f, 0.45f, 1.0f });
+	ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[0]);
+	ImGui::PushItemWidth(50.0f);
+
+	float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
+	ImVec2 buttonSize = { lineHeight, lineHeight };
+
+	ImGui::Button(name1.c_str(), buttonSize);
+	ImGui::SameLine();
+	ImGui::DragFloat("##X", &value1, 0.1f, 0.0f, 0.0f, "%.2f");
+	
+	ImGui::SameLine();
+	ImGui::Button(name2.c_str(), buttonSize);
+	
+	ImGui::SameLine();
+	ImGui::DragFloat("##Y", &value2, 0.1f, 0.0f, 0.0f, "%.2f");
+	
+	ImGui::PopItemWidth();
+	ImGui::PopFont();
+	ImGui::PopStyleColor(3);
+	ImGui::PopStyleVar();
+	ImGui::Columns(1);
 	ImGui::PopID();
 }
 

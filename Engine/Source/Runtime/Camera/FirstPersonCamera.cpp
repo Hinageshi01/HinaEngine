@@ -16,56 +16,52 @@ void FirstPersonCamera::OnEvent(Event &event) {
 	dispatcher.Dispatch<MouseScrollEvent>(BIND_EVENT_FN(FirstPersonCamera::OnMouseScroll));
 }
 
-void FirstPersonCamera::SetCamera(const std::shared_ptr<Camera> &pCamera) {
-    m_camera = pCamera;
-}
-
 void FirstPersonCamera::OnKeyPress(const float deltaTime) {
     const float velocity = m_moveSensitive * deltaTime;
 
     if(Hina::Input::IsKeyPressed(Hina::Key::W)) {
-        m_camera->m_position += m_camera->m_front * velocity;
+        m_camera->UpdatePosition(velocity * m_camera->GetFront());
     }
     if(Hina::Input::IsKeyPressed(Hina::Key::S)) {
-        m_camera->m_position -= m_camera->m_front* velocity;
+        m_camera->UpdatePosition(-velocity * m_camera->GetFront());
     }
 
     if(Hina::Input::IsKeyPressed(Hina::Key::A)) {
-        m_camera->m_position -= m_camera->m_right * velocity;
+        m_camera->UpdatePosition(-velocity * m_camera->GetRight());
     }
     if(Hina::Input::IsKeyPressed(Hina::Key::D)) {
-        m_camera->m_position += m_camera->m_right * velocity;
+        m_camera->UpdatePosition(velocity * m_camera->GetRight());
     }
     
     if(Hina::Input::IsKeyPressed(Hina::Key::Space)) {
-        m_camera->m_position += Camera::m_worldUp * velocity;
+        m_camera->UpdatePosition(velocity * Camera::m_worldUp);
     }
     if(Hina::Input::IsKeyPressed(Hina::Key::LeftShift)) {
-        m_camera->m_position -= Camera::m_worldUp * velocity;
+        m_camera->UpdatePosition(-velocity * Camera::m_worldUp);
     }
 }
 
 void FirstPersonCamera::OnMouseMove() {
     HN_PROFILE_FUNCTION();
 
-    static glm::vec2 lastPosition = Input::GetMousePosition();
+    static glm::vec2 s_lastPosition = Input::GetMousePosition();
     glm::vec2 crtPosition = Input::GetMousePosition();
 
-    float offset_x = crtPosition.x - lastPosition.x;
-    float offset_y = lastPosition.y - crtPosition.y;
+    float offset_x = crtPosition.x - s_lastPosition.x;
+    float offset_y = s_lastPosition.y - crtPosition.y;
 
-    lastPosition = crtPosition;
+    s_lastPosition = crtPosition;
 
-    m_camera->m_yaw += offset_x * m_rotateSensitive;
-    m_camera->m_pitch += offset_y * m_rotateSensitive;
-    m_camera->m_pitch = std::clamp(m_camera->m_pitch, -89.9f, 89.9f);
+    m_camera->UpdateYaw(m_rotateSensitive * offset_x);
+    m_camera->UpdatePitch(m_rotateSensitive * offset_y);
+    m_camera->GetPitch() = std::clamp(m_camera->GetPitch(), glm::degrees(-89.9f), glm::degrees(89.9f));
 
-    m_camera->CalculateDirections();
+    m_camera->RecalculateDirections();
 }
 
 bool FirstPersonCamera::OnMouseScroll(const MouseScrollEvent &event) {
-    m_camera->m_zoom -= event.GetYOffset() * m_scrollSensitive;
-    m_camera->m_zoom = std::clamp(m_camera->m_zoom, 1.0f, 45.0f);
+    m_camera->UpdateZoom(-m_scrollSensitive * event.GetYOffset());
+    m_camera->GetZoom() = std::clamp(m_camera->GetZoom(), 1.0f, 45.0f);
 
     return true;
 }

@@ -16,7 +16,7 @@ void Camera::Init(const CameraInitializer &init) {
     m_near = init.m_near;
     m_far = init.m_far;
 
-    CalculateDirections();
+    RecalculateDirections();
 }
 
 glm::mat4 Camera::GetViewMatrix() const {
@@ -24,18 +24,18 @@ glm::mat4 Camera::GetViewMatrix() const {
 }
 
 glm::mat4 Camera::GetProjectionMatrix(const uint32_t width, const uint32_t height) const {
-    return glm::perspective(glm::radians(m_zoom), static_cast<float>(width) / static_cast<float>(height), m_near, m_far);
+    return glm::perspective(m_zoom, static_cast<float>(width) / static_cast<float>(height), m_near, m_far);
 }
 
 glm::mat4 Camera::GetViewProjectionMatrix(const uint32_t width, const uint32_t height) const {
     return GetProjectionMatrix(width, height) * GetViewMatrix();
 }
 
-void Camera::CalculateDirections() {
+void Camera::RecalculateDirections() {
     glm::vec3 front = {
-        cos(glm::radians(m_yaw)) * cos(glm::radians(m_pitch)),
-        sin(glm::radians(m_pitch)),
-        sin(glm::radians(m_yaw)) * cos(glm::radians(m_pitch))
+        cos(m_yaw) * cos(m_pitch),
+        sin(m_pitch),
+        sin(m_yaw) * cos(m_pitch)
     };
 
     m_front = glm::normalize(std::move(front));

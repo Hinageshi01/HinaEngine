@@ -19,8 +19,7 @@ public:
 	void OnUpdate(const float deltaTime);
 	void OnEvent(Event &event);
 
-	void SetCamera(const std::shared_ptr<Camera> &pCamera);
-
+	void SetCamera(const std::shared_ptr<Camera> &pCamera) { m_camera = pCamera; }
 	Camera &GetCamera() { return *m_camera; }
 	const Camera &GetCamera() const { return *m_camera; }
 
@@ -32,7 +31,7 @@ private:
 	std::shared_ptr<Camera> m_camera;
 
 	const float m_moveSensitive = 2.5f;
-	const float m_rotateSensitive = 0.2f;
+	const float m_rotateSensitive = 0.002f;
 	const float m_scrollSensitive = 1.0f;
 };
 
