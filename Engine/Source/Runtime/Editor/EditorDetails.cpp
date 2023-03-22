@@ -18,43 +18,69 @@ void EditorDetails::OnImGuiRender() {
 }
 
 void EditorDetails::DrawComponents() {
-	if(m_selectedEntity.HasComponent<NameComponent>()) {
-		auto &name = m_selectedEntity.GetComponent<NameComponent>().GetName();
-	
-		ImGui::Columns(2);
-		ImGui::SetColumnWidth(0, 75.0f);
-		ImGui::Text("Name :");
-		ImGui::NextColumn();
-	
-		ImGui::Text(name.c_str());
+	static constexpr ImGuiTreeNodeFlags s_treeNodeFlags = 0
+		| ImGuiTreeNodeFlags_DefaultOpen
+		| ImGuiTreeNodeFlags_Framed
+		| ImGuiTreeNodeFlags_SpanAvailWidth
+		| ImGuiTreeNodeFlags_AllowItemOverlap
+		| ImGuiTreeNodeFlags_FramePadding;
 
-		ImGui::Columns(1);
+	if(m_selectedEntity.HasComponent<NameComponent>()) {
+		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{ 0.5f, 0.5f });
+		bool open = ImGui::TreeNodeEx((void *)typeid(NameComponent).hash_code(), s_treeNodeFlags, "Infomation");
+		ImGui::PopStyleVar();
+		if(open) {
+			auto &name = m_selectedEntity.GetComponent<NameComponent>().GetName();
+
+			ImGui::Columns(2);
+			ImGui::SetColumnWidth(0, 75.0f);
+			ImGui::Text("Name :");
+			ImGui::NextColumn();
+			ImGui::Text(name.c_str());
+
+			ImGui::Columns(1);
+			ImGui::TreePop();
+		}
 	}
 
 	if(m_selectedEntity.HasComponent<TransformComponent>()) {
-		ImGui::Separator();
+		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{ 0.5f, 0.5f });
+		bool open = ImGui::TreeNodeEx((void *)typeid(TransformComponent).hash_code(), s_treeNodeFlags, "Transform");
+		ImGui::PopStyleVar();
+		if(open) {
+			auto &component = m_selectedEntity.GetComponent<TransformComponent>();
 
-		auto &component = m_selectedEntity.GetComponent<TransformComponent>();
-		DrawVec3("Translation :", component.GetTranslation(), 0.0f);
+			DrawVec3("Translation :", component.GetTranslation(), 0.0f);
 
-		glm::vec3 rotation = glm::degrees(component.GetRotation());
-		DrawVec3("Rotation :", rotation, 0.0f);
-		component.SetRotation(glm::radians(rotation));
+			glm::vec3 rotation = glm::degrees(component.GetRotation());
+			DrawVec3("Rotation :", rotation, 0.0f);
+			component.SetRotation(glm::radians(rotation));
 
-		DrawVec3("Scale :", component.GetScale(), 1.0f);
+			DrawVec3("Scale :", component.GetScale(), 1.0f);
+
+			ImGui::TreePop();
+		}
 	}
 
 	if(m_selectedEntity.HasComponent<CameraComponent>()) {
-		ImGui::Separator();
+		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{ 0.5f, 0.5f });
+		bool open = ImGui::TreeNodeEx((void *)typeid(CameraComponent).hash_code(), s_treeNodeFlags, "Camera");
+		ImGui::PopStyleVar();
+		if(open) {
+			auto &component = m_selectedEntity.GetComponent<CameraComponent>();
 
-		auto &component = m_selectedEntity.GetComponent<CameraComponent>();
-		DrawVec3("Position :", component.GetPosition());
+			DrawVec3("Position :", component.GetPosition());
 
-		float yaw = glm::degrees(component.GetYaw());
-		float pitch = glm::degrees(component.GetPitch());
-		DrawVec2("Frustum :", yaw, pitch, "Y", "P", 0.0f);
-		component.SetYaw(glm::radians(yaw));
-		component.SetPitch(glm::radians(pitch));
+			float yaw = glm::degrees(component.GetYaw());
+			float pitch = glm::degrees(component.GetPitch());
+			DrawVec2("Look at :", yaw, pitch, "Y", "P");
+			component.SetYaw(glm::radians(yaw));
+			component.SetPitch(glm::radians(pitch));
+
+			DrawVec2("Frustum :", component.GetNear(), component.GetFar(), "N", "F");
+
+			ImGui::TreePop();
+		}
 	}
 }
 
