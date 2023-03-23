@@ -32,12 +32,6 @@ void Application::Init(const Initializer &init) {
 
 	m_editorContext = EditorContext::Creat();
 
-	m_primaryFramebuffer = Framebuffer::Create();
-
-	m_pCamera = std::make_shared<Camera>();
-	auto cameraEntitty = m_scene.CreateEntity("Primary Camera");
-	cameraEntitty.AddComponent<CameraComponent>(m_pCamera);
-
 	PushLayer(new EditorLayer());
 }
 
@@ -55,11 +49,11 @@ void Application::Run() {
 			{
 				HN_PROFILE_SCOPE("Layers Update");
 
-				m_primaryFramebuffer->Bind();
+				RenderCore::GetFramebuffer().Bind();
 				for(Layer *layer : m_layerStack) {
 					layer->OnUpdate(deltaTime);
 				}
-				m_primaryFramebuffer->Unbind();
+				RenderCore::GetFramebuffer().Unbind();
 			}
 
 			m_editorContext->Begin();
@@ -102,15 +96,6 @@ void Application::PushLayer(Layer *layer) {
 void Application::PushOverlay(Layer *layer) {
 	m_layerStack.PushOverlay(layer);
 	layer->OnAttach();
-}
-
-uint32_t Application::GetPrimaryFramebufferColorAttachmentRenderID() const {
-	return m_primaryFramebuffer->GetColorAttachmentRenderID();
-}
-
-void Application::OnPrimaryFramebufferResize(const float width, const float height) {
-	RenderCore::SetViewport(0, 0, static_cast<uint32_t>(width), static_cast<uint32_t>(height));
-	m_primaryFramebuffer->Resize(width, height);
 }
 
 bool Application::OnWindowClose(WindowCloseEvent &event) {

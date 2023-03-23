@@ -11,8 +11,8 @@ glm::mat4 RenderCore::m_modelMatrix;
 glm::mat4 RenderCore::m_viewMatrix;
 glm::mat4 RenderCore::m_projectionMatrix;
 
-uint32_t RenderCore::m_width;
-uint32_t RenderCore::m_height;
+std::shared_ptr<Camera> RenderCore::m_pCamera;
+std::shared_ptr<Framebuffer> RenderCore::m_pFramebuffer;
 
 void RenderCore::SetAPI(const GraphicsAPI api) {
 	RenderCommand::SetAPI(api);
@@ -28,8 +28,12 @@ void RenderCore::Init() {
 	HN_CORE_INFO("Initializing Renderer");
 	RenderCommand::Init();
 
-	m_width = 1600;
-	m_height = 900;
+	m_pCamera = std::make_shared<Camera>();
+	auto cameraEntitty = Application::Get().GetScene().CreateEntity("Primary Camera");
+	cameraEntitty.AddComponent<CameraComponent>(m_pCamera);
+	
+	m_pFramebuffer = Framebuffer::Create();
+
 	m_modelMatrix = glm::identity<glm::mat4>();
 }
 
@@ -57,9 +61,9 @@ void RenderCore::ClearBuffers(const glm::vec4 &color, const float depth) {
 	RenderCommand::Clear();
 }
 
-void RenderCore::OnFrameResize(uint32_t width, uint32_t height) {
-	m_width = width;
-	m_height = height;
+void RenderCore::OnFrameResize(const uint32_t width, const uint32_t height) {
+	m_pFramebuffer->Resize(width, height);
+	SetViewport(0, 0, width, height);
 }
 
 void RenderCore::SetModelMatrix(const glm::mat4 &mat) {
@@ -81,6 +85,18 @@ void RenderCore::SetProjectionMatrix(const glm::mat4 &mat) {
 }
 void RenderCore::SetProjectionMatrix(glm::mat4 &&mat) {
 	m_projectionMatrix = mat;
+}
+
+uint32_t RenderCore::GetFramebufferColorAttachmentRenderID() {
+	return m_pFramebuffer->GetColorAttachmentRenderID();
+}
+
+uint32_t RenderCore::GetWidth() {
+	return m_pFramebuffer->GetWidth();
+}
+
+uint32_t RenderCore::GetHeight() {
+	return m_pFramebuffer->GetHeight();
 }
 
 void RenderCore::Submit(const std::shared_ptr<Shader> &shader, const std::shared_ptr<VertexArray> &vertexArray, const glm::mat4 &transform) {

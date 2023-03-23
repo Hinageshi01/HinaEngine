@@ -85,7 +85,7 @@ public:
 	virtual void OnAttach() override {
 		HN_PROFILE_FUNCTION();
 
-		Hina::Application::Get().SetCameraController(m_cameraController);
+		Hina::RenderCore::SetCameraController(m_cameraController);
 
 		std::shared_ptr<Hina::VertexBuffer> vertexBuffer = Hina::VertexBuffer::Create(sizeof(vertices), vertices);
 		std::shared_ptr<Hina::IndexBuffer> indexBuffer = Hina::IndexBuffer::Create(sizeof(indices) / sizeof(uint32_t), indices);
@@ -118,8 +118,9 @@ public:
 
 		m_cameraController.OnUpdate(deltaTime);
 
-		glm::mat4 view = Hina::Application::Get().GetPrimaryCamera().GetViewMatrix();
-		glm::mat4 projection = Hina::Application::Get().GetPrimaryCamera().GetProjectionMatrix(
+		// tmp
+		glm::mat4 view = Hina::RenderCore::GetCamera().GetViewMatrix();
+		glm::mat4 projection = Hina::RenderCore::GetCamera().GetProjectionMatrix(
 			Hina::RenderCore::GetWidth(), Hina::RenderCore::GetHeight());
 
 		Hina::RenderCore::SetViewMatrix(std::move(view));

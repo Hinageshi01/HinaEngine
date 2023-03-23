@@ -22,6 +22,9 @@ public:
 	virtual void Bind() override;
 	virtual void Unbind() override;
 
+	virtual uint32_t GetWidth() override { return m_width; }
+	virtual uint32_t GetHeight() override { return m_height; }
+
 	virtual void Resize(const uint32_t width, const uint32_t height) override;
 	virtual int ReadPixel(const uint32_t attachmentIndex, const int x, const int y) override;
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Camera/Camera.h"
+#include "RenderCore/Framebuffer.h"
 #include "RenderCore/Shader.h"
 #include "RenderCore/RenderAPI.h"
 
@@ -25,11 +27,11 @@ public:
 	static void BeginScene();
 	static void EndScene();
 	
+	static void OnFrameResize(const uint32_t width, const uint32_t height);
 	static void SetViewport(const uint32_t x, const uint32_t y, const uint32_t width, const uint32_t height);
 
 	// Clear color, depth and stencil buffers.
 	static void ClearBuffers(const glm::vec4 &color, const float depth = 1.0f);
-	static void OnFrameResize(uint32_t width, uint32_t height);
 
 	static void SetModelMatrix(const glm::mat4 &mat);
 	static void SetModelMatrix(glm::mat4 &&mat);
@@ -38,8 +40,23 @@ public:
 	static void SetProjectionMatrix(const glm::mat4 &mat);
 	static void SetProjectionMatrix(glm::mat4 &&mat);
 
-	static const uint32_t GetWidth() { return m_width; }
-	static const uint32_t GetHeight() { return m_height; }
+	// Set primary camera controller.
+	template<class T>
+	static void SetCameraController(T &controller) {
+		controller.SetCamera(m_pCamera);
+	}
+	// Get primary camera.
+	static Camera &GetCamera() { return *m_pCamera; }
+
+	// Get primary framebuffer.
+	static Framebuffer &GetFramebuffer() { return *m_pFramebuffer; }
+	// Id of primary framebuffer.
+	static uint32_t GetFramebufferColorAttachmentRenderID();
+
+	// Width of primary framebuffer.
+	static uint32_t GetWidth();
+	// Height of primary framebuffer.
+	static uint32_t GetHeight();
 
 	static void Submit(
 		const std::shared_ptr<Shader> &shader,
@@ -51,14 +68,12 @@ public:
 		const std::shared_ptr<VertexArray> &vertexArray);
 
 private:
+	static std::shared_ptr<Camera> m_pCamera;
+	static std::shared_ptr<Framebuffer> m_pFramebuffer;
+
 	static glm::mat4 m_modelMatrix;
 	static glm::mat4 m_viewMatrix;
 	static glm::mat4 m_projectionMatrix;
-
-	// Size of rendering ramebuffer.
-	// As we use editor, it's always different whit window sizes.
-	static uint32_t m_width;
-	static uint32_t m_height;
 };
 
 } // namespace Hina
