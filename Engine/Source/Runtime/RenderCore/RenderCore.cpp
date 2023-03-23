@@ -14,6 +14,14 @@ glm::mat4 RenderCore::m_projectionMatrix;
 uint32_t RenderCore::m_width;
 uint32_t RenderCore::m_height;
 
+void RenderCore::SetAPI(const GraphicsAPI api) {
+	RenderCommand::SetAPI(api);
+}
+
+GraphicsAPI RenderCore::GetAPI() {
+	return RenderCommand::GetAPI();
+}
+
 void RenderCore::Init() {
 	HN_PROFILE_FUNCTION();
 
@@ -35,6 +43,10 @@ void RenderCore::BeginScene() {
 
 void RenderCore::EndScene() {
 
+}
+
+void RenderCore::SetViewport(const uint32_t x, const uint32_t y, const uint32_t width, const uint32_t height) {
+	RenderCommand::SetViewport(x, y, width, height);
 }
 
 void RenderCore::ClearBuffers(const glm::vec4 &color, const float depth) {

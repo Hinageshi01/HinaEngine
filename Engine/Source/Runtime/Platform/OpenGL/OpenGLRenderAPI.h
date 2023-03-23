@@ -8,7 +8,7 @@ namespace Hina
 class OpenGLRenderAPI final : public RenderAPI
 {
 public:
-	OpenGLRenderAPI() = default;
+	OpenGLRenderAPI();
 	OpenGLRenderAPI(const OpenGLRenderAPI &) = default;
 	OpenGLRenderAPI &operator=(const OpenGLRenderAPI &) = default;
 	OpenGLRenderAPI(OpenGLRenderAPI &&) = default;

@@ -23,7 +23,7 @@ Application::~Application() {
 void Application::Init(const Initializer &init) {
 	m_isRunning = true;
 
-	Hina::RenderCore::SetAPI(init.m_api);
+	RenderCore::SetAPI(init.m_api);
 
 	m_window = Window::Create(init.m_window);
 	m_window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
@@ -109,6 +109,7 @@ uint32_t Application::GetPrimaryFramebufferColorAttachmentRenderID() const {
 }
 
 void Application::OnPrimaryFramebufferResize(const float width, const float height) {
+	RenderCore::SetViewport(0, 0, static_cast<uint32_t>(width), static_cast<uint32_t>(height));
 	m_primaryFramebuffer->Resize(width, height);
 }
 

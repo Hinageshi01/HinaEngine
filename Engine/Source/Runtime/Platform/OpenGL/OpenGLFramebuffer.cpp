@@ -139,7 +139,6 @@ void OpenGLFramebuffer::Invalidate() {
 	}
 
 	if(m_colorAttachmentsRenderID.size() > 1) {
-		// tmp
 		assert(m_colorAttachmentsRenderID.size() <= 4);
 		GLenum buffers[4] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
 		glDrawBuffers(m_colorAttachmentsRenderID.size(), buffers);
@@ -183,7 +182,6 @@ int OpenGLFramebuffer::ReadPixel(const uint32_t attachmentIndex, const int x, co
 	int pixelData;
 	glReadPixels(x, y, 1, 1, GL_RED_INTEGER, GL_INT, &pixelData);
 	return pixelData;
-
 }
 
 void OpenGLFramebuffer::ClearAttachment(const uint32_t attachmentIndex, const int value) {

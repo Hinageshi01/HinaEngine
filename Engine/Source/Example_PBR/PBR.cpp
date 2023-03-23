@@ -113,7 +113,7 @@ public:
 
 	}
 
-	virtual void OnUpdate(const Hina::DeltaTime &deltaTime) override {
+	virtual void OnUpdate(const Hina::DeltaTime deltaTime) override {
 		HN_PROFILE_FUNCTION();
 
 		m_cameraController.OnUpdate(deltaTime);

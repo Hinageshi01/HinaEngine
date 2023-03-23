@@ -6,6 +6,9 @@
 namespace Hina
 {
 
+namespace Utils
+{
+
 void OpenGLMessageCallback(
 	unsigned source,
 	unsigned type,
@@ -24,11 +27,18 @@ void OpenGLMessageCallback(
 	HN_CORE_ERROR("Unknown severity level!");
 }
 
+}
+
+OpenGLRenderAPI::OpenGLRenderAPI() {
+	Init();
+}
+
 void OpenGLRenderAPI::Init() {
+
 #ifndef NDEBUG
 	glEnable(GL_DEBUG_OUTPUT);
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-	glDebugMessageCallback(OpenGLMessageCallback, nullptr);
+	glDebugMessageCallback(Utils::OpenGLMessageCallback, nullptr);
 	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, NULL, GL_FALSE);
 #endif
 
@@ -80,6 +90,8 @@ void OpenGLRenderAPI::DrawIndexed(const std::shared_ptr<VertexArray> &vertexArra
 }
 
 void OpenGLRenderAPI::DrawLines(const std::shared_ptr<VertexArray> &vertexArray, const uint32_t vertexCount) {
+	HN_PROFILE_FUNCTION();
+
 	vertexArray->Bind();
 	glDrawArrays(GL_LINES, 0, vertexCount);
 }

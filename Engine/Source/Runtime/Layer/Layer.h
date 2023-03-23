@@ -23,7 +23,7 @@ public:
 	virtual void OnDetach() {}
 
 	virtual void Begin() {}
-	virtual void OnUpdate(const DeltaTime &deltaTime) {}
+	virtual void OnUpdate(const DeltaTime deltaTime) {}
 	virtual void End() {}
 
 	virtual void OnImGuiRender() {}

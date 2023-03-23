@@ -6,7 +6,7 @@
 namespace Hina
 {
 
-class RenderCore
+class RenderCore final
 {
 public:
 	RenderCore() = delete;
@@ -16,12 +16,17 @@ public:
 	RenderCore &operator=(RenderCore &&) = delete;
 	~RenderCore() = default;
 
+	static void SetAPI(const GraphicsAPI api);
+	static GraphicsAPI GetAPI();
+
 	static void Init();
 	static void Shutdown();
 
 	static void BeginScene();
 	static void EndScene();
 	
+	static void SetViewport(const uint32_t x, const uint32_t y, const uint32_t width, const uint32_t height);
+
 	// Clear color, depth and stencil buffers.
 	static void ClearBuffers(const glm::vec4 &color, const float depth = 1.0f);
 	static void OnFrameResize(uint32_t width, uint32_t height);
@@ -45,16 +50,12 @@ public:
 		const std::shared_ptr<Shader> &shader,
 		const std::shared_ptr<VertexArray> &vertexArray);
 
-	// Maby we need to render one frame with multiple GraphicsAPI in the future?
-	static void SetAPI(GraphicsAPI api) { RenderAPI::SetAPI(api); }
-	static GraphicsAPI GetAPI() { return RenderAPI::GetAPI(); }
-
 private:
 	static glm::mat4 m_modelMatrix;
 	static glm::mat4 m_viewMatrix;
 	static glm::mat4 m_projectionMatrix;
 
-	// Size of render ramebuffer.
+	// Size of rendering ramebuffer.
 	// As we use editor, it's always different whit window sizes.
 	static uint32_t m_width;
 	static uint32_t m_height;
