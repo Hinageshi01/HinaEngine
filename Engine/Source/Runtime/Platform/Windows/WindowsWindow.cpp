@@ -41,12 +41,10 @@ void WindowsWindow::Init(const WindowInitializer &init) {
 		glfwSetErrorCallback(GLFWErrorCallback);
 	}
 
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, init.m_major);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, init.m_minor);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	if(init.m_samples != 0) {
-		glfwWindowHint(GLFW_SAMPLES, init.m_samples);
-	}
+	glfwWindowHint(GLFW_SAMPLES, 4);
 
 	{
 		HN_PROFILE_SCOPE("GLFWwindow* glfwCreateWindow(int width, int height, const char *title, GLFWmonitor * monitor, GLFWwindow * share)");

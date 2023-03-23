@@ -69,18 +69,18 @@ static constexpr uint32_t indices[] = {
 	 33, 34, 35,
 };
 
-class ExampleLayer final : public Hina::Layer
+class PBRLayer final : public Hina::Layer
 {
 public:
-	explicit ExampleLayer(const std::string &str) : Layer(str) {}
-	explicit ExampleLayer(std::string &&str) : Layer(str) {}
+	explicit PBRLayer(const std::string &str) : Layer(str) {}
+	explicit PBRLayer(std::string &&str) : Layer(str) {}
 	
-	ExampleLayer() = delete;
-	ExampleLayer(const ExampleLayer &) = default;
-	ExampleLayer &operator=(const ExampleLayer &) = default;
-	ExampleLayer(ExampleLayer &&) = default;
-	ExampleLayer &operator=(ExampleLayer &&) = default;
-	~ExampleLayer() = default;
+	PBRLayer() = delete;
+	PBRLayer(const PBRLayer &) = default;
+	PBRLayer &operator=(const PBRLayer &) = default;
+	PBRLayer(PBRLayer &&) = default;
+	PBRLayer &operator=(PBRLayer &&) = default;
+	~PBRLayer() = default;
 
 	virtual void OnAttach() override {
 		HN_PROFILE_FUNCTION();
@@ -153,13 +153,21 @@ private:
 	Hina::FirstPersonCamera m_cameraController;
 };
 
-class PBR : public Hina::Application
+class PBR final : public Hina::Application
 {
 public:
     PBR() {
 		HN_PROFILE_FUNCTION();
 
-		PushLayer(new ExampleLayer("Example"));
+		Hina::Initializer init;
+		init.m_api = Hina::GraphicsAPI::OpenGL;
+		init.m_window.m_title = "Physically Based Rendering";
+		init.m_window.m_width = 1600;
+		init.m_window.m_height = 900;
+
+		Application::Init(init);
+
+		PushLayer(new PBRLayer("Example"));
     }
 };
 

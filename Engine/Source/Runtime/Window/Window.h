@@ -10,10 +10,6 @@ struct WindowInitializer
 	std::string m_title = "Hina Engine";
 	uint32_t m_width = 1600;
 	uint32_t m_height = 900;
-
-	uint32_t m_major = 4;
-	uint32_t m_minor = 6;
-	uint32_t m_samples = 4;
 };
 
 class Window

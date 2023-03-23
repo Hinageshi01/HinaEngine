@@ -13,15 +13,19 @@ Application *Application::m_instance = nullptr;
 Application::Application() {
 	HN_PROFILE_FUNCTION();
 
-	assert(!m_instance && "Application instance already exist!");
+	assert(nullptr == m_instance && "Application instance already exist!");
 	m_instance = this;
+}
 
+Application::~Application() {
+
+}
+void Application::Init(const Initializer &init) {
 	m_isRunning = true;
 
-	// TODO : Move to app.
-	RenderCore::SetAPI(GraphicsAPI::OpenGL);
+	Hina::RenderCore::SetAPI(init.m_api);
 
-	m_window = Window::Create();
+	m_window = Window::Create(init.m_window);
 	m_window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
 
 	RenderCore::Init();
@@ -35,20 +39,6 @@ Application::Application() {
 	cameraEntitty.AddComponent<CameraComponent>(m_pCamera);
 
 	PushLayer(new EditorLayer());
-}
-
-Application::~Application() {
-
-}
-
-void Application::PushLayer(Layer *layer) {
-	m_layerStack.PushLayer(layer);
-	layer->OnAttach();
-}
-
-void Application::PushOverlay(Layer *layer) {
-	m_layerStack.PushOverlay(layer);
-	layer->OnAttach();
 }
 
 void Application::Run() {
@@ -104,6 +94,24 @@ void Application::OnEvent(Event &event) {
 	}
 }
 
+void Application::PushLayer(Layer *layer) {
+	m_layerStack.PushLayer(layer);
+	layer->OnAttach();
+}
+
+void Application::PushOverlay(Layer *layer) {
+	m_layerStack.PushOverlay(layer);
+	layer->OnAttach();
+}
+
+uint32_t Application::GetPrimaryFramebufferColorAttachmentRenderID() const {
+	return m_primaryFramebuffer->GetColorAttachmentRenderID();
+}
+
+void Application::OnPrimaryFramebufferResize(const float width, const float height) {
+	m_primaryFramebuffer->Resize(width, height);
+}
+
 bool Application::OnWindowClose(WindowCloseEvent &event) {
 	HN_CORE_TRACE(event);
 
@@ -119,14 +127,6 @@ bool Application::OnWindowResize(WindowResizeEvent &event) {
 	}
 
 	return false;
-}
-
-uint32_t Application::GetPrimaryFramebufferColorAttachmentRenderID() const {
-	return m_primaryFramebuffer->GetColorAttachmentRenderID();
-}
-
-void Application::OnPrimaryFramebufferResize(const float width, const float height) {
-	m_primaryFramebuffer->Resize(width, height);
 }
 
 } // namespace Hina

@@ -1,15 +1,16 @@
 #pragma once
 
-#include "Window/Window.h"
-
 #include "Event/ApplicationEvent.h"
 #include "Event/KeyEvent.h"
 #include "Event/MouseEvent.h"
 
 #include "Camera/Camera.h"
+#include "Core/Initializer.h"
 #include "Editor/EditorContext.h"
 #include "Layer/LayerStack.h"
 #include "RenderCore/Framebuffer.h"
+#include "Window/Window.h"
+
 #include "Scene/Entity.h"
 #include "Scene/Scene.h"
 
@@ -31,6 +32,7 @@ public:
 	Application(Application &&) = delete;
 	Application &operator=(Application &&) = delete;
 
+	void Init(const Initializer &init);
 	void Run();
 	void OnEvent(Event &event);
 	void PushLayer(Layer *layer);

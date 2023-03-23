@@ -4,6 +4,8 @@
 
 // Core
 #include "Application/Application.h"
+#include "Camera/FirstPersonCamera.h"
+#include "Core/Initializer.h"
 #include "Event/Event.h"
 #include "Layer/Layer.h"
 #include "Window/Window.h"
@@ -11,7 +13,6 @@
 // Rendering
 #include "RenderCore/RenderCore.h"
 #include "RenderCore/Shader.h"
-#include "RenderCore/ShaderLibrary.h"
 #include "RenderCore/Texture2D.h"
 #include "RenderCore/VertexArray.h"
 
@@ -20,7 +21,6 @@
 
 // Utils
 #include "Core/DeltaTime.h"
-#include "Camera/FirstPersonCamera.h"
 #include "Core/Instrumentor.h"
 #include "Core/Timer.h"
 #include "Path/Path.h"

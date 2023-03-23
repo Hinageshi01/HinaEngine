@@ -34,8 +34,8 @@ public:
 			// Subsequent profiling output meant for the original session will end up in the
 			// newly opened session instead.  That's better than having badly formatted
 			// profiling output.
-			if(Log::GetCoreLogger()) // Edge case: BeginSession() might be before Log::Init()
-			{
+			if(Log::GetCoreLogger()) {
+				// Edge case: BeginSession() might be before Log::Init()
 				HN_CORE_ERROR("Instrumentor::BeginSession('{0}') when session '{1}' already open.", name, m_currentSession->m_name);
 			}
 			InternalEndSession();
@@ -47,8 +47,8 @@ public:
 			WriteHeader();
 		}
 		else {
-			if(Log::GetCoreLogger()) // Edge case: BeginSession() might be before Log::Init()
-			{
+			if(Log::GetCoreLogger()) {
+				// Edge case: BeginSession() might be before Log::Init()
 				HN_CORE_ERROR("Instrumentor could not open results file '{0}'.", filepath);
 			}
 		}
@@ -86,8 +86,7 @@ public:
 	}
 
 private:
-	Instrumentor()
-		: m_currentSession(nullptr) {}
+	Instrumentor() : m_currentSession(nullptr) {}
 
 	~Instrumentor() {
 		EndSession();
@@ -129,8 +128,9 @@ public:
 	}
 
 	~InstrumentationTimer() {
-		if(!m_stopped)
+		if(!m_stopped) {
 			Stop();
+		}
 	}
 
 	void Stop() {
@@ -167,10 +167,12 @@ constexpr auto CleanupOutputString(const char(&expr)[N], const char(&remove)[K])
 	size_t dstIndex = 0;
 	while(srcIndex < N) {
 		size_t matchIndex = 0;
-		while(matchIndex < K - 1 && srcIndex + matchIndex < N - 1 && expr[srcIndex + matchIndex] == remove[matchIndex])
+		while(matchIndex < K - 1 && srcIndex + matchIndex < N - 1 && expr[srcIndex + matchIndex] == remove[matchIndex]) {
 			matchIndex++;
-		if(matchIndex == K - 1)
+		}
+		if(matchIndex == K - 1) {
 			srcIndex += matchIndex;
+		}
 		result.m_data[dstIndex++] = expr[srcIndex] == '"' ? '\'' : expr[srcIndex];
 		srcIndex++;
 	}
