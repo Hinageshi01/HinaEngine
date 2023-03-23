@@ -69,22 +69,25 @@ void RenderCore::OnFrameResize(const uint32_t width, const uint32_t height) {
 void RenderCore::SetModelMatrix(const glm::mat4 &mat) {
 	m_modelMatrix = mat;
 }
-void RenderCore::SetModelMatrix(glm::mat4 &&mat) {
-	m_modelMatrix = mat;
-}
 
 void RenderCore::SetViewMatrix(const glm::mat4 &mat) {
-	m_viewMatrix = mat;
-}
-void RenderCore::SetViewMatrix(glm::mat4 &&mat) {
 	m_viewMatrix = mat;
 }
 
 void RenderCore::SetProjectionMatrix(const glm::mat4 &mat) {
 	m_projectionMatrix = mat;
 }
-void RenderCore::SetProjectionMatrix(glm::mat4 &&mat) {
-	m_projectionMatrix = mat;
+
+void RenderCore::SetModelMatrix() {
+	m_modelMatrix = glm::identity<glm::mat4>();
+}
+
+void RenderCore::SetViewMatrix() {
+	m_viewMatrix = m_pCamera->GetViewMatrix();
+}
+
+void RenderCore::SetProjectionMatrix() {
+	m_projectionMatrix = m_pCamera->GetProjectionMatrix(m_pFramebuffer->GetWidth(), m_pFramebuffer->GetHeight());
 }
 
 uint32_t RenderCore::GetFramebufferColorAttachmentRenderID() {

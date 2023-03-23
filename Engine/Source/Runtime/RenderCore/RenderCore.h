@@ -34,11 +34,12 @@ public:
 	static void ClearBuffers(const glm::vec4 &color, const float depth = 1.0f);
 
 	static void SetModelMatrix(const glm::mat4 &mat);
-	static void SetModelMatrix(glm::mat4 &&mat);
 	static void SetViewMatrix(const glm::mat4 &mat);
-	static void SetViewMatrix(glm::mat4 &&mat);
 	static void SetProjectionMatrix(const glm::mat4 &mat);
-	static void SetProjectionMatrix(glm::mat4 &&mat);
+
+	static void SetModelMatrix();
+	static void SetViewMatrix();
+	static void SetProjectionMatrix();
 
 	// Set primary camera controller.
 	template<class T>
