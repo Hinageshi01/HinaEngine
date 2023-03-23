@@ -87,19 +87,19 @@ public:
 
 		Hina::Application::Get().SetCameraController(m_cameraController);
 
-		m_pVertexArray = Hina::VertexArray::Create();
-		std::shared_ptr<Hina::VertexBuffer> m_vertexBuffer = Hina::VertexBuffer::Create(sizeof(vertices), vertices);
-		std::shared_ptr<Hina::IndexBuffer> m_indexBuffer = Hina::IndexBuffer::Create(sizeof(indices) / sizeof(uint32_t), indices);
+		std::shared_ptr<Hina::VertexBuffer> vertexBuffer = Hina::VertexBuffer::Create(sizeof(vertices), vertices);
+		std::shared_ptr<Hina::IndexBuffer> indexBuffer = Hina::IndexBuffer::Create(sizeof(indices) / sizeof(uint32_t), indices);
 
 		Hina::BufferLayout bufferLayout = {
 			{ Hina::ShaderDataType::Float3, "a_position" },
 			{ Hina::ShaderDataType::Float3, "a_normal" },
 			{ Hina::ShaderDataType::Float2, "a_textureCoord" },
 		};
-		m_vertexBuffer->SetLayout(std::move(bufferLayout));
-
-		m_pVertexArray->AddVertexBuffer(m_vertexBuffer);
-		m_pVertexArray->SetIndexBuffer(m_indexBuffer);
+		vertexBuffer->SetLayout(std::move(bufferLayout));
+		
+		m_pVertexArray = Hina::VertexArray::Create();
+		m_pVertexArray->AddVertexBuffer(vertexBuffer);
+		m_pVertexArray->SetIndexBuffer(indexBuffer);
 
 		m_pShader = Hina::Shader::Create(
 			"testShader",
@@ -113,14 +113,13 @@ public:
 
 	}
 
-	virtual void OnUpdate(const Hina::DeltaTime deltaTime) override {
+	virtual void OnUpdate(const Hina::DeltaTime &deltaTime) override {
 		HN_PROFILE_FUNCTION();
 
 		m_cameraController.OnUpdate(deltaTime);
 
-		Hina::Window &window = Hina::Application::Get().GetWindow();
-		glm::mat4 view = m_cameraController.GetCamera().GetViewMatrix();
-		glm::mat4 projection = m_cameraController.GetCamera().GetProjectionMatrix(
+		glm::mat4 view = Hina::Application::Get().GetPrimaryCamera().GetViewMatrix();
+		glm::mat4 projection = Hina::Application::Get().GetPrimaryCamera().GetProjectionMatrix(
 			Hina::RenderCore::GetWidth(), Hina::RenderCore::GetHeight());
 
 		Hina::RenderCore::SetViewMatrix(std::move(view));

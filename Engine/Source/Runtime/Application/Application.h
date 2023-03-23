@@ -47,13 +47,16 @@ public:
 	Framebuffer &GetPrimaryFramebuffer() { return *m_primaryFramebuffer; }
 	const Framebuffer &GetPrimaryFramebuffer() const { return *m_primaryFramebuffer; }
 	
-	uint32_t GetPrimaryFramebufferColorAttachmentRenderID() const;
-	void OnPrimaryFramebufferResize(const float width, const float height);
-
 	template<class T>
 	void SetCameraController(T &controller) {
 		controller.SetCamera(m_pCamera);
 	}
+
+	Camera &GetPrimaryCamera() { return *m_pCamera; }
+	const Camera &GetPrimaryCamera() const { return *m_pCamera; }
+
+	uint32_t GetPrimaryFramebufferColorAttachmentRenderID() const;
+	void OnPrimaryFramebufferResize(const float width, const float height);
 
 private:
 	static Application *m_instance;
