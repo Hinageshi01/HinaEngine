@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Camera/Camera.h"
+#include "Camera/CameraController.h"
 #include "Event/MouseEvent.h"
 
 namespace Hina
 {
 
-class FirstPersonCamera final
+class FirstPersonCamera : CameraController
 {
 public:
 	FirstPersonCamera() = default;
@@ -19,7 +19,7 @@ public:
 	void OnUpdate(const float deltaTime);
 	void OnEvent(Event &event);
 
-	void SetCamera(const std::shared_ptr<Camera> &pCamera) { m_camera = pCamera; }
+	virtual void SetCamera(const std::shared_ptr<Camera> &pCamera) override { m_camera = pCamera; }
 	Camera &GetCamera() { return *m_camera; }
 	const Camera &GetCamera() const { return *m_camera; }
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Camera/Camera.h"
+#include "Camera/CameraController.h"
 #include "RenderCore/Framebuffer.h"
 #include "RenderCore/Shader.h"
 #include "RenderCore/RenderAPI.h"
@@ -30,24 +31,28 @@ public:
 	static void OnFrameResize(const uint32_t width, const uint32_t height);
 	static void SetViewport(const uint32_t x, const uint32_t y, const uint32_t width, const uint32_t height);
 
-	// Clear color, depth and stencil buffers.
-	static void ClearBuffers(const glm::vec4 &color, const float depth = 1.0f);
+	static void SetClears(const glm::vec4 &color = { 0.0f, 0.0f , 0.0f , 1.0f }, const float depth = 1.0f);
+	static void ClearBuffers();
 
 	static void SetModelMatrix(const glm::mat4 &mat);
 	static void SetViewMatrix(const glm::mat4 &mat);
 	static void SetProjectionMatrix(const glm::mat4 &mat);
-
-	static void SetModelMatrix();
-	static void SetViewMatrix();
-	static void SetProjectionMatrix();
+	static void SetDefaultMatrices();
 
 	// Set primary camera controller.
 	template<class T>
 	static void SetCameraController(T &controller) {
-		controller.SetCamera(m_pCamera);
+		if constexpr(std::is_base_of_v<CameraController, T>) {
+			controller.SetCamera(m_pCamera);
+		}
+		else {
+			HN_CORE_ERROR("Unknow camera controller!");
+		}
 	}
 	// Get primary camera.
 	static Camera &GetCamera() { return *m_pCamera; }
+	// Get primary camera shared pointer.
+	static const std::shared_ptr<Camera> &GetCameraPtr() { return m_pCamera; }
 
 	// Get primary framebuffer.
 	static Framebuffer &GetFramebuffer() { return *m_pFramebuffer; }

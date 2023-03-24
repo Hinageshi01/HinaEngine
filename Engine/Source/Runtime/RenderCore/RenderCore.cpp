@@ -29,9 +29,7 @@ void RenderCore::Init() {
 	RenderCommand::Init();
 
 	m_pCamera = std::make_shared<Camera>();
-	auto cameraEntitty = Application::Get().GetScene().CreateEntity("Primary Camera");
-	cameraEntitty.AddComponent<CameraComponent>(m_pCamera);
-	
+
 	m_pFramebuffer = Framebuffer::Create();
 
 	m_modelMatrix = glm::identity<glm::mat4>();
@@ -42,22 +40,26 @@ void RenderCore::Shutdown() {
 }
 
 void RenderCore::BeginScene() {
-
+	m_pFramebuffer->Bind();
+	ClearBuffers();
 }
 
 void RenderCore::EndScene() {
-
+	m_pFramebuffer->Unbind();
 }
 
 void RenderCore::SetViewport(const uint32_t x, const uint32_t y, const uint32_t width, const uint32_t height) {
 	RenderCommand::SetViewport(x, y, width, height);
 }
 
-void RenderCore::ClearBuffers(const glm::vec4 &color, const float depth) {
+void RenderCore::SetClears(const glm::vec4 &color, const float depth) {
 	HN_PROFILE_FUNCTION();
 
 	RenderCommand::SetClearColor(color);
 	RenderCommand::SetClearDepth(depth);
+}
+
+void RenderCore::ClearBuffers() {
 	RenderCommand::Clear();
 }
 
@@ -78,15 +80,9 @@ void RenderCore::SetProjectionMatrix(const glm::mat4 &mat) {
 	m_projectionMatrix = mat;
 }
 
-void RenderCore::SetModelMatrix() {
+void RenderCore::SetDefaultMatrices() {
 	m_modelMatrix = glm::identity<glm::mat4>();
-}
-
-void RenderCore::SetViewMatrix() {
 	m_viewMatrix = m_pCamera->GetViewMatrix();
-}
-
-void RenderCore::SetProjectionMatrix() {
 	m_projectionMatrix = m_pCamera->GetProjectionMatrix(m_pFramebuffer->GetWidth(), m_pFramebuffer->GetHeight());
 }
 

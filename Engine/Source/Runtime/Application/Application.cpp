@@ -30,6 +30,9 @@ void Application::Init(const Initializer &init) {
 
 	RenderCore::Init();
 
+	auto cameraEntitty = m_scene.CreateEntity("Primary Camera");
+	cameraEntitty.AddComponent<CameraComponent>(RenderCore::GetCameraPtr());
+
 	m_editorContext = EditorContext::Creat();
 
 	PushLayer(new EditorLayer());
@@ -49,16 +52,15 @@ void Application::Run() {
 			{
 				HN_PROFILE_SCOPE("Layers Update");
 
-				RenderCore::GetFramebuffer().Bind();
 				for(Layer *layer : m_layerStack) {
 					layer->OnUpdate(deltaTime);
 				}
-				RenderCore::GetFramebuffer().Unbind();
 			}
 
 			m_editorContext->Begin();
 			{
 				HN_PROFILE_SCOPE("ImGuiLayers Render");
+
 				for(Layer *layer : m_layerStack) {
 					layer->OnImGuiRender();
 				}
