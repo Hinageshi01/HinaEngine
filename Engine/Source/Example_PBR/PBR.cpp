@@ -118,13 +118,13 @@ public:
 
 		m_cameraController.OnUpdate(deltaTime);
 
+		Hina::RenderCore::SetClears(glm::vec4(0.7f, 0.8f, 0.8f, 1.0f), 1.0f);
+		Hina::RenderCore::SetDefaultMatrices();
+
 		// tmp
 		m_pShader->Bind();
 		m_pTexture->Bind(0);
 		m_pShader->SetInt("us_albedo", 0);
-
-		Hina::RenderCore::SetClears(glm::vec4(0.7f, 0.8f, 0.8f, 1.0f), 1.0f);
-		Hina::RenderCore::SetDefaultMatrices();
 
 		Hina::RenderCore::BeginScene();
 		Hina::RenderCore::Submit(m_pShader, m_pVertexArray);

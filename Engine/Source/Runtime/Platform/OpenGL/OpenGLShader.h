@@ -14,8 +14,7 @@ public:
 	OpenGLShader(
 		const std::string &name,
 		const std::string &vertexShaderPath,
-		const std::string &fragmentShaderPath,
-		const std::string &geometryShaderPath = "");
+		const std::string &fragmentShaderPath);
 	
 	OpenGLShader() = delete;
 	OpenGLShader(const OpenGLShader &) = default;
@@ -43,7 +42,7 @@ public:
 private:
 	std::string ReadFile(const std::string &filepath);
 
-	void CreateProgram(const std::string &vertexCode, const std::string &fragmentCode, const std::string &geometryCode = "");
+	void CreateProgram(const std::string &vertexCode, const std::string &fragmentCode);
 
 	// Also add new pair if name not exist.
 	const GLint GetUniformLocation(const std::string &name);

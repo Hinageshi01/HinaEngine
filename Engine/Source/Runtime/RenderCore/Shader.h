@@ -12,8 +12,7 @@ public:
 	static std::shared_ptr<Shader> Create(
 		const std::string &name,
 		const std::string &vertexShaderPath,
-		const std::string &fragmentShaderPath,
-		const std::string &geometryShaderPath = "");
+		const std::string &fragmentShaderPath);
 
 public:
 	Shader() = default;

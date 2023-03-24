@@ -9,122 +9,25 @@ namespace Hina
 
 namespace
 {
+
 constexpr uint32_t LOG_SIZE = 1024;
+
 }
 
 OpenGLShader::OpenGLShader(
 	const std::string &name,
 	const std::string &vertexShaderPath,
-	const std::string &fragmentShaderPath,
-	const std::string &geometryShaderPath)
+	const std::string &fragmentShaderPath)
 	: m_name(name) {
 	HN_PROFILE_FUNCTION();
 
-	std::string vertexCode = std::move(ReadFile(vertexShaderPath));
-	std::string fragmentCode = std::move(ReadFile(fragmentShaderPath));
-	std::string geometryCode = std::move(ReadFile(geometryShaderPath));
-	CreateProgram(vertexCode, fragmentCode, geometryCode);
+	std::string vertexCode = ReadFile(vertexShaderPath);
+	std::string fragmentCode = ReadFile(fragmentShaderPath);
+	CreateProgram(vertexCode, fragmentCode);
 }
 
 OpenGLShader::~OpenGLShader() {
 	glDeleteProgram(m_renderID);
-}
-
-std::string OpenGLShader::ReadFile(const std::string &filepath) {
-	if(filepath.empty()) {
-		return "";
-	}
-
-	std::string result;
-	// ifstream closes itself due to RAII
-	std::ifstream in(filepath, std::ios::in | std::ios::binary);
-	if(in) {
-		in.seekg(0, std::ios::end);
-		size_t size = in.tellg();
-		if(size != -1) {
-			result.resize(size);
-			in.seekg(0, std::ios::beg);
-			in.read(result.data(), size);
-		}
-		else {
-			HN_CORE_ERROR("Could not read from file '{0}'", filepath);
-		}
-	}
-	else {
-		HN_CORE_ERROR("Could not open file '{0}'", filepath);
-	}
-
-	return result;
-}
-
-void OpenGLShader::CreateProgram(const std::string &vertexCode, const std::string &fragmentCode, const std::string &geometryCode) {
-	HN_PROFILE_FUNCTION();
-	
-	HN_CORE_INFO("Compiling GLSL shaders");
-
-	const bool useGeometryShader = geometryCode.empty() ? false : true;
-
-	const char *vShaderCode = vertexCode.c_str();
-	const char *fShaderCode = fragmentCode.c_str();
-	uint32_t vertexID, fragmentID, geometryID;
-
-	// Vertex shader.
-	vertexID = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexID, 1, &vShaderCode, NULL);
-
-	{
-		HN_PROFILE_SCOPE("void glCompileShader(GLuint shader)");
-		glCompileShader(vertexID);
-	}
-
-	CheckShaderErrors(vertexID, "VERTEX");
-
-	// Fragment shader.
-	fragmentID = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentID, 1, &fShaderCode, NULL);
-	
-	{
-		HN_PROFILE_SCOPE("void glCompileShader(GLuint shader)");
-		glCompileShader(fragmentID);
-	}
-
-	CheckShaderErrors(fragmentID, "FRAGMENT");
-
-	// Geometry shader.
-	if(useGeometryShader) {
-		const char *gShaderCode = geometryCode.c_str();
-		geometryID = glCreateShader(GL_GEOMETRY_SHADER);
-		glShaderSource(geometryID, 1, &gShaderCode, NULL);
-
-		{
-			HN_PROFILE_SCOPE("void glCompileShader(GLuint shader)");
-			glCompileShader(geometryID);
-		}
-
-		CheckShaderErrors(geometryID, "GEOMETRY");
-	}
-
-	// Shader program.
-	m_renderID = glCreateProgram();
-	glAttachShader(m_renderID, vertexID);
-	glAttachShader(m_renderID, fragmentID);
-	if(useGeometryShader) {
-		glAttachShader(m_renderID, geometryID);
-	}
-	
-	{
-		HN_PROFILE_SCOPE("void glLinkProgram(GLuint program)");
-		glLinkProgram(m_renderID);
-	}
-
-	CheckProgramErrors(m_renderID, "PROGRAM");
-
-	// Delete the shaders as they're linked into our program now and no longer necessary.
-	glDeleteShader(vertexID);
-	glDeleteShader(fragmentID);
-	if(useGeometryShader) {
-		glDeleteShader(geometryID);
-	}
 }
 
 void OpenGLShader::Bind() const {
@@ -167,7 +70,7 @@ void OpenGLShader::SetVec3(const std::string &name, const glm::vec3 &value) {
 
 void OpenGLShader::SetVec4(const std::string &name, const glm::vec4 &value) {
 	HN_PROFILE_FUNCTION();
-	
+
 	glUniform4f(GetUniformLocation(name), value.x, value.y, value.z, value.w);
 }
 
@@ -181,6 +84,76 @@ void OpenGLShader::SetMat4(const std::string &name, const glm::mat4 &value) {
 	HN_PROFILE_FUNCTION();
 
 	glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(value));
+}
+
+std::string OpenGLShader::ReadFile(const std::string &filepath) {
+	std::string result;
+	std::ifstream in(filepath, std::ios::in | std::ios::binary);
+	if(in) {
+		in.seekg(0, std::ios::end);
+		size_t size = in.tellg();
+		if(size != -1) {
+			result.resize(size);
+			in.seekg(0, std::ios::beg);
+			in.read(result.data(), size);
+			in.close();
+		}
+		else {
+			HN_CORE_ERROR("Could not read from file '{0}'", filepath);
+		}
+	}
+	else {
+		HN_CORE_ERROR("Could not open file '{0}'", filepath);
+	}
+
+	return result;
+}
+
+void OpenGLShader::CreateProgram(const std::string &vertexCode, const std::string &fragmentCode) {
+	HN_PROFILE_FUNCTION();
+	
+	HN_CORE_INFO("Compiling GLSL shaders");
+
+	const char *vShaderCode = vertexCode.c_str();
+	const char *fShaderCode = fragmentCode.c_str();
+	uint32_t vertexID, fragmentID, geometryID;
+
+	// Vertex shader.
+	vertexID = glCreateShader(GL_VERTEX_SHADER);
+	glShaderSource(vertexID, 1, &vShaderCode, NULL);
+
+	{
+		HN_PROFILE_SCOPE("void glCompileShader(GLuint shader)");
+		glCompileShader(vertexID);
+	}
+
+	CheckShaderErrors(vertexID, "VERTEX");
+
+	// Fragment shader.
+	fragmentID = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(fragmentID, 1, &fShaderCode, NULL);
+	
+	{
+		HN_PROFILE_SCOPE("void glCompileShader(GLuint shader)");
+		glCompileShader(fragmentID);
+	}
+
+	CheckShaderErrors(fragmentID, "FRAGMENT");
+
+	// Shader program.
+	m_renderID = glCreateProgram();
+	glAttachShader(m_renderID, vertexID);
+	glAttachShader(m_renderID, fragmentID);
+	
+	{
+		HN_PROFILE_SCOPE("void glLinkProgram(GLuint program)");
+		glLinkProgram(m_renderID);
+	}
+
+	CheckProgramErrors(m_renderID, "PROGRAM");
+
+	glDeleteShader(vertexID);
+	glDeleteShader(fragmentID);
 }
 
 const GLint OpenGLShader::GetUniformLocation(const std::string &name) {

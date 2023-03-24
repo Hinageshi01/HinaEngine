@@ -10,8 +10,7 @@ namespace Hina
 std::shared_ptr<Shader> Shader::Create(
 	const std::string &name,
 	const std::string &vertexShaderPath,
-	const std::string &fragmentShaderPath,
-	const std::string &geometryShaderPath)
+	const std::string &fragmentShaderPath)
 {
 	switch(RenderAPI::GetAPI()) {
 		case GraphicsAPI::None:
@@ -19,7 +18,7 @@ std::shared_ptr<Shader> Shader::Create(
 			return nullptr;
 
 		case GraphicsAPI::OpenGL:
-			return std::make_shared<OpenGLShader>(name, vertexShaderPath, fragmentShaderPath, geometryShaderPath);
+			return std::make_shared<OpenGLShader>(name, vertexShaderPath, fragmentShaderPath);
 	}
 
 	HN_CORE_ERROR("Unknown Graphics API!");

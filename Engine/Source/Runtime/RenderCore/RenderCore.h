@@ -31,6 +31,7 @@ public:
 	static void OnFrameResize(const uint32_t width, const uint32_t height);
 	static void SetViewport(const uint32_t x, const uint32_t y, const uint32_t width, const uint32_t height);
 
+	// TODO : stencil
 	static void SetClears(const glm::vec4 &color = { 0.0f, 0.0f , 0.0f , 1.0f }, const float depth = 1.0f);
 	static void ClearBuffers();
 

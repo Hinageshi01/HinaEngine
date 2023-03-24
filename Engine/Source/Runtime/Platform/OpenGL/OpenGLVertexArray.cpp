@@ -6,24 +6,24 @@
 namespace Hina
 {
 
-static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type) {
-	switch(type) {
-		case ShaderDataType::Float:  return GL_FLOAT;
-		case ShaderDataType::Float2: return GL_FLOAT;
-		case ShaderDataType::Float3: return GL_FLOAT;
-		case ShaderDataType::Float4: return GL_FLOAT;
-		case ShaderDataType::Mat3:   return GL_FLOAT;
-		case ShaderDataType::Mat4:   return GL_FLOAT;
-		case ShaderDataType::Int:    return GL_INT;
-		case ShaderDataType::Int2:   return GL_INT;
-		case ShaderDataType::Int3:   return GL_INT;
-		case ShaderDataType::Int4:   return GL_INT;
-		case ShaderDataType::Bool:   return GL_BOOL;
-	}
+namespace Utils
+{
 
-	HN_CORE_ERROR("Unknown ShaderDataType!");
-	return 0;
-}
+const std::unordered_map<ShaderDataType, GLenum> shaderDataTypeToOpenGLBaseType = {
+	{ ShaderDataType::Float,  GL_FLOAT },
+	{ ShaderDataType::Float2, GL_FLOAT },
+	{ ShaderDataType::Float3, GL_FLOAT },
+	{ ShaderDataType::Float4, GL_FLOAT },
+	{ ShaderDataType::Mat3,   GL_FLOAT },
+	{ ShaderDataType::Mat4,   GL_FLOAT },
+	{ ShaderDataType::Int,    GL_INT },
+	{ ShaderDataType::Int2,   GL_INT },
+	{ ShaderDataType::Int3,   GL_INT },
+	{ ShaderDataType::Int4,   GL_INT },
+	{ ShaderDataType::Bool,   GL_BOOL },
+};
+
+} // namespace Utils
 
 OpenGLVertexArray::OpenGLVertexArray() {
 	glCreateVertexArrays(1, &m_renderID);
@@ -42,7 +42,12 @@ void OpenGLVertexArray::Unbind() const {
 }
 
 void OpenGLVertexArray::AddVertexBuffer(const std::shared_ptr<VertexBuffer> &vertexBuffer) {
-	HN_CORE_ASSERT(!vertexBuffer->GetLayout().GetElements().empty(), "Vertex Buffer has no layout!");
+	HN_PROFILE_FUNCTION();
+
+	if(vertexBuffer->GetLayout().GetElements().empty()) {
+		HN_CORE_ERROR("Vertex Buffer has no layout!");
+		return;
+	}
 
 	glBindVertexArray(m_renderID);
 	vertexBuffer->Bind();
@@ -59,7 +64,7 @@ void OpenGLVertexArray::AddVertexBuffer(const std::shared_ptr<VertexBuffer> &ver
 				glVertexAttribPointer(
 					m_vertexBufferIndex,
 					element.GetComponentCount(),
-					ShaderDataTypeToOpenGLBaseType(element.m_type),
+					Utils::shaderDataTypeToOpenGLBaseType.at(element.m_type),
 					element.m_normalized ? GL_TRUE : GL_FALSE,
 					layout.GetStride(),
 					(const void *)element.m_offset);
@@ -76,7 +81,7 @@ void OpenGLVertexArray::AddVertexBuffer(const std::shared_ptr<VertexBuffer> &ver
 				glVertexAttribIPointer(
 					m_vertexBufferIndex,
 					element.GetComponentCount(),
-					ShaderDataTypeToOpenGLBaseType(element.m_type),
+					Utils::shaderDataTypeToOpenGLBaseType.at(element.m_type),
 					layout.GetStride(),
 					(const void *)element.m_offset);
 				++m_vertexBufferIndex;
@@ -91,7 +96,7 @@ void OpenGLVertexArray::AddVertexBuffer(const std::shared_ptr<VertexBuffer> &ver
 					glVertexAttribPointer(
 						m_vertexBufferIndex,
 						count,
-						ShaderDataTypeToOpenGLBaseType(element.m_type),
+						Utils::shaderDataTypeToOpenGLBaseType.at(element.m_type),
 						element.m_normalized ? GL_TRUE : GL_FALSE,
 						layout.GetStride(),
 						(const void *)(element.m_offset + sizeof(float) * count * i));
