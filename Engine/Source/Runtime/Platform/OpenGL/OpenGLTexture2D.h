@@ -26,15 +26,12 @@ public:
 
 	virtual void Bind(const uint32_t slot) const override;
 
-	virtual bool IsLoaded() const override { return m_isLoaded; }
-
 	virtual inline bool operator==(const Texture &other) const override {
 		return m_renderID == other.GetRenderID();
 	}
 
 private:
 	std::string m_path;
-	bool m_isLoaded = false;
 	uint32_t m_width, m_height;
 	uint32_t m_renderID;
 	GLenum m_internalFormat, m_dataFormat;

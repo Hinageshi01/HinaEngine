@@ -15,8 +15,6 @@ public:
 
 	virtual void Bind(const uint32_t slot) const = 0;
 
-	virtual bool IsLoaded() const = 0;
-
 	virtual inline bool operator==(const Texture &other) const = 0;
 };
 

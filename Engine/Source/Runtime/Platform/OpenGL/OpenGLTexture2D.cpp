@@ -1,6 +1,7 @@
 #include "hnpch.h"
 #include "Platform/OpenGL/OpenGLTexture2D.h"
 
+#define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
 namespace Hina
@@ -9,8 +10,9 @@ namespace Hina
 OpenGLTexture2D::OpenGLTexture2D(const std::string &path) : m_path(path) {
 	HN_PROFILE_FUNCTION();
 
-	int width, height, channels;
 	stbi_set_flip_vertically_on_load(1);
+
+	int width, height, channels;
 	stbi_uc *data = nullptr;
 
 	{
@@ -18,42 +20,46 @@ OpenGLTexture2D::OpenGLTexture2D(const std::string &path) : m_path(path) {
 		data = stbi_load(path.c_str(), &width, &height, &channels, 0);
 	}
 
-	HN_CORE_ASSERT(data, "Faild to load texture at {}.", m_path);
+	if(data) {
+		m_width = width;
+		m_height = height;
 
-	m_width = width;
-	m_height = height;
-	m_isLoaded = true;
+		GLenum internalFormat = 0, dataFormat = 0;
+		if(channels == 4) {
+			internalFormat = GL_RGBA8;
+			dataFormat = GL_RGBA;
+		}
+		else if(channels == 3) {
+			internalFormat = GL_RGB8;
+			dataFormat = GL_RGB;
+		}
+		m_internalFormat = internalFormat;
+		m_dataFormat = dataFormat;
 
-	GLenum internalFormat = 0, dataFormat = 0;
-	if(channels == 4) {
-		internalFormat = GL_RGBA8;
-		dataFormat = GL_RGBA;
+		HN_CORE_ASSERT(m_internalFormat & m_dataFormat, "Format not supported!");
+
+		glCreateTextures(GL_TEXTURE_2D, 1, &m_renderID);
+
+		glTextureStorage2D(m_renderID, 1, m_internalFormat, m_width, m_height);
+
+		glTextureParameteri(m_renderID, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTextureParameteri(m_renderID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		glTextureParameteri(m_renderID, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTextureParameteri(m_renderID, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+		{
+			HN_PROFILE_SCOPE("void glTextureSubImage2D(GLuint texture, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const void *pixels)");
+			glTextureSubImage2D(m_renderID, 0, 0, 0, m_width, m_height, m_dataFormat, GL_UNSIGNED_BYTE, data);
+		}
+
+		glGenerateTextureMipmap(m_renderID);
+
+		stbi_image_free(data);
 	}
-	else if(channels == 3) {
-		internalFormat = GL_RGB8;
-		dataFormat = GL_RGB;
+	else {
+		HN_CORE_ERROR("Faild to load texture at {}.", m_path);
 	}
-	m_internalFormat = internalFormat;
-	m_dataFormat = dataFormat;
-
-	HN_CORE_ASSERT(m_internalFormat & m_dataFormat, "Format not supported!");
-
-	glCreateTextures(GL_TEXTURE_2D, 1, &m_renderID);
-
-	glTextureStorage2D(m_renderID, 1, m_internalFormat, m_width, m_height);
-
-	glTextureParameteri(m_renderID, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTextureParameteri(m_renderID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	glTextureParameteri(m_renderID, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTextureParameteri(m_renderID, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	{
-		HN_PROFILE_SCOPE("void glTextureSubImage2D(GLuint texture, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const void *pixels)");
-		glTextureSubImage2D(m_renderID, 0, 0, 0, m_width, m_height, m_dataFormat, GL_UNSIGNED_BYTE, data);
-	}
-	
-	stbi_image_free(data);
 }
 
 OpenGLTexture2D::~OpenGLTexture2D() {
