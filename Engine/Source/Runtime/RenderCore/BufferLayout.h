@@ -11,7 +11,7 @@ enum class ShaderDataType : uint8_t
 class BufferElement final
 {
 public:
-	BufferElement(ShaderDataType type, const std::string &name, bool normalized = false);
+	BufferElement(const ShaderDataType type, const std::string &name, const bool normalized = false);
 
 	BufferElement() = delete;
 	BufferElement(const BufferElement &) = default;

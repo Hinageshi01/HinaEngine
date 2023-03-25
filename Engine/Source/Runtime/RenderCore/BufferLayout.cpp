@@ -4,7 +4,7 @@
 namespace Hina
 {
 
-BufferElement::BufferElement(ShaderDataType type, const std::string &name, bool normalized)
+BufferElement::BufferElement(const ShaderDataType type, const std::string &name, const bool normalized)
 	: m_name(name), m_type(type), m_size(ShaderDataTypeSize(type)), m_offset(0), m_normalized(normalized) {}
 
 const uint32_t BufferElement::ShaderDataTypeSize(const ShaderDataType type) const {
