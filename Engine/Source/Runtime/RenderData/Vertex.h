@@ -18,12 +18,18 @@ constexpr uint8_t MAX_BONE = 4;
 class Vertex final
 {
 public:
+    static BufferLayout GetLayOut();
+
+public:
     Vertex() = default;
     Vertex(const Vertex &) = default;
     Vertex &operator=(const Vertex &) = default;
     Vertex(Vertex &&) = default;
     Vertex &operator=(Vertex &&) = default;
     ~Vertex() = default;
+
+    // Return the pointer of the start position of Vertex in memory.
+    const float *Data() const { return &m_position.x; }
 
     void SetPosition(const glm::vec3 &postion) { m_position = postion; }
     glm::vec3 &GetPosition() { return m_position; }
@@ -48,8 +54,6 @@ public:
     void SetWeight(const size_t index, const float bone) { m_weights[index] = bone; }
     float &GetWeight(const size_t index) { return m_weights[index]; }
     const float &GetWeight(const size_t index) const { return m_weights[index]; }
-
-    BufferLayout GetLayOut() const;
 
 private:
     glm::vec3 m_position;

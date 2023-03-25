@@ -8,8 +8,7 @@ namespace Hina
 class OpenGLIndexBuffer final : public IndexBuffer
 {
 public:
-	// Pparameter count is the count of uint32_t.
-	OpenGLIndexBuffer(const uint32_t count, const uint32_t *indices);
+	OpenGLIndexBuffer(const uint32_t size, const uint32_t *indices);
 
 	OpenGLIndexBuffer() = delete;
 	OpenGLIndexBuffer(const OpenGLIndexBuffer &) = default;

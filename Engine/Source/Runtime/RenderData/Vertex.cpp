@@ -4,7 +4,7 @@
 namespace Hina
 {
 
-BufferLayout Vertex::GetLayOut() const {
+BufferLayout Vertex::GetLayOut() {
 	return {
 		{ ShaderDataType::Float3, "a_position" },
 		{ ShaderDataType::Float3, "a_normal" },

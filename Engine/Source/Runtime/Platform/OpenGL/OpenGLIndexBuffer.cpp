@@ -6,10 +6,10 @@
 namespace Hina
 {
 
-OpenGLIndexBuffer::OpenGLIndexBuffer(const uint32_t count, const uint32_t *indices) : m_count(count){
+OpenGLIndexBuffer::OpenGLIndexBuffer(const uint32_t size, const uint32_t *indices) : m_count(size / sizeof(uint32_t)){
 	glGenBuffers(1, &m_renderID);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_renderID);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), indices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, indices, GL_STATIC_DRAW);
 }
 
 OpenGLIndexBuffer::~OpenGLIndexBuffer() {

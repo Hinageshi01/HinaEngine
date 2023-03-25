@@ -6,7 +6,7 @@ namespace Hina
 class IndexBuffer
 {
 public:
-	static std::shared_ptr<IndexBuffer> Create(const uint32_t count, const uint32_t *indices);
+	static std::shared_ptr<IndexBuffer> Create(const uint32_t size, const uint32_t *indices);
 
 public:
 	virtual ~IndexBuffer() = default;

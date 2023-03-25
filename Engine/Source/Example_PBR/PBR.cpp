@@ -90,7 +90,7 @@ public:
 		// tmp
 		{
 			std::shared_ptr<Hina::VertexBuffer> vertexBuffer = Hina::VertexBuffer::Create(sizeof(vertices), vertices);
-			std::shared_ptr<Hina::IndexBuffer> indexBuffer = Hina::IndexBuffer::Create(sizeof(indices) / sizeof(uint32_t), indices);
+			std::shared_ptr<Hina::IndexBuffer> indexBuffer = Hina::IndexBuffer::Create(sizeof(indices), indices);
 
 			Hina::BufferLayout bufferLayout = {
 				{ Hina::ShaderDataType::Float3, "a_position" },
