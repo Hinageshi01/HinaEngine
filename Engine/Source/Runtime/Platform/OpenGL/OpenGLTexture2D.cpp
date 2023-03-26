@@ -1,7 +1,6 @@
 #include "hnpch.h"
 #include "Platform/OpenGL/OpenGLTexture2D.h"
 
-#define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
 namespace Hina

@@ -8,7 +8,7 @@ namespace Hina
 class VertexBuffer
 {
 public:
-	static std::shared_ptr<VertexBuffer> Create(const uint32_t size, const float *vertices);
+	static std::shared_ptr<VertexBuffer> Create(const size_t size, const float *vertices);
 
 public:
 	virtual ~VertexBuffer() = default;

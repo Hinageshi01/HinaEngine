@@ -8,7 +8,7 @@ namespace Hina
 class OpenGLVertexBuffer final : public VertexBuffer
 {
 public:
-	OpenGLVertexBuffer(const uint32_t size, const float *vertices);
+	OpenGLVertexBuffer(const size_t size, const float *vertices);
 
 	OpenGLVertexBuffer() = delete;
 	OpenGLVertexBuffer(const OpenGLVertexBuffer &) = default;

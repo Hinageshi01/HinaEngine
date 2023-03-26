@@ -14,7 +14,7 @@ constexpr uint16_t MAX_FRAMEBUFFER_SIZE = 8192;
 namespace Utils
 {
 
-static inline void AttachColorTexture(uint32_t id, GLenum internalFormat, GLenum format, uint32_t width, uint32_t height, int index) {
+static inline void AttachColorTexture(uint32_t id, GLenum internalFormat, GLenum format, uint32_t width, uint32_t height, size_t index) {
 	HN_PROFILE_FUNCTION();
 
 	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, GL_UNSIGNED_BYTE, nullptr);
@@ -25,7 +25,7 @@ static inline void AttachColorTexture(uint32_t id, GLenum internalFormat, GLenum
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, GL_TEXTURE_2D, id, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, static_cast<GLenum>(GL_COLOR_ATTACHMENT0 + index), GL_TEXTURE_2D, id, 0);
 }
 
 static inline void AttachDepthTexture(uint32_t id, GLenum format, GLenum attachmentType, uint32_t width, uint32_t height) {
@@ -102,7 +102,9 @@ void OpenGLFramebuffer::Invalidate() {
 	// Color Attachments.
 	if(!m_colorAttachmentFormats.empty()) {
 		m_colorAttachmentsRenderID.resize(m_colorAttachmentFormats.size());
-		glCreateTextures(GL_TEXTURE_2D, m_colorAttachmentsRenderID.size(), m_colorAttachmentsRenderID.data());
+		glCreateTextures(GL_TEXTURE_2D,
+						 static_cast<GLsizei>(m_colorAttachmentsRenderID.size()),
+						 static_cast<GLuint *>(m_colorAttachmentsRenderID.data()));
 
 		for(size_t i = 0; i < m_colorAttachmentsRenderID.size(); ++i) {
 			glBindTexture(GL_TEXTURE_2D, m_colorAttachmentsRenderID[i]);
@@ -141,15 +143,14 @@ void OpenGLFramebuffer::Invalidate() {
 	if(m_colorAttachmentsRenderID.size() > 1) {
 		assert(m_colorAttachmentsRenderID.size() <= 4);
 		GLenum buffers[4] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
-		glDrawBuffers(m_colorAttachmentsRenderID.size(), buffers);
+		glDrawBuffers(static_cast<GLsizei>(m_colorAttachmentsRenderID.size()), buffers);
 	}
 	else if(m_colorAttachmentsRenderID.empty()) {
 		// Only depth-pass
 		glDrawBuffer(GL_NONE);
 	}
 
-	assert(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE,
-		"Framebuffer not complete!");
+	assert(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE && "Framebuffer not complete!");
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
@@ -176,8 +177,6 @@ void OpenGLFramebuffer::Resize(const uint32_t width, const uint32_t height) {
 }
 
 int OpenGLFramebuffer::ReadPixel(const uint32_t attachmentIndex, const int x, const int y) {
-	assert(attachmentIndex < m_colorAttachmentsRenderID.size());
-
 	glReadBuffer(GL_COLOR_ATTACHMENT0 + attachmentIndex);
 	int pixelData;
 	glReadPixels(x, y, 1, 1, GL_RED_INTEGER, GL_INT, &pixelData);
@@ -185,8 +184,6 @@ int OpenGLFramebuffer::ReadPixel(const uint32_t attachmentIndex, const int x, co
 }
 
 void OpenGLFramebuffer::ClearAttachment(const uint32_t attachmentIndex, const int value) {
-	assert(attachmentIndex < m_colorAttachmentsRenderID.size());
-
 	auto &format = m_colorAttachmentFormats[attachmentIndex];
 	glClearTexImage(m_colorAttachmentsRenderID[attachmentIndex], 0,
 		Utils::GetOpenGLTextureFormat(format), GL_INT, &value);
@@ -194,7 +191,8 @@ void OpenGLFramebuffer::ClearAttachment(const uint32_t attachmentIndex, const in
 
 void OpenGLFramebuffer::Delete() {
 	glDeleteFramebuffers(1, &m_rendererID);
-	glDeleteTextures(m_colorAttachmentsRenderID.size(), m_colorAttachmentsRenderID.data());
+	glDeleteTextures(static_cast<GLsizei>(m_colorAttachmentsRenderID.size()),
+					 static_cast<GLuint *>(m_colorAttachmentsRenderID.data()));
 	glDeleteTextures(1, &m_depthAttachmentRenderID);
 }
 

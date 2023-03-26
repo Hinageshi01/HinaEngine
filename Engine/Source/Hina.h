@@ -14,7 +14,7 @@
 #include "RenderCore/RenderCore.h"
 #include "RenderCore/Shader.h"
 #include "RenderCore/Texture2D.h"
-#include "RenderCore/VertexArray.h"
+#include "RenderData/Model.h"
 
 // Editor
 #include "Layer/EditorLayer.h"

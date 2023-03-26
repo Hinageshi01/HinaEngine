@@ -116,7 +116,7 @@ void OpenGLShader::CreateProgram(const std::string &vertexCode, const std::strin
 
 	const char *vShaderCode = vertexCode.c_str();
 	const char *fShaderCode = fragmentCode.c_str();
-	uint32_t vertexID, fragmentID, geometryID;
+	uint32_t vertexID, fragmentID;
 
 	// Vertex shader.
 	vertexID = glCreateShader(GL_VERTEX_SHADER);

@@ -24,6 +24,7 @@ std::shared_ptr<Shader> ShaderLibrary::Get(const std::string &name) {
 	}
 	else {
 		HN_CORE_ERROR("Shader {0} not found!", name);
+		return nullptr;
 	}
 }
 

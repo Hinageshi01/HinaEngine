@@ -7,7 +7,7 @@
 namespace Hina
 {
 
-std::shared_ptr<IndexBuffer> IndexBuffer::Create(const uint32_t size, const Index *indices) {
+std::shared_ptr<IndexBuffer> IndexBuffer::Create(const size_t size, const Index *indices) {
 	switch(RenderAPI::GetAPI()) {
 		case GraphicsAPI::None:
 			HN_CORE_ERROR("GraphicsAPI::None is currently not supported!");

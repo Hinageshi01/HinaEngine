@@ -24,7 +24,7 @@ public:
 
 	virtual uint32_t GetWidth() const override { return m_data.m_width; }
 	virtual uint32_t GetHeight() const override { return m_data.m_height; }
-	virtual float GetTime() const override { return glfwGetTime(); }
+	virtual float GetTime() const override { return static_cast<float>(glfwGetTime()); }
 
 	// Window attributes.
 	virtual void SetEventCallback(const EventCallbackFn &callback) override;

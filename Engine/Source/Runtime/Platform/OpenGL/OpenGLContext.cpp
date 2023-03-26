@@ -26,7 +26,7 @@ void OpenGLContext::Init() {
 	{
 		HN_PROFILE_SCOPE("int gladLoadGLLoader(GLADloadproc load)");
 		uint8_t gladSuccess = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		assert(gladSuccess, "Failed to initialize Glad!");
+		assert(gladSuccess && "Failed to initialize Glad!");
 	}
 
 	glEnable(GL_MULTISAMPLE);

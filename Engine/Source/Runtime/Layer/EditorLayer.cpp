@@ -101,14 +101,15 @@ void EditorLayer::ShowScene() {
 
 	m_blockEvents = !ImGui::IsWindowFocused();
 
-	ImGui::Image((void *)RenderCore::GetFramebufferColorAttachmentRenderID(),
+	ImGui::Image((void *)(uint64_t)RenderCore::GetFramebufferColorAttachmentRenderID(),
 		ImGui::GetWindowSize(), ImVec2(0, 1), ImVec2(1, 0));
 
 	glm::vec2 crtSceneSize = { ImGui::GetWindowSize().x, ImGui::GetWindowSize().y };
 	if(m_primaryFramebufferSize != crtSceneSize) {
 		m_primaryFramebufferSize = std::move(crtSceneSize);
 
-		RenderCore::OnFrameResize(m_primaryFramebufferSize.x, m_primaryFramebufferSize.y);
+		RenderCore::OnFrameResize(static_cast<uint32_t>(m_primaryFramebufferSize.x),
+								  static_cast<uint32_t>(m_primaryFramebufferSize.y));
 	}
 
 	ImGui::End();

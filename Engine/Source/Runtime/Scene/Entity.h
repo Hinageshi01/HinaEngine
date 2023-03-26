@@ -29,7 +29,7 @@ public:
 
 	template<typename T, typename... Args>
 	T &AddComponent(Args&&... args) {
-		assert(!HasComponent<T>(), "Entity already has component!");
+		assert(!HasComponent<T>() && "Entity already has component!");
 		T &component = m_scene->GetRegistry().emplace<T>(m_entityHandle, std::forward<Args>(args)...);
 		return component;
 	}
@@ -42,13 +42,13 @@ public:
 
 	template<typename T>
 	T &GetComponent() const {
-		assert(HasComponent<T>(), "Entity does not have component!");
+		assert(HasComponent<T>() && "Entity does not have component!");
 		return m_scene->GetRegistry().get<T>(m_entityHandle);
 	}
 
 	template<typename T>
 	void RemoveComponent() {
-		assert(HasComponent<T>(), "Entity does not have component!");
+		assert(HasComponent<T>() && "Entity does not have component!");
 		m_scene->GetRegistry().remove<T>(m_entityHandle);
 	}
 

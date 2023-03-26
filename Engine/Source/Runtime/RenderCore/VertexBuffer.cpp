@@ -7,7 +7,7 @@
 namespace Hina
 {
 
-std::shared_ptr<VertexBuffer> VertexBuffer::Create(const uint32_t size, const float *vertices) {
+std::shared_ptr<VertexBuffer> VertexBuffer::Create(const size_t size, const float *vertices) {
 	switch(RenderAPI::GetAPI()) {
 		case GraphicsAPI::None:
 			HN_CORE_ERROR("GraphicsAPI::None is currently not supported!");

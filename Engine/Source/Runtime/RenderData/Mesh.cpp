@@ -7,11 +7,15 @@ namespace Hina
 {
 
 void Mesh::Draw(const std::shared_ptr<Shader> &pShader) const {
+	HN_PROFILE_FUNCTION();
+
 	RenderCore::Submit(pShader, m_pVertexArray);
 }
 
 void Mesh::CreateVertexArray() {
-	assert(!m_vertices.empty() && !m_indices.empty(), "Empty buffers!");
+	HN_PROFILE_FUNCTION();
+
+	assert(!m_vertices.empty() && !m_indices.empty() && "Empty buffers!");
 
 	std::shared_ptr<VertexBuffer> vertexBuffer = VertexBuffer::Create(m_vertices.size() * sizeof(Vertex), GetVerticesData());
 	std::shared_ptr<IndexBuffer> indexBuffer = IndexBuffer::Create(m_indices.size() * sizeof(Index), m_indices.data());
@@ -23,7 +27,7 @@ void Mesh::CreateVertexArray() {
 }
 
 const float *Mesh::GetVerticesData() const {
-	assert(!m_vertices.empty(), "Empty vertex buffer!");
+	assert(!m_vertices.empty() && "Empty vertex buffer!");
 	return m_vertices.data()->Data();
 }
 

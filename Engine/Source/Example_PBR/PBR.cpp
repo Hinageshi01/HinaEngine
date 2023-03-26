@@ -1,8 +1,6 @@
 #include "hnpch.h"
 #include "Hina.h"
 
-#include <GLFW/glfw3.h>
-
 static constexpr float vertices[] = {
 //   pos,              normal,          uv
 	-1.0,  1.0, -1.0,  0.0,  1.0,  0.0, 0.0, 1.0,
@@ -109,6 +107,8 @@ public:
 				Hina::Path::FromAsset("Shader/f_testShader.glsl"));
 
 			m_pTexture = Hina::Texture2D::Create(Hina::Path::FromAsset("Texture/japanese_stone_wall_diff.png"));
+
+			// m_model = Hina::Model(Hina::Path::FromAsset("Model/officebot/scene.gltf"));
 		}
 	}
 
@@ -151,6 +151,7 @@ private:
 	std::shared_ptr<Hina::Shader> m_pShader;
 	std::shared_ptr<Hina::Texture2D> m_pTexture;
 
+	Hina::Model m_model;
 	Hina::FirstPersonCamera m_cameraController;
 };
 
