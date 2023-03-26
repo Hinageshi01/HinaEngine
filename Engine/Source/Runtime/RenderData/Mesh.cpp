@@ -11,8 +11,10 @@ void Mesh::Draw(const std::shared_ptr<Shader> &pShader) const {
 }
 
 void Mesh::CreateVertexArray() {
+	assert(!m_vertices.empty() && !m_indices.empty(), "Empty buffers!");
+
 	std::shared_ptr<VertexBuffer> vertexBuffer = VertexBuffer::Create(m_vertices.size() * sizeof(Vertex), GetVerticesData());
-	std::shared_ptr<IndexBuffer> indexBuffer = IndexBuffer::Create(m_indices.size() * sizeof(uint32_t), m_indices.data());
+	std::shared_ptr<IndexBuffer> indexBuffer = IndexBuffer::Create(m_indices.size() * sizeof(Index), m_indices.data());
 	vertexBuffer->SetLayout(Vertex::GetLayOut());
 
 	m_pVertexArray = VertexArray::Create();
@@ -21,6 +23,7 @@ void Mesh::CreateVertexArray() {
 }
 
 const float *Mesh::GetVerticesData() const {
+	assert(!m_vertices.empty(), "Empty vertex buffer!");
 	return m_vertices.data()->Data();
 }
 

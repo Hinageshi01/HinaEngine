@@ -27,15 +27,15 @@ public:
 	const Vertex &GetVertex(const size_t index) const { return m_vertices.at(index); }
 	size_t GetVerticesCount() const { return m_vertices.size(); }
 
-	void SetIndices(std::vector<uint32_t> &&indices) { m_indices = indices; }
-	void SetIndices(const std::vector<uint32_t> &indices) { m_indices = indices; }
-	void SetIndex(const size_t _index, const uint32_t &index) { m_indices[_index] = index; }
-	void AddIndex(const uint32_t &index) { m_indices.push_back(index); }
-	void AddIndex(uint32_t &&index) { m_indices.emplace_back(index); }
-	std::vector<uint32_t> &GetIndices() { return m_indices; }
-	const std::vector<uint32_t> &GetIndices() const { return m_indices; }
-	uint32_t &GetIndex(const size_t index) { return m_indices[index]; }
-	const uint32_t &GetIndex(const size_t index) const { return m_indices.at(index); }
+	void SetIndices(std::vector<Index> &&indices) { m_indices = indices; }
+	void SetIndices(const std::vector<Index> &indices) { m_indices = indices; }
+	void SetIndex(const size_t _index, const Index &index) { m_indices[_index] = index; }
+	void AddIndex(const Index &index) { m_indices.push_back(index); }
+	void AddIndex(Index &&index) { m_indices.emplace_back(index); }
+	std::vector<Index> &GetIndices() { return m_indices; }
+	const std::vector<Index> &GetIndices() const { return m_indices; }
+	Index &GetIndex(const size_t index) { return m_indices[index]; }
+	const Index &GetIndex(const size_t index) const { return m_indices.at(index); }
 	size_t GetIndicesCount() const { return m_indices.size(); }
 
 private:
@@ -44,7 +44,7 @@ private:
 	std::shared_ptr<VertexArray> m_pVertexArray;
 
 	std::vector<Vertex> m_vertices;
-	std::vector<uint32_t> m_indices;
+	std::vector<Index> m_indices;
 	// material
 };
 

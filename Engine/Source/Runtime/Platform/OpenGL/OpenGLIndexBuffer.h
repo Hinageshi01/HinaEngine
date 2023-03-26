@@ -8,7 +8,7 @@ namespace Hina
 class OpenGLIndexBuffer final : public IndexBuffer
 {
 public:
-	OpenGLIndexBuffer(const uint32_t size, const uint32_t *indices);
+	OpenGLIndexBuffer(const uint32_t size, const Index *indices);
 
 	OpenGLIndexBuffer() = delete;
 	OpenGLIndexBuffer(const OpenGLIndexBuffer &) = default;

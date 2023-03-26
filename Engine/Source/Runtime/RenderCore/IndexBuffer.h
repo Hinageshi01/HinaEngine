@@ -3,10 +3,12 @@
 namespace Hina
 {
 
+using Index = uint32_t;
+
 class IndexBuffer
 {
 public:
-	static std::shared_ptr<IndexBuffer> Create(const uint32_t size, const uint32_t *indices);
+	static std::shared_ptr<IndexBuffer> Create(const uint32_t size, const Index *indices);
 
 public:
 	virtual ~IndexBuffer() = default;
