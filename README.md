@@ -11,6 +11,7 @@
 - [imgui docking branch](https://github.com/ocornut/imgui/tree/ad44f5831acec714f2af437475406e2f002982a1)
 - [glfw 3.3.8](https://github.com/glfw/glfw)
 - [glad 1](https://github.com/Dav1dde/glad/tree/master)
+- [glm 0.9.9.8](https://github.com/g-truc/glm)
 
 ## Others
 - [Font-Awesome 6.4.0](https://github.com/FortAwesome/Font-Awesome/tree/6.x)
