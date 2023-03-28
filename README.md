@@ -9,6 +9,6 @@
 - [Assimp 5.2.5](https://github.com/assimp/assimp)
 
 ## Others
-- [Font-Awesome](https://github.com/FortAwesome/Font-Awesome/tree/6.x)
+- [Font-Awesome 6.4.0](https://github.com/FortAwesome/Font-Awesome/tree/6.x)
 - chrome://tracing/
 - edge://tracing/
