@@ -12,6 +12,7 @@
 - [glfw 3.3.8](https://github.com/glfw/glfw)
 - [glad 1](https://github.com/Dav1dde/glad/tree/master)
 - [glm 0.9.9.8](https://github.com/g-truc/glm)
+- [stb](https://github.com/nothings/stb/tree/master)
 
 ## Others
 - [Font-Awesome 6.4.0](https://github.com/FortAwesome/Font-Awesome/tree/6.x)
