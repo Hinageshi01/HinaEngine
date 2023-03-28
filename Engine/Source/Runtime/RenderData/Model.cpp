@@ -16,9 +16,11 @@ Model::Model(std::string &&path) : m_path(path) {
     ImportScene(m_path);
 }
 
-void Model::Draw(const std::shared_ptr<Shader> &pShader) const {
+void Model::Draw(const std::shared_ptr<Shader> &pShader, const glm::mat4 &trans) const {
+    HN_PROFILE_FUNCTION();
+
     for(const auto &mesh : m_meshs) {
-        mesh.Draw(pShader);
+        mesh.Draw(pShader, trans);
     }
 }
 

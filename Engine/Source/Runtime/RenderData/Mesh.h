@@ -17,7 +17,7 @@ public:
 	Mesh &operator=(Mesh &&) = default;
 	~Mesh() = default;
 
-	void Draw(const std::shared_ptr<Shader> &pShader) const;
+	void Draw(const std::shared_ptr<Shader> &pShader, const glm::mat4 &trans) const;
 
 	void CreateVertexArray();
 	VertexArray &GetVertexArray() { return *m_pVertexArray; }

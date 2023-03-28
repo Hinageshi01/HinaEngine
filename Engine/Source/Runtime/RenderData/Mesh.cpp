@@ -6,10 +6,10 @@
 namespace Hina
 {
 
-void Mesh::Draw(const std::shared_ptr<Shader> &pShader) const {
+void Mesh::Draw(const std::shared_ptr<Shader> &pShader, const glm::mat4 &trans) const {
 	HN_PROFILE_FUNCTION();
 
-	RenderCore::Submit(pShader, m_pVertexArray);
+	RenderCore::Submit(pShader, m_pVertexArray, trans);
 }
 
 void Mesh::CreateVertexArray() {

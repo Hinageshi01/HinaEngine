@@ -24,7 +24,7 @@ public:
 	Model &operator=(Model &&) = default;
 	~Model() = default;
 
-	void Draw(const std::shared_ptr<Shader> &pShader) const;
+	void Draw(const std::shared_ptr<Shader> &pShader, const glm::mat4 &trans = glm::identity<glm::mat4>()) const;
 
 	const std::string &GetPath() { return m_path; }
 
