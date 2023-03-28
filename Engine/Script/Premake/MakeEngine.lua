@@ -90,9 +90,11 @@ project("Hina")
 			path.join(ThirdPartyPath, "glfw/build/src/Debug"),
 			path.join(ThirdPartyPath, "imgui/build/Debug"),
 			path.join(ThirdPartyPath, "assimp/build/lib/Debug"),
+			-- Assimp depends on it.
+			path.join(ThirdPartyPath, "assimp/build/contrib/zlib/Debug"),
 		}
 		links {
-			"gladd", "glfw3", "imguid", "assimp-vc143-mtd"
+			"gladd", "glfw3", "imguid", "assimp-vc143-mtd", "zlibstaticd",
 		}
 	filter { "configurations:Release" }
 		libdirs {
@@ -100,9 +102,10 @@ project("Hina")
 			path.join(ThirdPartyPath, "glfw/build/src/Release"),
 			path.join(ThirdPartyPath, "imgui/build/Release"),
 			path.join(ThirdPartyPath, "assimp/build/lib/Release"),
+			path.join(ThirdPartyPath, "assimp/build/contrib/zlib/Release"),
 		}
 		links {
-			"glad", "glfw3", "imgui", "assimp-vc143-mt"
+			"glad", "glfw3", "imgui", "assimp-vc143-mt", "zlibstatic",
 		}
 	filter {}
 

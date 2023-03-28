@@ -2,6 +2,8 @@
 
 #include "RenderData/Mesh.h"
 
+#include "Core/Timer.h"
+
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
@@ -22,12 +24,17 @@ public:
 	Model &operator=(Model &&) = default;
 	~Model() = default;
 
+	void Draw(const std::shared_ptr<Shader> &pShader) const;
+
+	const std::string &GetPath() { return m_path; }
+
 private:
 	void ImportScene(const std::string &path);
 	void ProcessScene(const aiScene *pScene);
 	void ProcessNode(const aiScene *pScene, const aiNode *pNode);
 	void ProcessMesh(const aiScene *pScene, const aiMesh *pMesh);
 
+	Timer timer;
 	std::string m_path;
 	std::vector<Mesh> m_meshs;
 };

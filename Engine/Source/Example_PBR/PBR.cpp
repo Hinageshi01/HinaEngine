@@ -1,6 +1,8 @@
 #include "hnpch.h"
 #include "Hina.h"
 
+#include "RenderCore/Texture2D.h"
+
 static constexpr float vertices[] = {
 //   pos,              normal,          uv
 	-1.0,  1.0, -1.0,  0.0,  1.0,  0.0, 0.0, 1.0,
@@ -87,20 +89,6 @@ public:
 
 		// tmp
 		{
-			std::shared_ptr<Hina::VertexBuffer> vertexBuffer = Hina::VertexBuffer::Create(sizeof(vertices), vertices);
-			std::shared_ptr<Hina::IndexBuffer> indexBuffer = Hina::IndexBuffer::Create(sizeof(indices), indices);
-
-			Hina::BufferLayout bufferLayout = {
-				{ Hina::ShaderDataType::Float3, "a_position" },
-				{ Hina::ShaderDataType::Float3, "a_normal" },
-				{ Hina::ShaderDataType::Float2, "a_textureCoord" },
-			};
-			vertexBuffer->SetLayout(std::move(bufferLayout));
-
-			m_pVertexArray = Hina::VertexArray::Create();
-			m_pVertexArray->AddVertexBuffer(vertexBuffer);
-			m_pVertexArray->SetIndexBuffer(indexBuffer);
-
 			m_pShader = Hina::Shader::Create(
 				"testShader",
 				Hina::Path::FromAsset("Shader/v_testShader.glsl"),
@@ -108,7 +96,7 @@ public:
 
 			m_pTexture = Hina::Texture2D::Create(Hina::Path::FromAsset("Texture/japanese_stone_wall_diff.png"));
 
-			// m_model = Hina::Model(Hina::Path::FromAsset("Model/officebot/scene.gltf"));
+			m_model = Hina::Model(Hina::Path::FromAsset("Model/officebot/scene.gltf"));
 		}
 	}
 
@@ -132,7 +120,7 @@ public:
 		}
 		
 		Hina::RenderCore::BeginScene();
-		Hina::RenderCore::Submit(m_pShader, m_pVertexArray);
+		m_model.Draw(m_pShader);
 		Hina::RenderCore::EndScene();
 	}
 
@@ -147,7 +135,6 @@ public:
 	}
 
 private:
-	std::shared_ptr<Hina::VertexArray> m_pVertexArray;
 	std::shared_ptr<Hina::Shader> m_pShader;
 	std::shared_ptr<Hina::Texture2D> m_pTexture;
 
