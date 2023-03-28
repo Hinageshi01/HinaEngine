@@ -77,29 +77,28 @@ template class file_access<file_access_tag, std::__stdoutbuf<char>,
 auto get_file(std::__stdoutbuf<char>&) -> FILE*;
 #endif
 
-// https://github.com/fmtlib/fmt/issues/3291
-// inline bool write_ostream_unicode(std::ostream& os, fmt::string_view data) {
-// #if FMT_MSC_VERSION
-//   if (auto* buf = dynamic_cast<std::filebuf*>(os.rdbuf()))
-//     if (FILE* f = get_file(*buf)) return write_console(f, data);
-// #elif defined(_WIN32) && defined(__GLIBCXX__)
-//   auto* rdbuf = os.rdbuf();
-//   FILE* c_file;
-//   if (auto* fbuf = dynamic_cast<__gnu_cxx::stdio_sync_filebuf<char>*>(rdbuf))
-//     c_file = fbuf->file();
-//   else if (auto* fbuf = dynamic_cast<__gnu_cxx::stdio_filebuf<char>*>(rdbuf))
-//     c_file = fbuf->file();
-//   else
-//     return false;
-//   if (c_file) return write_console(c_file, data);
-// #elif defined(_WIN32) && defined(_LIBCPP_VERSION)
-//   if (auto* buf = dynamic_cast<std::__stdoutbuf<char>*>(os.rdbuf()))
-//     if (FILE* f = get_file(*buf)) return write_console(f, data);
-// #else
-//   ignore_unused(os, data);
-// #endif
-//   return false;
-// }
+inline bool write_ostream_unicode(std::ostream& os, fmt::string_view data) {
+#if FMT_MSC_VERSION
+  if (auto* buf = dynamic_cast<std::filebuf*>(os.rdbuf()))
+    if (FILE* f = get_file(*buf)) return write_console(f, data);
+#elif defined(_WIN32) && defined(__GLIBCXX__)
+  auto* rdbuf = os.rdbuf();
+  FILE* c_file;
+  if (auto* fbuf = dynamic_cast<__gnu_cxx::stdio_sync_filebuf<char>*>(rdbuf))
+    c_file = fbuf->file();
+  else if (auto* fbuf = dynamic_cast<__gnu_cxx::stdio_filebuf<char>*>(rdbuf))
+    c_file = fbuf->file();
+  else
+    return false;
+  if (c_file) return write_console(c_file, data);
+#elif defined(_WIN32) && defined(_LIBCPP_VERSION)
+  if (auto* buf = dynamic_cast<std::__stdoutbuf<char>*>(os.rdbuf()))
+    if (FILE* f = get_file(*buf)) return write_console(f, data);
+#else
+  ignore_unused(os, data);
+#endif
+  return false;
+}
 inline bool write_ostream_unicode(std::wostream&,
                                   fmt::basic_string_view<wchar_t>) {
   return false;
