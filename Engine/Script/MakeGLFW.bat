@@ -9,7 +9,7 @@ cd %GLFW_PATH%
 if not exist build mkdir build
 
 rem https://www.glfw.org/docs/latest/compile.html
-cmake -S %GLFW_PATH% -B %GLFW_PATH%/build -D USE_MSVC_RUNTIME_LIBRARY_DLL=OFF
+cmake -S %GLFW_PATH% -B %GLFW_PATH%/build -D GLFW_BUILD_DOCS=OFF -D GLFW_BUILD_EXAMPLES=OFF -D GLFW_BUILD_TESTS=OFF -D USE_MSVC_RUNTIME_LIBRARY_DLL=OFF
 cmake -S . -B build
 
 echo.
