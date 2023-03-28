@@ -8,6 +8,7 @@
 ## Thirdparty
 - [Assimp 5.2.5](https://github.com/assimp/assimp)
 - [glfw 3.3.8](https://github.com/glfw/glfw)
+- [glad 1](https://github.com/Dav1dde/glad/tree/master)
 
 ## Others
 - [Font-Awesome 6.4.0](https://github.com/FortAwesome/Font-Awesome/tree/6.x)
