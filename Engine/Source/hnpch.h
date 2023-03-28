@@ -26,6 +26,5 @@
 	#include <windows.h>
 #endif
 
-#include "Core/Input.h"
 #include "Core/Instrumentor.h"
 #include "Log/Log.h"

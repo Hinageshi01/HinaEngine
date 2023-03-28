@@ -1,6 +1,8 @@
 #include "hnpch.h"
 #include "FirstPersonCamera.h"
 
+#include "Core/Input.h"
+
 namespace Hina
 {
 

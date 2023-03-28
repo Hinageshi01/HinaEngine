@@ -5,6 +5,8 @@
 #include "Event/MouseEvent.h"
 #include "Event/KeyEvent.h"
 
+#include "Core/Input.h"
+
 namespace Hina
 {
 

@@ -25,7 +25,7 @@ project("Hina")
 
 	-- Set definitions.
 	defines {
-		-- We don't want to use any exception in engine.
+		-- We don't want to use any exception in project.
 		"SPDLOG_NO_EXCEPTIONS",
 		-- It seems like a VS bug.
 		-- https://github.com/fmtlib/fmt/issues/2552
