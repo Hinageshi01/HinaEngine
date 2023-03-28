@@ -268,7 +268,7 @@ void NDOImporter::InternReadFile( const std::string& pFile,
 
             const unsigned int key = v.first;
             unsigned int cur_edge = v.second;
-            while (true) {
+            while (1) {
                 unsigned int next_edge, next_vert;
                 if (key == obj.edges[cur_edge].edge[3]) {
                     next_edge = obj.edges[cur_edge].edge[5];

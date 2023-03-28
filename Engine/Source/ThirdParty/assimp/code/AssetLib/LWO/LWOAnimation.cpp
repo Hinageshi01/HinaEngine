@@ -162,11 +162,8 @@ void AnimResolver::UpdateAnimRangeSetup() {
         const double my_last = (*it).keys.back().time;
 
         const double delta = my_last - my_first;
-        if (delta == 0.0) {
-            continue;
-        }
-
         const size_t old_size = (*it).keys.size();
+
         const float value_delta = (*it).keys.back().value - (*it).keys.front().value;
 
         // NOTE: We won't handle reset, linear and constant here.
@@ -179,7 +176,8 @@ void AnimResolver::UpdateAnimRangeSetup() {
         case LWO::PrePostBehaviour_Oscillate: {
             const double start_time = delta - std::fmod(my_first - first, delta);
             std::vector<LWO::Key>::iterator n = std::find_if((*it).keys.begin(), (*it).keys.end(),
-                                                    [start_time](double t) { return start_time > t; }), m;
+                                                    [start_time](double t) { return start_time > t; }),
+                                            m;
 
             size_t ofs = 0;
             if (n != (*it).keys.end()) {
@@ -465,7 +463,7 @@ void AnimResolver::GetKeys(std::vector<aiVectorKey> &out,
     cur_z = envl_z->keys.begin();
 
     end_x = end_y = end_z = false;
-    while (true) {
+    while (1) {
 
         aiVectorKey fill;
 

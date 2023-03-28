@@ -62,7 +62,7 @@ protected:
 
 TEST_F(BlenderWorkTest, work_279) {
     const aiScene *pTest = im->ReadFile(ASSIMP_TEST_MODELS_DIR "/BLEND/test_279.blend", aiProcess_ValidateDataStructure);
-    ASSERT_TRUE(pTest != nullptr);
+    ASSERT_TRUE(pTest != NULL);
 
     // material has 2 diffuse textures
     ASSERT_TRUE(pTest->HasMaterials());

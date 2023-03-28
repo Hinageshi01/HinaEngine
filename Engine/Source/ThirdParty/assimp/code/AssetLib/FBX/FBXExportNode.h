@@ -52,7 +52,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <assimp/StreamWriter.h> // StreamWriterLE
 
 #include <string>
-#include <utility>
 #include <vector>
 
 namespace Assimp {
@@ -77,30 +76,34 @@ public: // constructors
     /// The class constructor with the name.
     Node(const std::string& n)
     : name(n)
+    , properties()
+    , children()
     , force_has_children( false ) {
         // empty
     }
 
     // convenience template to construct with properties directly
     template <typename... More>
-    Node(const std::string& n, More&&... more)
+    Node(const std::string& n, const More... more)
     : name(n)
+    , properties()
+    , children()
     , force_has_children(false) {
-        AddProperties(std::forward<More>(more)...);
+        AddProperties(more...);
     }
 
 public: // functions to add properties or children
     // add a single property to the node
     template <typename T>
-    void AddProperty(T&& value) {
-        properties.emplace_back(std::forward<T>(value));
+    void AddProperty(T value) {
+        properties.emplace_back(value);
     }
 
     // convenience function to add multiple properties at once
     template <typename T, typename... More>
-    void AddProperties(T&& value, More&&... more) {
-        properties.emplace_back(std::forward<T>(value));
-        AddProperties(std::forward<More>(more)...);
+    void AddProperties(T value, More... more) {
+        properties.emplace_back(value);
+        AddProperties(more...);
     }
     void AddProperties() {}
 
@@ -111,11 +114,11 @@ public: // functions to add properties or children
     template <typename... More>
     void AddChild(
         const std::string& name,
-        More&&... more
+        More... more
     ) {
         FBX::Node c(name);
-        c.AddProperties(std::forward<More>(more)...);
-        children.push_back(std::move(c));
+        c.AddProperties(more...);
+        children.push_back(c);
     }
 
 public: // support specifically for dealing with Properties70 nodes
@@ -143,10 +146,10 @@ public: // support specifically for dealing with Properties70 nodes
         const std::string& type,
         const std::string& type2,
         const std::string& flags,
-        More&&... more
+        More... more
     ) {
         Node n("P");
-        n.AddProperties(name, type, type2, flags, std::forward<More>(more)...);
+        n.AddProperties(name, type, type2, flags, more...);
         AddChild(n);
     }
 
@@ -211,7 +214,7 @@ public: // static member functions
         bool binary, int indent
     ) {
         FBX::FBXExportProperty p(value);
-        FBX::Node node(name, std::move(p));
+        FBX::Node node(name, p);
         node.Dump(s, binary, indent);
     }
 

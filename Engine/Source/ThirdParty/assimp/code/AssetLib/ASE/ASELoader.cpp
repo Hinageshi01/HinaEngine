@@ -88,6 +88,10 @@ ASEImporter::ASEImporter() :
 }
 
 // ------------------------------------------------------------------------------------------------
+// Destructor, private as well
+ASEImporter::~ASEImporter() = default;
+
+// ------------------------------------------------------------------------------------------------
 // Returns whether the class can handle the format of the given file.
 bool ASEImporter::CanRead(const std::string &pFile, IOSystem *pIOHandler, bool /*checkSig*/) const {
     static const char *tokens[] = { "*3dsmax_asciiexport" };
@@ -118,7 +122,7 @@ void ASEImporter::InternReadFile(const std::string &pFile,
     std::unique_ptr<IOStream> file(pIOHandler->Open(pFile, "rb"));
 
     // Check whether we can read from the file
-    if (file == nullptr) {
+    if (file.get() == nullptr) {
         throw DeadlyImportError("Failed to open ASE file ", pFile, ".");
     }
 

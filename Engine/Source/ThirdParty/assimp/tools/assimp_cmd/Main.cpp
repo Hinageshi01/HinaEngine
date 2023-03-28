@@ -58,12 +58,11 @@ public:
 	~ConsoleProgressHandler() override = default;
 
 	bool Update(float percentage) override {
-        std::cout << "\r" << percentage * 100.0f << " %";
+        std::cout << percentage * 100.0f << " %\n";
 		return true;
     }
 };
-
-constexpr char AICMD_MSG_ABOUT[] =
+const char* AICMD_MSG_ABOUT =
 "------------------------------------------------------ \n"
 "Open Asset Import Library (\"Assimp\", https://github.com/assimp/assimp) \n"
 " -- Commandline toolchain --\n"
@@ -71,7 +70,7 @@ constexpr char AICMD_MSG_ABOUT[] =
 
 "Version %i.%i %s%s%s%s%s(GIT commit %x)\n\n";
 
-constexpr char AICMD_MSG_HELP[] =
+const char* AICMD_MSG_HELP =
 "assimp <verb> <parameters>\n\n"
 " verbs:\n"
 " \tinfo       - Quick file stats\n"
@@ -97,7 +96,8 @@ constexpr char AICMD_MSG_HELP[] =
 
 // ------------------------------------------------------------------------------
 // Application entry point
-int main (int argc, char* argv[]) {
+int main (int argc, char* argv[])
+{
 	if (argc <= 1)	{
 		printf("assimp: No command specified. Use \'assimp help\' for a detailed command list\n");
 		return AssimpCmdError::Success;
@@ -291,7 +291,7 @@ const aiScene* ImportModel(
 	// Now validate this flag combination
 	if(!globalImporter->ValidateFlags(imp.ppFlags)) {
 		printf("ERROR: Unsupported post-processing flags \n");
-		return nullptr;
+		return NULL;
 	}
 	printf("Validating postprocessing flags ...  OK\n");
 	if (imp.showLog) {
@@ -303,7 +303,7 @@ const aiScene* ImportModel(
 	const clock_t first = clock();
     ConsoleProgressHandler *ph = new ConsoleProgressHandler;
     globalImporter->SetProgressHandler(ph);
-
+    
 	const aiScene* scene = globalImporter->ReadFile(path,imp.ppFlags);
 
 	if (imp.showLog) {
@@ -311,7 +311,7 @@ const aiScene* ImportModel(
 	}
 	if (!scene) {
 		printf("ERROR: Failed to load file: %s\n", globalImporter->GetErrorString());
-		return nullptr;
+		return NULL;
 	}
 
 	const clock_t second = ::clock();
@@ -550,7 +550,10 @@ int ProcessStandardArguments(
 }
 
 // ------------------------------------------------------------------------------
-int Assimp_TestBatchLoad(const char* const* params, unsigned int num) {
+int Assimp_TestBatchLoad (
+	const char* const* params,
+	unsigned int num)
+{
 	for(unsigned int i = 0; i < num; ++i) {
 		globalImporter->ReadFile(params[i],aiProcessPreset_TargetRealtime_MaxQuality);
 		// we're totally silent. scene destructs automatically.

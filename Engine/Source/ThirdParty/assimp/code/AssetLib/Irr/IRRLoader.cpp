@@ -842,11 +842,11 @@ void IRRImporter::InternReadFile(const std::string &pFile, aiScene *pScene, IOSy
 	std::unique_ptr<IOStream> file(pIOHandler->Open(pFile));
 
 	// Check whether we can read from the file
-    if (file == nullptr) {
+	if (file.get() == nullptr) {
         throw DeadlyImportError("Failed to open IRR file ", pFile);
-    }
+	}
 
-    // Construct the irrXML parser
+	// Construct the irrXML parser
 	XmlParser st;
     if (!st.parse( file.get() )) {
         throw DeadlyImportError("XML parse error while loading IRR file ", pFile);

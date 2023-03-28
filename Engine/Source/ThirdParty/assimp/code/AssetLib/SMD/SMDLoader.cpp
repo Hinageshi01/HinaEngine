@@ -83,11 +83,12 @@ static const aiImporterDesc desc = {
 // Constructor to be privately used by Importer
 SMDImporter::SMDImporter() :
         configFrameID(), 
+        mBuffer(), 
         pScene( nullptr ), 
         iFileSize( 0 ), 
         iSmallestFrame( INT_MAX ),
         dLengthOfAnim( 0.0 ),
-        bHasUVs(false ),
+        bHasUVs(false ), 
         iLineNumber((unsigned int)-1)  {
     // empty
 }
@@ -534,7 +535,7 @@ void SMDImporter::GetAnimationFileList(const std::string &pFile, IOSystem* pIOHa
     auto path = base + "/" + name + "_animation.txt";
 
     std::unique_ptr<IOStream> file(pIOHandler->Open(path.c_str(), "rb"));
-    if (file == nullptr) {
+    if (file.get() == nullptr) {
         return;
     }
 
@@ -674,7 +675,7 @@ void SMDImporter::ReadSmd(const std::string &pFile, IOSystem* pIOHandler) {
     std::unique_ptr<IOStream> file(pIOHandler->Open(pFile, "rb"));
 
     // Check whether we can read from the file
-    if (file == nullptr) {
+    if (file.get() == nullptr) {
         throw DeadlyImportError("Failed to open SMD/VTA file ", pFile, ".");
     }
 

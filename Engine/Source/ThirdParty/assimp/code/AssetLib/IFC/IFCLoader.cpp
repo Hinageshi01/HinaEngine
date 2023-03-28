@@ -48,7 +48,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <iterator>
 #include <limits>
-#include <memory>
 #include <tuple>
 
 #ifndef ASSIMP_BUILD_NO_COMPRESSED_IFC
@@ -68,12 +67,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <assimp/importerdesc.h>
 #include <assimp/scene.h>
 #include <assimp/Importer.hpp>
-#include <utility>
 
 namespace Assimp {
 template <>
 const char *LogFunctions<IFCImporter>::Prefix() {
-    return "IFC: ";
+    static auto prefix = "IFC: ";
+    return prefix;
 }
 } // namespace Assimp
 
@@ -186,7 +185,7 @@ void IFCImporter::InternReadFile(const std::string &pFile, aiScene *pScene, IOSy
                 // get file size, etc.
                 unz_file_info fileInfo;
                 char filename[256];
-                unzGetCurrentFileInfo(zip, &fileInfo, filename, sizeof(filename), nullptr, 0, nullptr, 0);
+                unzGetCurrentFileInfo(zip, &fileInfo, filename, sizeof(filename), 0, 0, 0, 0);
                 if (GetExtension(filename) != "ifc") {
                     continue;
                 }
@@ -211,7 +210,7 @@ void IFCImporter::InternReadFile(const std::string &pFile, aiScene *pScene, IOSy
                     ThrowException("Failed to decompress IFC ZIP file");
                 }
                 unzCloseCurrentFile(zip);
-                stream = std::make_shared<MemoryIOStream>(buff, fileInfo.uncompressed_size, true);
+                stream.reset(new MemoryIOStream(buff, fileInfo.uncompressed_size, true));
                 if (unzGoToNextFile(zip) == UNZ_END_OF_LIST_OF_FILE) {
                     ThrowException("Found no IFC file member in IFCZIP file (1)");
                 }
@@ -228,7 +227,7 @@ void IFCImporter::InternReadFile(const std::string &pFile, aiScene *pScene, IOSy
 #endif
     }
 
-    std::unique_ptr<STEP::DB> db(STEP::ReadFileHeader(std::move(stream)));
+    std::unique_ptr<STEP::DB> db(STEP::ReadFileHeader(stream));
     const STEP::HeaderInfo &head = static_cast<const STEP::DB &>(*db).GetHeader();
 
     if (!head.fileSchema.size() || head.fileSchema.substr(0, 3) != "IFC") {

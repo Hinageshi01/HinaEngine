@@ -61,7 +61,7 @@ TEST_F( utVersion, aiGetVersionMajorTest ) {
 }
 
 TEST_F( utVersion, aiGetVersionPatchTest ) {
-    EXPECT_EQ(aiGetVersionPatch(), 5U );
+    EXPECT_EQ(aiGetVersionPatch(), 4U );
 }
 
 TEST_F( utVersion, aiGetCompileFlagsTest ) {

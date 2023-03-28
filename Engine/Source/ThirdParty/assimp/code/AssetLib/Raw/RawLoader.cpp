@@ -96,7 +96,7 @@ void RAWImporter::InternReadFile(const std::string &pFile,
     std::unique_ptr<IOStream> file(pIOHandler->Open(pFile, "rb"));
 
     // Check whether we can read from the file
-    if (file == nullptr) {
+    if (file.get() == nullptr) {
         throw DeadlyImportError("Failed to open RAW file ", pFile, ".");
     }
 

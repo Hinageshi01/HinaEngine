@@ -83,7 +83,11 @@ void AMFImporter::Clear() {
 
 AMFImporter::AMFImporter() AI_NO_EXCEPT :
         mNodeElement_Cur(nullptr),
-        mXmlParser(nullptr) {
+        mXmlParser(nullptr),
+        mUnit(),
+        mVersion(),
+        mMaterial_Converted(),
+        mTexture_Converted() {
     // empty
 }
 
@@ -257,7 +261,7 @@ void AMFImporter::ParseFile(const std::string &pFile, IOSystem *pIOHandler) {
     std::unique_ptr<IOStream> file(pIOHandler->Open(pFile, "rb"));
 
     // Check whether we can read from the file
-    if (file == nullptr) {
+    if (file.get() == nullptr) {
         throw DeadlyImportError("Failed to open AMF file ", pFile, ".");
     }
 

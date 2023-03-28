@@ -47,7 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endif
 
 #include <assimp/ai_assert.h>
-#include <assimp/AssertHandler.h>
+#include <code/Common/AssertHandler.h>
 
 namespace
 {

@@ -57,10 +57,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #  include "../contrib/clipper/clipper.hpp"
 #endif
 
-#include <deque>
-#include <forward_list>
 #include <iterator>
-#include <utility>
+#include <forward_list>
+#include <deque>
 
 namespace Assimp {
     namespace IFC {
@@ -1700,7 +1699,7 @@ std::vector<std::vector<IfcVector2>> GetContoursInPlane(const std::shared_ptr<Te
         bool ok;
         auto contour = GetContourInPlane2D(mesh,planeSpace,planeNor,planeOffset,extrusionDir,wall_extrusion,first,ok);
         if(ok)
-            return std::vector<std::vector<IfcVector2>> {std::move(contour)};
+            return std::vector<std::vector<IfcVector2>> {contour};
         else
             return std::vector<std::vector<IfcVector2>> {};
     }

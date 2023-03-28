@@ -62,7 +62,9 @@ public:
     /**
      *  The class destructor, virtual.
      */
-    virtual ~BlenderModifier() = default;
+    virtual ~BlenderModifier() {
+        // empty
+    }
 
     // --------------------
     /**

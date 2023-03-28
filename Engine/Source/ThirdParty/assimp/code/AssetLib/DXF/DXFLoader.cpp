@@ -57,7 +57,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <assimp/importerdesc.h>
 
 #include <numeric>
-#include <utility>
 
 using namespace Assimp;
 
@@ -136,7 +135,7 @@ void DXFImporter::InternReadFile( const std::string& filename, aiScene* pScene, 
     std::shared_ptr<IOStream> file = std::shared_ptr<IOStream>( pIOHandler->Open( filename) );
 
     // Check whether we can read the file
-    if (file == nullptr) {
+    if( file.get() == nullptr ) {
         throw DeadlyImportError( "Failed to open DXF file ", filename, "");
     }
 
@@ -151,7 +150,7 @@ void DXFImporter::InternReadFile( const std::string& filename, aiScene* pScene, 
     // DXF files can grow very large, so read them via the StreamReader,
     // which will choose a suitable strategy.
     file->Seek(0,aiOrigin_SET);
-    StreamReaderLE stream( std::move(file) );
+    StreamReaderLE stream( file );
 
     DXF::LineReader reader (stream);
     DXF::FileData output;
@@ -371,7 +370,7 @@ void DXFImporter::ExpandBlockReferences(DXF::Block& bl,const DXF::BlockMap& bloc
                 ASSIMP_LOG_ERROR("DXF: PolyLine instance is nullptr, skipping.");
                 continue;
             }
-
+            
             std::shared_ptr<DXF::PolyLine> pl_out = std::shared_ptr<DXF::PolyLine>(new DXF::PolyLine(*pl_in));
 
             if (bl_src.base.Length() || insert.scale.x!=1.f || insert.scale.y!=1.f || insert.scale.z!=1.f || insert.angle || insert.pos.Length()) {

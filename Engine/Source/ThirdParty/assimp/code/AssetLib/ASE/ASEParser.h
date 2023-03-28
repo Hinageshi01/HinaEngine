@@ -4,6 +4,7 @@ Open Asset Import Library (assimp)
 
 Copyright (c) 2006-2022, assimp team
 
+
 All rights reserved.
 
 Redistribution and use of this software in source and binary forms,
@@ -384,10 +385,12 @@ struct Dummy : public BaseNode {
 /** \brief Class to parse ASE files
  */
 class Parser {
-public:
-    /// @brief No default constructor.
-    Parser() = delete;
+private:
+    Parser() AI_NO_EXCEPT {
+        // empty
+    }
 
+public:
     // -------------------------------------------------------------------
     //! Construct a parser from a given input file which is
     //! guaranteed to be terminated with zero.

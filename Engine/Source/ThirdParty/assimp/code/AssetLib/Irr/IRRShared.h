@@ -63,7 +63,9 @@ protected:
         // empty
     }
 
-    ~IrrlichtBase() = default;
+    ~IrrlichtBase() {
+        // empty
+    }
 
     /** @brief Data structure for a simple name-value property
      */

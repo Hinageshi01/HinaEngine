@@ -115,7 +115,7 @@ void BVHLoader::InternReadFile(const std::string &pFile, aiScene *pScene, IOSyst
 
     // read file into memory
     std::unique_ptr<IOStream> file(pIOHandler->Open(pFile));
-    if (file == nullptr) {
+    if (file.get() == nullptr) {
         throw DeadlyImportError("Failed to open file ", pFile, ".");
     }
 
@@ -191,7 +191,7 @@ aiNode *BVHLoader::ReadNode() {
 
     // now read the node's contents
     std::string siteToken;
-    while (true) {
+    while (1) {
         std::string token = GetNextToken();
 
         // node offset to parent node
@@ -247,7 +247,7 @@ aiNode *BVHLoader::ReadEndSite(const std::string &pParentName) {
 
     // now read the node's contents. Only possible entry is "OFFSET"
     std::string token;
-    while (true) {
+    while (1) {
         token.clear();
         token = GetNextToken();
 

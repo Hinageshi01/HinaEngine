@@ -62,7 +62,8 @@ namspace Assimp
 {
     template< > const char* LogFunctions< BlenderTessellatorGL >::Prefix()
     {
-        return "BLEND_TESS_GL: ";
+        static auto prefix = "BLEND_TESS_GL: ";
+        return prefix;
     }
 }
 
@@ -80,7 +81,9 @@ BlenderTessellatorGL::BlenderTessellatorGL( BlenderBMeshConverter& converter ):
 }
 
 // ------------------------------------------------------------------------------------------------
-BlenderTessellatorGL::~BlenderTessellatorGL() = default;
+BlenderTessellatorGL::~BlenderTessellatorGL( )
+{
+}
 
 // ------------------------------------------------------------------------------------------------
 void BlenderTessellatorGL::Tessellate( const MLoop* polyLoop, int vertexCount, const std::vector< MVert >& vertices )
@@ -256,7 +259,8 @@ namespace Assimp
 {
     template< > const char* LogFunctions< BlenderTessellatorP2T >::Prefix()
     {
-        return "BLEND_TESS_P2T: ";
+        static auto prefix = "BLEND_TESS_P2T: ";
+        return prefix;
     }
 }
 

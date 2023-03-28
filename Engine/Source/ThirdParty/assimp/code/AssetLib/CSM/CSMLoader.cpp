@@ -117,7 +117,7 @@ void CSMImporter::InternReadFile( const std::string& pFile,
     std::unique_ptr<IOStream> file( pIOHandler->Open( pFile, "rb"));
 
     // Check whether we can read from the file
-    if (file == nullptr) {
+    if( file.get() == nullptr) {
         throw DeadlyImportError( "Failed to open CSM file ", pFile, ".");
     }
 
@@ -130,7 +130,7 @@ void CSMImporter::InternReadFile( const std::string& pFile,
     int first = 0, last = 0x00ffffff;
 
     // now process the file and look out for '$' sections
-    while (true) {
+    while (1)   {
         SkipSpaces(&buffer);
         if ('\0' == *buffer)
             break;
@@ -154,7 +154,7 @@ void CSMImporter::InternReadFile( const std::string& pFile,
             else if (TokenMatchI(buffer,"order",5)) {
                 std::vector< aiNodeAnim* > anims_temp;
                 anims_temp.reserve(30);
-                while (true) {
+                while (1)   {
                     SkipSpaces(&buffer);
                     if (IsLineEnd(*buffer) && SkipSpacesAndLineEnd(&buffer) && *buffer == '$')
                         break; // next section
@@ -196,7 +196,7 @@ void CSMImporter::InternReadFile( const std::string& pFile,
                 unsigned int filled = 0;
 
                 // Now read all point data.
-                while (true) {
+                while (1)   {
                     SkipSpaces(&buffer);
                     if (IsLineEnd(*buffer) && (!SkipSpacesAndLineEnd(&buffer) || *buffer == '$'))   {
                         break; // next section

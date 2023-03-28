@@ -169,7 +169,7 @@ TEST_F(utColladaExport, testExportLight) {
 
     const aiScene *imported = im->ReadFile(file, aiProcess_ValidateDataStructure);
 
-    ASSERT_TRUE(imported != nullptr);
+    ASSERT_TRUE(imported != NULL);
 
     // Check common metadata survived roundtrip
     aiString readImporter;

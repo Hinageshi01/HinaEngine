@@ -78,7 +78,7 @@ const Object* LazyObject::Get(bool dieOnError) {
         return nullptr;
     }
 
-    if (object) {
+    if (object.get()) {
         return object.get();
     }
 
@@ -199,14 +199,6 @@ const Object* LazyObject::Get(bool dieOnError) {
             object.reset(new AnimationCurveNode(id,element,name,doc));
         }
     }
-    catch (std::bad_alloc&) {
-        // out-of-memory is unrecoverable and should always lead to a failure
-
-        flags &= ~BEING_CONSTRUCTED;
-        flags |= FAILED_TO_CONSTRUCT;
-
-        throw;
-    }
     catch(std::exception& ex) {
         flags &= ~BEING_CONSTRUCTED;
         flags |= FAILED_TO_CONSTRUCT;
@@ -222,7 +214,7 @@ const Object* LazyObject::Get(bool dieOnError) {
         return nullptr;
     }
 
-    if (!object) {
+    if (!object.get()) {
         //DOMError("failed to convert element to DOM object, class: " + classtag + ", name: " + name,&element);
     }
 
@@ -344,7 +336,7 @@ void Document::ReadGlobalSettings() {
         DOMError("GlobalSettings dictionary contains no property table");
     }
 
-    globals.reset(new FileGlobalSettings(*this, std::move(props)));
+    globals.reset(new FileGlobalSettings(*this, props));
 }
 
 // ------------------------------------------------------------------------------------------------

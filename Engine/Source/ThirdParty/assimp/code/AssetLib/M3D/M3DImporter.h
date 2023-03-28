@@ -65,7 +65,7 @@ class M3DImporter : public BaseImporter {
 public:
 	/// \brief  Default constructor
 	M3DImporter();
-    ~M3DImporter() override = default;
+    ~M3DImporter() override {}
 
 	/// \brief  Returns whether the class can handle the format of the given file.
 	/// \remark See BaseImporter::CanRead() for details.

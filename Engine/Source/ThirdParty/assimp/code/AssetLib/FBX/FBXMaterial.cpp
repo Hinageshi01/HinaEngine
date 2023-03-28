@@ -292,10 +292,10 @@ void LayeredTexture::fillTexture(const Document& doc) {
 }
 
 // ------------------------------------------------------------------------------------------------
-Video::Video(uint64_t id, const Element &element, const Document &doc, const std::string &name) :
-        Object(id, element, name),
+Video::Video(uint64_t id, const Element& element, const Document& doc, const std::string& name) :
+        Object(id,element,name),
         contentLength(0),
-        content(nullptr) {
+        content(0) {
     const Scope& sc = GetRequiredScope(element);
 
     const Element* const Type = sc["Type"];
@@ -379,6 +379,7 @@ Video::Video(uint64_t id, const Element &element, const Document &doc, const std
 
     props = GetPropertyTable(doc,"Video.FbxVideo",element,sc);
 }
+
 
 Video::~Video() {
     delete[] content;

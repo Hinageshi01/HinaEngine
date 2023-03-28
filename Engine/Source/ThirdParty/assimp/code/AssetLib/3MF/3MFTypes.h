@@ -69,7 +69,9 @@ public:
         // empty
     }
 
-    virtual ~Resource() = default;
+    virtual ~Resource() {
+        // empty
+    }
 
     virtual ResourceType getType() const {
         return ResourceType::RT_Unknown;

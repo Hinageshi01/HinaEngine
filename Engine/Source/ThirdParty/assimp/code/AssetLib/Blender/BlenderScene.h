@@ -182,7 +182,7 @@ struct MVert : ElemBase {
     int bweight;
 
     MVert() :
-            flag(0), mat_nr(0), bweight(0) {}
+            ElemBase(), flag(0), mat_nr(0), bweight(0) {}
 };
 
 // -------------------------------------------------------------------------------
@@ -417,6 +417,7 @@ struct CustomDataLayer : ElemBase {
     std::shared_ptr<ElemBase> data; // must be converted to real type according type member
 
     CustomDataLayer() :
+            ElemBase(),
             type(0),
             offset(0),
             flag(0),
@@ -728,7 +729,7 @@ struct Object : ElemBase {
     ListBase modifiers;
 
     Object() :
-            type(Type_EMPTY), parent(nullptr) {
+            ElemBase(), type(Type_EMPTY), parent(nullptr), track(), proxy(), proxy_from(), data() {
         // empty
     }
 };
@@ -740,7 +741,8 @@ struct Base : ElemBase {
     std::shared_ptr<Object> object WARN;
 
     Base() :
-            prev(nullptr) {
+            ElemBase(), prev(nullptr), next(), object() {
+        // empty
         // empty
     }
 };
@@ -756,7 +758,10 @@ struct Scene : ElemBase {
 
     ListBase base;
 
-    Scene() = default;
+    Scene() :
+            ElemBase(), camera(), world(), basact(), master_collection() {
+        // empty
+    }
 };
 
 // -------------------------------------------------------------------------------
@@ -786,7 +791,10 @@ struct Image : ElemBase {
 
     short gen_x, gen_y, gen_type;
 
-    Image() = default;
+    Image() :
+            ElemBase() {
+        // empty
+    }
 };
 
 // -------------------------------------------------------------------------------
@@ -876,7 +884,7 @@ struct Tex : ElemBase {
     //char use_nodes;
 
     Tex() :
-            imaflag(ImageFlags_INTERPOL), type(Type_CLOUDS) {
+            ElemBase(), imaflag(ImageFlags_INTERPOL), type(Type_CLOUDS), ima() {
         // empty
     }
 };
@@ -968,7 +976,10 @@ struct MTex : ElemBase {
     //float shadowfac;
     //float zenupfac, zendownfac, blendfac;
 
-    MTex() = default;
+    MTex() :
+            ElemBase() {
+        // empty
+    }
 };
 
 } // namespace Blender

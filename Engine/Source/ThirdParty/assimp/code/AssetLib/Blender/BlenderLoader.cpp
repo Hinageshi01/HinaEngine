@@ -63,8 +63,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <assimp/StringComparison.h>
 
 #include <cctype>
-#include <memory>
-#include <utility>
 
 // zlib is needed for compressed blend files
 #ifndef ASSIMP_BUILD_NO_COMPRESSED_BLEND
@@ -80,7 +78,8 @@ namespace Assimp {
 
 template <>
 const char *LogFunctions<BlenderImporter>::Prefix() {
-    return "BLEND: ";
+    static auto prefix = "BLEND: ";
+    return prefix;
 }
 
 } // namespace Assimp
@@ -182,7 +181,7 @@ void BlenderImporter::InternReadFile(const std::string &pFile,
         }
 
         // replace the input stream with a memory stream
-        stream = std::make_shared<MemoryIOStream>(reinterpret_cast<uint8_t *>(uncompressed.data()), total);
+        stream.reset(new MemoryIOStream(reinterpret_cast<uint8_t *>(uncompressed.data()), total));
 
         // .. and retry
         stream->Read(magic, 7, 1);
@@ -202,7 +201,7 @@ void BlenderImporter::InternReadFile(const std::string &pFile,
             " (64bit: ", file.i64bit ? "true" : "false",
             ", little endian: ", file.little ? "true" : "false", ")");
 
-    ParseBlendFile(file, std::move(stream));
+    ParseBlendFile(file, stream);
 
     Scene scene;
     ExtractScene(scene, file);
@@ -219,7 +218,7 @@ void BlenderImporter::ParseBlendFile(FileDatabase &out, std::shared_ptr<IOStream
 
     out.entries.reserve(128);
     { // even small BLEND files tend to consist of many file blocks
-        SectionParser parser(*out.reader, out.i64bit);
+        SectionParser parser(*out.reader.get(), out.i64bit);
 
         // first parse the file in search for the DNA and insert all other sections into the database
         while ((parser.Next(), 1)) {

@@ -62,7 +62,8 @@ namespace Assimp {
 
 template <>
 const char *LogFunctions<FBXImporter>::Prefix() {
-	return "FBX: ";
+	static auto prefix = "FBX: ";
+	return prefix;
 }
 
 } // namespace Assimp
@@ -89,7 +90,10 @@ static const aiImporterDesc desc = {
 
 // ------------------------------------------------------------------------------------------------
 // Constructor to be privately used by #Importer
-FBXImporter::FBXImporter() = default;
+FBXImporter::FBXImporter() :
+        mSettings() {
+    // empty
+}
 
 // ------------------------------------------------------------------------------------------------
 // Returns whether the class can handle the format of the given file.

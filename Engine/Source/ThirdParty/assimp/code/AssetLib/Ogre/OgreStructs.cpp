@@ -296,7 +296,7 @@ uint32_t VertexData::VertexSize(uint16_t source) const {
 MemoryStream *VertexData::VertexBuffer(uint16_t source) {
     if (vertexBindings.find(source) != vertexBindings.end())
         return vertexBindings[source].get();
-    return nullptr;
+    return 0;
 }
 
 VertexElement *VertexData::GetVertexElement(VertexElement::Semantic semantic, uint16_t index) {
@@ -304,7 +304,7 @@ VertexElement *VertexData::GetVertexElement(VertexElement::Semantic semantic, ui
         if (element.semantic == semantic && element.index == index)
             return &element;
     }
-    return nullptr;
+    return 0;
 }
 
 // VertexDataXml
@@ -399,7 +399,7 @@ SubMesh *Mesh::GetSubMesh(size_t index) const {
             return subMeshes[i];
         }
     }
-    return nullptr;
+    return 0;
 }
 
 void Mesh::ConvertToAssimpScene(aiScene *dest) {
@@ -459,7 +459,7 @@ ISubMesh::ISubMesh() :
 // SubMesh
 
 SubMesh::SubMesh() :
-        vertexData(nullptr),
+        vertexData(0),
         indexData(new IndexData()) {
 }
 
@@ -515,9 +515,9 @@ aiMesh *SubMesh::ConvertToAssimpMesh(Mesh *parent) {
 
     // Source streams
     MemoryStream *positions = src->VertexBuffer(positionsElement->source);
-    MemoryStream *normals = (normalsElement ? src->VertexBuffer(normalsElement->source) : nullptr);
-    MemoryStream *uv1 = (uv1Element ? src->VertexBuffer(uv1Element->source) : nullptr);
-    MemoryStream *uv2 = (uv2Element ? src->VertexBuffer(uv2Element->source) : nullptr);
+    MemoryStream *normals = (normalsElement ? src->VertexBuffer(normalsElement->source) : 0);
+    MemoryStream *uv1 = (uv1Element ? src->VertexBuffer(uv1Element->source) : 0);
+    MemoryStream *uv2 = (uv2Element ? src->VertexBuffer(uv2Element->source) : 0);
 
     // Element size
     const size_t sizePosition = positionsElement->Size();
@@ -544,7 +544,7 @@ aiMesh *SubMesh::ConvertToAssimpMesh(Mesh *parent) {
             dest->mTextureCoords[0] = new aiVector3D[dest->mNumVertices];
         } else {
             ASSIMP_LOG_WARN("Ogre imported UV0 type ", uv1Element->TypeToString(), " is not compatible with Assimp. Ignoring UV.");
-            uv1 = nullptr;
+            uv1 = 0;
         }
     }
     if (uv2) {
@@ -553,12 +553,12 @@ aiMesh *SubMesh::ConvertToAssimpMesh(Mesh *parent) {
             dest->mTextureCoords[1] = new aiVector3D[dest->mNumVertices];
         } else {
             ASSIMP_LOG_WARN("Ogre imported UV0 type ", uv2Element->TypeToString(), " is not compatible with Assimp. Ignoring UV.");
-            uv2 = nullptr;
+            uv2 = 0;
         }
     }
 
-    aiVector3D *uv1Dest = (uv1 ? dest->mTextureCoords[0] : nullptr);
-    aiVector3D *uv2Dest = (uv2 ? dest->mTextureCoords[1] : nullptr);
+    aiVector3D *uv1Dest = (uv1 ? dest->mTextureCoords[0] : 0);
+    aiVector3D *uv2Dest = (uv2 ? dest->mTextureCoords[1] : 0);
 
     MemoryStream *faces = indexData->buffer.get();
     for (size_t fi = 0, isize = indexData->IndexSize(), fsize = indexData->FaceSize();
@@ -640,8 +640,8 @@ aiMesh *SubMesh::ConvertToAssimpMesh(Mesh *parent) {
 // MeshXml
 
 MeshXml::MeshXml() :
-        skeleton(nullptr),
-        sharedVertexData(nullptr) {
+        skeleton(0),
+        sharedVertexData(0) {
 }
 
 MeshXml::~MeshXml() {
@@ -666,7 +666,7 @@ SubMeshXml *MeshXml::GetSubMesh(uint16_t index) const {
     for (size_t i = 0; i < subMeshes.size(); ++i)
         if (subMeshes[i]->index == index)
             return subMeshes[i];
-    return nullptr;
+    return 0;
 }
 
 void MeshXml::ConvertToAssimpScene(aiScene *dest) {
@@ -714,7 +714,7 @@ void MeshXml::ConvertToAssimpScene(aiScene *dest) {
 
 SubMeshXml::SubMeshXml() :
         indexData(new IndexDataXml()),
-        vertexData(nullptr) {
+        vertexData(0) {
 }
 
 SubMeshXml::~SubMeshXml() {
@@ -827,7 +827,7 @@ Animation::Animation(Skeleton *parent) :
 
 Animation::Animation(Mesh *parent) :
         parentMesh(parent),
-        parentSkeleton(nullptr),
+        parentSkeleton(0),
         length(0.0f),
         baseTime(-1.0f) {
     // empty
@@ -910,7 +910,7 @@ Bone *Skeleton::BoneByName(const std::string &name) const {
         if ((*iter)->name == name)
             return (*iter);
     }
-    return nullptr;
+    return 0;
 }
 
 Bone *Skeleton::BoneById(uint16_t id) const {
@@ -918,20 +918,20 @@ Bone *Skeleton::BoneById(uint16_t id) const {
         if ((*iter)->id == id)
             return (*iter);
     }
-    return nullptr;
+    return 0;
 }
 
 // Bone
 
 Bone::Bone() :
         id(0),
-        parent(nullptr),
+        parent(0),
         parentId(-1),
         scale(1.0f, 1.0f, 1.0f) {
 }
 
 bool Bone::IsParented() const {
-    return (parentId != -1 && parent != nullptr);
+    return (parentId != -1 && parent != 0);
 }
 
 uint16_t Bone::ParentId() const {

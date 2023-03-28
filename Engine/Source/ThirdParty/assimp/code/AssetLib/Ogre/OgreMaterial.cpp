@@ -111,7 +111,7 @@ void OgreImporter::AssignMaterials(aiScene *pScene, std::vector<aiMaterial *> &m
 
 aiMaterial *OgreImporter::ReadMaterial(const std::string &pFile, Assimp::IOSystem *pIOHandler, const std::string &materialName) {
     if (materialName.empty()) {
-        return nullptr;
+        return 0;
     }
 
     // Full reference and examples of Ogre Material Script
@@ -154,7 +154,7 @@ aiMaterial *OgreImporter::ReadMaterial(const std::string &pFile, Assimp::IOSyste
         if (!m_userDefinedMaterialLibFile.empty())
             potentialFiles.push_back(m_userDefinedMaterialLibFile);
 
-        IOStream *materialFile = nullptr;
+        IOStream *materialFile = 0;
         for (size_t i = 0; i < potentialFiles.size(); ++i) {
             materialFile = pIOHandler->Open(potentialFiles[i]);
             if (materialFile) {
@@ -164,13 +164,13 @@ aiMaterial *OgreImporter::ReadMaterial(const std::string &pFile, Assimp::IOSyste
         }
         if (!materialFile) {
             ASSIMP_LOG_ERROR("Failed to find source file for material '", materialName, "'");
-            return nullptr;
+            return 0;
         }
 
         std::unique_ptr<IOStream> stream(materialFile);
         if (stream->FileSize() == 0) {
             ASSIMP_LOG_WARN("Source file for material '", materialName, "' is empty (size is 0 bytes)");
-            return nullptr;
+            return 0;
         }
 
         // Read bytes

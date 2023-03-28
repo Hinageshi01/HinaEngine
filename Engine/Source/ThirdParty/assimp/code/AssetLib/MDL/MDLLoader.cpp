@@ -159,7 +159,7 @@ void MDLImporter::InternReadFile(const std::string &pFile,
     std::unique_ptr<IOStream> file(pIOHandler->Open(pFile));
 
     // Check whether we can read from the file
-    if (file == nullptr) {
+    if (file.get() == nullptr) {
         throw DeadlyImportError("Failed to open MDL file ", pFile, ".");
     }
 
@@ -298,7 +298,7 @@ void MDLImporter::SizeCheck(const void *szPos, const char *szFile, unsigned int 
         }
 
         char szBuffer[1024];
-        ::snprintf(szBuffer, sizeof(szBuffer), "Invalid MDL file. The file is too small "
+        ::sprintf(szBuffer, "Invalid MDL file. The file is too small "
                             "or contains invalid data (File: %s Line: %u)",
                 szFilePtr, iLine);
 
@@ -404,15 +404,8 @@ void MDLImporter::InternReadFile_Quake1() {
                     this->CreateTextureARGB8_3DGS_MDL3(szCurrent + iNumImages * sizeof(float));
                 }
                 // go to the end of the skin section / the beginning of the next skin
-                bool overflow = false;
-                if (pcHeader->skinwidth != 0 || pcHeader->skinheight != 0) {
-                    if ((pcHeader->skinheight > INT_MAX / pcHeader->skinwidth) || (pcHeader->skinwidth > INT_MAX / pcHeader->skinheight)){
-                        overflow = true;
-                    }
-                    if (!overflow) {
-                        szCurrent += pcHeader->skinheight * pcHeader->skinwidth +sizeof(float) * iNumImages;
-                    }
-                }
+                szCurrent += pcHeader->skinheight * pcHeader->skinwidth +
+                             sizeof(float) * iNumImages;
             }
         } else {
             szCurrent += sizeof(uint32_t);

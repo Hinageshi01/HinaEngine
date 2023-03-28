@@ -566,9 +566,6 @@ struct aiAnimMesh {
 /** @brief Enumerates the methods of mesh morphing supported by Assimp.
  */
 enum aiMorphingMethod {
-    /** Morphing method to be determined */
-    aiMorphingMethod_UNKNOWN = 0x0,
-
     /** Interpolation between morph targets */
     aiMorphingMethod_VERTEX_BLEND = 0x1,
 
@@ -750,7 +747,7 @@ struct aiMesh {
      *  Method of morphing when anim-meshes are specified.
      *  @see aiMorphingMethod to learn more about the provided morphing targets.
      */
-    enum aiMorphingMethod mMethod;
+    unsigned int mMethod;
 
     /**
      *  The bounding box.
@@ -781,7 +778,7 @@ struct aiMesh {
               mMaterialIndex(0),
               mNumAnimMeshes(0),
               mAnimMeshes(nullptr),
-              mMethod(aiMorphingMethod_UNKNOWN),
+              mMethod(0),
               mAABB(),
               mTextureCoordsNames(nullptr) {
         for (unsigned int a = 0; a < AI_MAX_NUMBER_OF_TEXTURECOORDS; ++a) {
@@ -1005,7 +1002,7 @@ struct aiSkeletonBone {
 #endif // __cplusplus
 };
 /**
- *  @brief
+ *  @brief  
  */
 struct aiSkeleton {
     /**

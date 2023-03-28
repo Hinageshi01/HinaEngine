@@ -48,7 +48,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <assimp/ByteSwapper.h>
 #include <assimp/fast_atof.h>
 #include <assimp/DefaultLogger.hpp>
-#include <utility>
 
 using namespace Assimp;
 
@@ -382,10 +381,10 @@ bool PLY::DOM::SkipSpacesAndLineEnd(std::vector<char> &buffer) {
     return ret;
 }
 
-bool PLY::DOM::SkipComments(std::vector<char> buffer) {
+bool PLY::DOM::SkipComments(std::vector<char> &buffer) {
     ai_assert(!buffer.empty());
 
-    std::vector<char> nbuffer = std::move(buffer);
+    std::vector<char> nbuffer = buffer;
     // skip spaces
     if (!SkipSpaces(nbuffer)) {
         return false;
@@ -501,6 +500,10 @@ bool PLY::DOM::ParseInstanceBinary(IOStreamBuffer<char> &streamBuffer, DOM *p_pc
     }
 
     streamBuffer.getNextBlock(buffer);
+
+    // remove first char if it's /n in case of file with /r/n
+    if (((char *)&buffer[0])[0] == '\n')
+        buffer.erase(buffer.begin(), buffer.begin() + 1);
 
     unsigned int bufferSize = static_cast<unsigned int>(buffer.size());
     const char *pCur = (char *)&buffer[0];

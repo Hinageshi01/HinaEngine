@@ -44,8 +44,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "3MFTypes.h"
 #include <assimp/scene.h>
 
-#include <utility>
-
 namespace Assimp {
 namespace D3MF {
 
@@ -216,7 +214,7 @@ void XmlSerializer::ImportXml(aiScene *scene) {
     if (nullptr == scene) {
         return;
     }
-
+    
     scene->mRootNode = new aiNode(XmlTag::RootTag);
     XmlNode node = mXmlParser->getRootNode().child(XmlTag::model);
     if (node.empty()) {
@@ -444,7 +442,7 @@ void XmlSerializer::ImportTriangles(XmlNode &node, aiMesh *mesh) {
                             }
                             mesh->mTextureCoords[0] = new aiVector3D[mesh->mNumVertices];
                         }
-                    }
+                    } 
                 }
             }
 
@@ -584,7 +582,7 @@ aiMaterial *XmlSerializer::readMaterialDef(XmlNode &node, unsigned int basemater
     stdMaterialName += strId;
     stdMaterialName += "_";
     if (hasName) {
-        stdMaterialName += name;
+        stdMaterialName += std::string(name);
     } else {
         stdMaterialName += "basemat_";
         stdMaterialName += ai_to_string(mMaterials.size());

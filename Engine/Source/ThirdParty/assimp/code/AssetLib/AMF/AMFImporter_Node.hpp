@@ -88,7 +88,9 @@ public:
 	std::list<AMFNodeElementBase *> Child; ///< Child elements.
 
 public: /// Destructor, virtual..
-	virtual ~AMFNodeElementBase() = default;
+	virtual ~AMFNodeElementBase() {
+		// empty
+	}
 
 	/// Disabled copy constructor and co.
 	AMFNodeElementBase(const AMFNodeElementBase &pNodeElement) = delete;
@@ -101,7 +103,7 @@ protected:
 	/// \param [in] pType - element type.
 	/// \param [in] pParent - parent element.
 	AMFNodeElementBase(const EType pType, AMFNodeElementBase *pParent) :
-			Type(pType), Parent(pParent) {
+			Type(pType), ID(), Parent(pParent), Child() {
 		// empty
 	}
 }; // class IAMFImporter_NodeElement
@@ -172,7 +174,7 @@ struct AMFColor : public AMFNodeElementBase {
 	/// @brief  Constructor.
 	/// @param [in] pParent - pointer to parent node.
 	AMFColor(AMFNodeElementBase *pParent) :
-			AMFNodeElementBase(ENET_Color, pParent), Composed(false), Color() {
+			AMFNodeElementBase(ENET_Color, pParent), Composed(false), Color(), Profile() {
 		// empty
 	}
 };
@@ -268,7 +270,7 @@ struct AMFTexMap : public AMFNodeElementBase {
 	/// Constructor.
 	/// \param [in] pParent - pointer to parent node.
 	AMFTexMap(AMFNodeElementBase *pParent) :
-			AMFNodeElementBase(ENET_TexMap, pParent), TextureCoordinate{} {
+			AMFNodeElementBase(ENET_TexMap, pParent), TextureCoordinate{}, TextureID_R(), TextureID_G(), TextureID_B(), TextureID_A() {
 		// empty
 	}
 };
