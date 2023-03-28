@@ -29,7 +29,7 @@ namespace entt {
 
 namespace internal {
 
-[[nodiscard]] inline decltype(auto) owner(meta_ctx &ctx, const type_info &info) {
+inline decltype(auto) owner(meta_ctx &ctx, const type_info &info) {
     auto &&context = internal::meta_context::from(ctx);
     ENTT_ASSERT(context.value.contains(info.hash()), "Type not available");
     return context.value[info.hash()];

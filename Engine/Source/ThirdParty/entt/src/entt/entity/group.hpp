@@ -7,6 +7,7 @@
 #include "../config/config.h"
 #include "../core/iterator.hpp"
 #include "../core/type_traits.hpp"
+#include "component.hpp"
 #include "entity.hpp"
 #include "fwd.hpp"
 #include "sparse_set.hpp"
@@ -28,7 +29,7 @@ template<typename It, typename... Owned, typename... Get>
 class extended_group_iterator<It, owned_t<Owned...>, get_t<Get...>> {
     template<typename Type>
     auto index_to_element([[maybe_unused]] Type &cpool) const {
-        if constexpr(Type::traits_type::page_size == 0u) {
+        if constexpr(ignore_as_empty_v<typename Type::value_type>) {
             return std::make_tuple();
         } else {
             return std::forward_as_tuple(cpool.rbegin()[it.index()]);
@@ -36,7 +37,6 @@ class extended_group_iterator<It, owned_t<Owned...>, get_t<Get...>> {
     }
 
 public:
-    using iterator_type = It;
     using difference_type = std::ptrdiff_t;
     using value_type = decltype(std::tuple_cat(std::make_tuple(*std::declval<It>()), std::declval<Owned>().get_as_tuple({})..., std::declval<Get>().get_as_tuple({})...));
     using pointer = input_iterator_pointer<value_type>;
@@ -66,10 +66,6 @@ public:
 
     [[nodiscard]] pointer operator->() const noexcept {
         return operator*();
-    }
-
-    [[nodiscard]] constexpr iterator_type base() const noexcept {
-        return it;
     }
 
     template<typename... Lhs, typename... Rhs>
@@ -134,7 +130,7 @@ class basic_group<owned_t<>, get_t<Get...>, exclude_t<Exclude...>> {
     using basic_common_type = std::common_type_t<typename Get::base_type..., typename Exclude::base_type...>;
 
     template<typename Type>
-    static constexpr std::size_t index_of = type_list_index_v<std::remove_const_t<Type>, type_list<typename Get::value_type..., typename Exclude::value_type...>>;
+    static constexpr std::size_t index_of = type_list_index_v<std::remove_const_t<Type>, type_list<typename Get::value_type...>>;
 
 public:
     /*! @brief Underlying entity identifier. */
@@ -157,13 +153,11 @@ public:
     /**
      * @brief Constructs a group from a set of storage classes.
      * @param ref The actual entities to iterate.
-     * @param gpool The storage for the _observed_ types to iterate.
-     * @param epool The storage for the types used to filter the group.
+     * @param gpool Storage types to iterate _observed_ by the group.
      */
-    basic_group(basic_common_type &ref, Get &...gpool, Exclude &...epool) noexcept
+    basic_group(basic_common_type &ref, Get &...gpool) noexcept
         : handler{&ref},
-          pools{&gpool...},
-          filter{&epool...} {}
+          pools{&gpool...} {}
 
     /**
      * @brief Returns a const reference to the underlying handler.
@@ -190,13 +184,7 @@ public:
      */
     template<std::size_t Index>
     [[nodiscard]] decltype(auto) storage() const noexcept {
-        constexpr auto offset = sizeof...(Get);
-
-        if constexpr(Index < offset) {
-            return *std::get<Index>(pools);
-        } else {
-            return *std::get<Index - offset>(filter);
-        }
+        return *std::get<Index>(pools);
     }
 
     /**
@@ -497,9 +485,8 @@ public:
     }
 
 private:
-    base_type *handler;
-    std::tuple<Get *...> pools;
-    std::tuple<Exclude *...> filter;
+    base_type *const handler;
+    const std::tuple<Get *...> pools;
 };
 
 /**
@@ -539,7 +526,7 @@ class basic_group<owned_t<Owned...>, get_t<Get...>, exclude_t<Exclude...>> {
     using basic_common_type = std::common_type_t<typename Owned::base_type..., typename Get::base_type..., typename Exclude::base_type...>;
 
     template<typename Type>
-    static constexpr std::size_t index_of = type_list_index_v<std::remove_const_t<Type>, type_list<typename Owned::value_type..., typename Get::value_type..., typename Exclude::value_type...>>;
+    static constexpr std::size_t index_of = type_list_index_v<std::remove_const_t<Type>, type_list<typename Owned::value_type..., typename Get::value_type...>>;
 
 public:
     /*! @brief Underlying entity identifier. */
@@ -562,13 +549,11 @@ public:
     /**
      * @brief Constructs a group from a set of storage classes.
      * @param extent The actual number of entities to iterate.
-     * @param opool The storage for the _owned_ types to iterate.
-     * @param gpool The storage for the _observed_ types to iterate.
-     * @param epool The storage for the types used to filter the group.
+     * @param opool Storage types to iterate _owned_ by the group.
+     * @param gpool Storage types to iterate _observed_ by the group.
      */
-    basic_group(const std::size_t &extent, Owned &...opool, Get &...gpool, Exclude &...epool) noexcept
+    basic_group(const std::size_t &extent, Owned &...opool, Get &...gpool) noexcept
         : pools{&opool..., &gpool...},
-          filter{&epool...},
           length{&extent} {}
 
     /**
@@ -588,13 +573,7 @@ public:
      */
     template<std::size_t Index>
     [[nodiscard]] decltype(auto) storage() const noexcept {
-        constexpr auto offset = sizeof...(Owned) + sizeof...(Get);
-
-        if constexpr(Index < offset) {
-            return *std::get<Index>(pools);
-        } else {
-            return *std::get<Index - offset>(filter);
-        }
+        return *std::get<Index>(pools);
     }
 
     /**
@@ -864,9 +843,8 @@ public:
     }
 
 private:
-    std::tuple<Owned *..., Get *...> pools;
-    std::tuple<Exclude *...> filter;
-    const size_type *length;
+    const std::tuple<Owned *..., Get *...> pools;
+    const size_type *const length;
 };
 
 } // namespace entt

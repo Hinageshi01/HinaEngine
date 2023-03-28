@@ -1,7 +1,6 @@
 #ifndef ENTT_ENTITY_FWD_HPP
 #define ENTT_ENTITY_FWD_HPP
 
-#include <cstdint>
 #include <memory>
 #include <type_traits>
 #include "../core/fwd.hpp"
@@ -12,14 +11,6 @@ namespace entt {
 /*! @brief Default entity identifier. */
 enum class entity : id_type {};
 
-/*! @brief Storage deletion policy. */
-enum class deletion_policy : std::uint8_t {
-    /*! @brief Swap-and-pop deletion policy. */
-    swap_and_pop = 0u,
-    /*! @brief In-place deletion policy. */
-    in_place = 1u
-};
-
 template<typename Entity = entity, typename = std::allocator<Entity>>
 class basic_sparse_set;
 
@@ -27,18 +18,18 @@ template<typename Type, typename = entity, typename = std::allocator<Type>, type
 class basic_storage;
 
 template<typename Type>
-class sigh_mixin;
+class sigh_storage_mixin;
 
 /**
  * @brief Provides a common way to define storage types.
  * @tparam Type Storage value type.
- * @tparam Entity A valid entity type.
+ * @tparam Entity A valid entity type (see entt_traits for more details).
  * @tparam Allocator Type of allocator used to manage memory and elements.
  */
 template<typename Type, typename Entity = entity, typename Allocator = std::allocator<Type>, typename = void>
 struct storage_type {
     /*! @brief Type-to-storage conversion result. */
-    using type = sigh_mixin<basic_storage<Type, Entity, Allocator>>;
+    using type = sigh_storage_mixin<basic_storage<Type, Entity, Allocator>>;
 };
 
 /**
@@ -51,7 +42,7 @@ using storage_type_t = typename storage_type<Args...>::type;
 /**
  * Type-to-storage conversion utility that preserves constness.
  * @tparam Type Storage value type, eventually const.
- * @tparam Entity A valid entity type.
+ * @tparam Entity A valid entity type (see entt_traits for more details).
  * @tparam Allocator Type of allocator used to manage memory and elements.
  */
 template<typename Type, typename Entity = entity, typename Allocator = std::allocator<std::remove_const_t<Type>>>

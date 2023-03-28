@@ -76,9 +76,7 @@ public:
      * @param allocator The allocator to use.
      */
     emitter(emitter &&other, const allocator_type &allocator) noexcept
-        : handlers{container_type{std::move(other.handlers.first()), allocator}, allocator} {
-        ENTT_ASSERT(alloc_traits::is_always_equal::value || handlers.second() == other.handlers.second(), "Copying an emitter is not allowed");
-    }
+        : handlers{container_type{std::move(other.handlers.first()), allocator}, allocator} {}
 
     /**
      * @brief Move assignment operator.
@@ -86,8 +84,6 @@ public:
      * @return This dispatcher.
      */
     emitter &operator=(emitter &&other) noexcept {
-        ENTT_ASSERT(alloc_traits::is_always_equal::value || handlers.second() == other.handlers.second(), "Copying an emitter is not allowed");
-
         handlers = std::move(other.handlers);
         return *this;
     }

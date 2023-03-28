@@ -25,19 +25,19 @@ struct meta_range_iterator final {
     using reference = value_type;
     using iterator_category = std::input_iterator_tag;
 
-    constexpr meta_range_iterator() noexcept
+    meta_range_iterator() noexcept
         : it{},
           ctx{} {}
 
-    constexpr meta_range_iterator(const meta_ctx &area, const It iter) noexcept
+    meta_range_iterator(const meta_ctx &area, const It iter) noexcept
         : it{iter},
           ctx{&area} {}
 
-    constexpr meta_range_iterator &operator++() noexcept {
+    meta_range_iterator &operator++() noexcept {
         return ++it, *this;
     }
 
-    constexpr meta_range_iterator operator++(int) noexcept {
+    meta_range_iterator operator++(int) noexcept {
         meta_range_iterator orig = *this;
         return ++(*this), orig;
     }

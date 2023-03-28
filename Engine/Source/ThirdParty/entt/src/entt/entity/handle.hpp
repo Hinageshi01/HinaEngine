@@ -43,9 +43,7 @@ public:
         : entt{value},
           it{from},
           last{to} {
-        while(it != last && !it->second.contains(entt)) {
-            ++it;
-        }
+        while(it != last && !it->second.contains(entt)) { ++it; }
     }
 
     constexpr handle_storage_iterator &operator++() noexcept {
@@ -143,7 +141,7 @@ struct basic_handle {
 
     /**
      * @brief Constructs a const handle from a non-const one.
-     * @tparam Other A valid entity type.
+     * @tparam Other A valid entity type (see entt_traits for more details).
      * @tparam Args Scope of the handle to construct.
      * @return A const handle referring to the same registry and the same
      * entity.
@@ -198,7 +196,7 @@ struct basic_handle {
 
     /*! @brief Destroys the entity associated with a handle. */
     void destroy() {
-        reg->destroy(std::exchange(entt, null));
+        reg->destroy(entt);
     }
 
     /**
@@ -206,7 +204,7 @@ struct basic_handle {
      * @param version A desired version upon destruction.
      */
     void destroy(const version_type version) {
-        reg->destroy(std::exchange(entt, null), version);
+        reg->destroy(entt, version);
     }
 
     /**
