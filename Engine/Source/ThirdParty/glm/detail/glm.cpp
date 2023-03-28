@@ -1,5 +1,3 @@
-#include "hnpch.h"
-
 /// @ref core
 /// @file glm/glm.cpp
 
