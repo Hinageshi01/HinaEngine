@@ -16,6 +16,6 @@
 - [stb](https://github.com/nothings/stb/tree/master)
 
 ## Others
-- [Font-Awesome 6.4.0](https://github.com/FortAwesome/Font-Awesome/tree/6.x)
 - chrome://tracing/
 - edge://tracing/
+- [Font-Awesome 6.4.0](https://github.com/FortAwesome/Font-Awesome/tree/6.x)
