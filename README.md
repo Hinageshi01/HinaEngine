@@ -8,10 +8,11 @@
 ## Thirdparty
 - [assimp 5.2.5](https://github.com/assimp/assimp)
 - [entt 3.11.1](https://github.com/skypjack/entt)
-- [imgui docking branch](https://github.com/ocornut/imgui/tree/ad44f5831acec714f2af437475406e2f002982a1)
-- [glfw 3.3.8](https://github.com/glfw/glfw)
 - [glad 1](https://github.com/Dav1dde/glad/tree/master)
+- [glfw 3.3.8](https://github.com/glfw/glfw)
 - [glm 0.9.9.8](https://github.com/g-truc/glm)
+- [imgui docking branch](https://github.com/ocornut/imgui/tree/ad44f5831acec714f2af437475406e2f002982a1)
+- [spdlog 1.11.0](https://github.com/gabime/spdlog)
 - [stb](https://github.com/nothings/stb/tree/master)
 
 ## Others
