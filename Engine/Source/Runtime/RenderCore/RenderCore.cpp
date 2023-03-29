@@ -35,6 +35,10 @@ void RenderCore::Init() {
 	m_modelMatrix = glm::identity<glm::mat4>();
 }
 
+void RenderCore::SetDefaultRenderState() {
+	RenderCommand::SetDefaultRenderState();
+}
+
 void RenderCore::Shutdown() {
 
 }
@@ -107,6 +111,7 @@ void RenderCore::Submit(const std::shared_ptr<Shader> &shader, const std::shared
 	shader->SetMat4("u_projection", m_projectionMatrix);
 
 	RenderCommand::DrawIndexed(vertexArray);
+
 	shader->Unbind();
 }
 

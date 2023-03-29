@@ -10,6 +10,10 @@ void RenderCommand::Init() {
 	m_renderAPI = RenderAPI::Create();
 }
 
+void RenderCommand::SetDefaultRenderState() {
+	m_renderAPI->SetDefaultRenderState();
+}
+
 void RenderCommand::SetViewport(const uint32_t x, const uint32_t y, const uint32_t width, const uint32_t height) {
 	m_renderAPI->SetViewport(x, y, width, height);
 }

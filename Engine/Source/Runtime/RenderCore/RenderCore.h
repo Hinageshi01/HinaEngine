@@ -23,6 +23,7 @@ public:
 	static GraphicsAPI GetAPI();
 
 	static void Init();
+	static void SetDefaultRenderState();
 	static void Shutdown();
 
 	static void BeginScene();

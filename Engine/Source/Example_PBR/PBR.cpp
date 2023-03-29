@@ -118,6 +118,7 @@ public:
 			m_pShader->Bind();
 			m_pTexture->Bind(0);
 			m_pShader->SetInt("us_albedo", 0);
+			m_pShader->Unbind();
 		}
 		
 		Hina::RenderCore::BeginScene();
