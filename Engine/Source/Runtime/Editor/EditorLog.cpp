@@ -195,20 +195,20 @@ void EditorLog::SetOutputColor(std::string_view str) const {
     // we can search log level start from the last "[" position.
     static const size_t startPoint = str.find_last_of("[");
 
-    if(str.find("trace", startPoint) != str.npos) {
-        ImGui::PushStyleColor(ImGuiCol_Text, COLOR_GREY);
-    }
-    else if(str.find("info", startPoint) != str.npos) {
-        ImGui::PushStyleColor(ImGuiCol_Text, COLOR_GREEN);
-    }
-    else if(str.find("warn", startPoint) != str.npos) {
-        ImGui::PushStyleColor(ImGuiCol_Text, COLOR_YELLOW);
+    if(str.find("crit", startPoint) != str.npos) {
+        ImGui::PushStyleColor(ImGuiCol_Text, COLOR_PURPLE);
     }
     else if(str.find("erro", startPoint) != str.npos) {
         ImGui::PushStyleColor(ImGuiCol_Text, COLOR_RED);
     }
-    else if(str.find("crit", startPoint) != str.npos) {
-        ImGui::PushStyleColor(ImGuiCol_Text, COLOR_PURPLE);
+    else if(str.find("warn", startPoint) != str.npos) {
+        ImGui::PushStyleColor(ImGuiCol_Text, COLOR_YELLOW);
+    }
+    else if(str.find("info", startPoint) != str.npos) {
+        ImGui::PushStyleColor(ImGuiCol_Text, COLOR_GREEN);
+    }
+    else if(str.find("trace", startPoint) != str.npos) {
+        ImGui::PushStyleColor(ImGuiCol_Text, COLOR_GREY);
     }
     else {
         ImGui::PushStyleColor(ImGuiCol_Text, COLOR_GREY);

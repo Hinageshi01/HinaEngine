@@ -107,6 +107,7 @@ void RenderCore::Submit(const std::shared_ptr<Shader> &shader, const std::shared
 	shader->SetMat4("u_projection", m_projectionMatrix);
 
 	RenderCommand::DrawIndexed(vertexArray);
+	shader->Unbind();
 }
 
 void RenderCore::Submit(const std::shared_ptr<Shader> &shader, const std::shared_ptr<VertexArray> &vertexArray) {

@@ -113,6 +113,7 @@ void OpenGLVertexArray::AddVertexBuffer(const std::shared_ptr<VertexBuffer> &ver
 	m_vertexBuffers.push_back(vertexBuffer);
 
 	glBindVertexArray(0);
+	vertexBuffer->Unbind();
 }
 
 void OpenGLVertexArray::SetIndexBuffer(const std::shared_ptr<IndexBuffer> &indexBuffer) {
@@ -120,6 +121,7 @@ void OpenGLVertexArray::SetIndexBuffer(const std::shared_ptr<IndexBuffer> &index
 	indexBuffer->Bind();
 	m_indexBuffer = indexBuffer;
 	glBindVertexArray(0);
+	indexBuffer->Unbind();
 }
 
 } // namespace Hina

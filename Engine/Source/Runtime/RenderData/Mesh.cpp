@@ -25,10 +25,6 @@ void Mesh::CreateVertexArray() {
 	m_pVertexArray->AddVertexBuffer(vertexBuffer);
 	m_pVertexArray->SetIndexBuffer(indexBuffer);
 
-	vertexBuffer->Unbind();
-	indexBuffer->Unbind();
-	m_pVertexArray->Unbind();
-
 	m_vertices.clear();
 	m_vertices.shrink_to_fit();
 	m_indices.clear();
