@@ -49,7 +49,7 @@ BufferLayout::BufferLayout(const std::initializer_list<BufferElement> &elements)
 	CalculateOffsetsAndStride();
 }
 
-BufferLayout::BufferLayout(std::initializer_list<BufferElement> &&elements) : m_elements(elements) {
+BufferLayout::BufferLayout(std::initializer_list<BufferElement> &&elements) : m_elements(std::move(elements)) {
 	CalculateOffsetsAndStride();
 }
 

@@ -27,7 +27,7 @@ public:
 	virtual void Unbind() const override;
 
 	virtual void SetName(const std::string &name) override { m_name = name; };
-	virtual void SetName(std::string &&name) override { m_name = name; };
+	virtual void SetName(std::string &&name) override { m_name = std::move(name); };
 	virtual const std::string &GetName() const override { return m_name; }
 
 	virtual void SetInt(const std::string &name, int value) override;

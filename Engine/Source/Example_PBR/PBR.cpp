@@ -73,7 +73,7 @@ class PBRLayer final : public Hina::Layer
 {
 public:
 	explicit PBRLayer(const std::string &str) : Layer(str) {}
-	explicit PBRLayer(std::string &&str) : Layer(str) {}
+	explicit PBRLayer(std::string &&str) : Layer(std::move(str)) {}
 	
 	PBRLayer() = delete;
 	PBRLayer(const PBRLayer &) = default;
@@ -97,6 +97,8 @@ public:
 			m_pTexture = Hina::Texture2D::Create(Hina::Path::FromAsset("Texture/japanese_stone_wall_diff.png"));
 
 			m_model = Hina::Model(Hina::Path::FromAsset("Model/officebot/scene.gltf"));
+			//m_model = Hina::Model("C:/Users/22470/Desktop/rock_jacket_mid-poly/scene.gltf");
+			//m_model = Hina::Model("C:/Users/22470/Desktop/game_ready_scifi_helmet/scene.gltf");
 		}
 	}
 

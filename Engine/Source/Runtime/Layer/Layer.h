@@ -10,7 +10,7 @@ class Layer
 {
 public:
 	explicit Layer(const std::string &name = "Layer") : m_name(name) {};
-	explicit Layer(std::string &&name = "Layer") : m_name(name) {};
+	explicit Layer(std::string &&name = "Layer") : m_name(std::move(name)) {};
 
 	Layer() = default;
 	Layer(const Layer &) = default;
