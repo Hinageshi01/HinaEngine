@@ -3,6 +3,7 @@
 #include "RenderData/Mesh.h"
 
 #include "Core/Timer.h"
+#include "RenderData/AABB.h"
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -34,8 +35,10 @@ private:
 	void ProcessNode(const aiScene *pScene, const aiNode *pNode);
 	void ProcessMesh(const aiScene *pScene, const aiMesh *pMesh);
 
-	Timer timer;
+	Timer m_timer;
 	std::string m_path;
+
+	AABB m_aabb;
 	std::vector<Mesh> m_meshs;
 };
 

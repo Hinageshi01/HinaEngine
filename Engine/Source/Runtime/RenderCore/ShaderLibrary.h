@@ -21,7 +21,6 @@ public:
 	std::shared_ptr<Shader> Get(const std::string &name);
 
 	bool Exist(const std::string &name) const;
-	bool Exist(std::string &&name) const;
 
 private:
 	std::unordered_map<std::string, std::shared_ptr<Shader>> m_shaders;

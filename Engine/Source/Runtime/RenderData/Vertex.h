@@ -50,7 +50,7 @@ public:
     void SetBone(const size_t index, const uint32_t bone) { m_bones[index] = bone; }
     uint32_t &GetBone(const size_t index) { return m_bones[index]; }
     const uint32_t &GetBone(const size_t index) const { return m_bones[index]; }
-
+    
     void SetWeight(const size_t index, const float bone) { m_weights[index] = bone; }
     float &GetWeight(const size_t index) { return m_weights[index]; }
     const float &GetWeight(const size_t index) const { return m_weights[index]; }
@@ -62,6 +62,8 @@ private:
     glm::vec2 m_uv;
     uint32_t m_bones[MAX_BONE];
     float m_weights[MAX_BONE];
+
+    static_assert(sizeof(glm::vec3) == sizeof(float) * 3);
 };
 
 } // namespace Hina

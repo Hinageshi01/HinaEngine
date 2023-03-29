@@ -37,7 +37,6 @@ void ImGuiContext::Init() {
 		io.Fonts->AddFontFromFileTTF(Path::FromAsset("Icon/fa-solid-900.ttf").c_str(), 13.0f, &config, icon_ranges);
 	}
 
-	ImGui::StyleColorsDark();
 	SetDarkTheme();
 }
 

@@ -18,12 +18,17 @@ void Mesh::CreateVertexArray() {
 	assert(!m_vertices.empty() && !m_indices.empty() && "Empty buffers!");
 
 	std::shared_ptr<VertexBuffer> vertexBuffer = VertexBuffer::Create(m_vertices.size() * sizeof(Vertex), GetVerticesData());
-	std::shared_ptr<IndexBuffer> indexBuffer = IndexBuffer::Create(m_indices.size() * sizeof(Index), m_indices.data());
 	vertexBuffer->SetLayout(Vertex::GetLayOut());
+	std::shared_ptr<IndexBuffer> indexBuffer = IndexBuffer::Create(m_indices.size() * sizeof(Index), m_indices.data());
 
 	m_pVertexArray = VertexArray::Create();
 	m_pVertexArray->AddVertexBuffer(vertexBuffer);
 	m_pVertexArray->SetIndexBuffer(indexBuffer);
+
+	m_vertices.clear();
+	m_vertices.shrink_to_fit();
+	m_indices.clear();
+	m_indices.shrink_to_fit();
 }
 
 const float *Mesh::GetVerticesData() const {

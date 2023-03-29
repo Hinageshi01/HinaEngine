@@ -32,8 +32,4 @@ bool ShaderLibrary::Exist(const std::string &name) const {
 	return m_shaders.find(name) != m_shaders.end();
 }
 
-bool ShaderLibrary::Exist(std::string &&name) const {
-	return m_shaders.find(name) != m_shaders.end();
-}
-
 } // namespace Hina
