@@ -98,7 +98,6 @@ public:
 
 			m_model = Hina::Model(Hina::Path::FromAsset("Model/officebot/scene.gltf"));
 			//m_model = Hina::Model("C:/Users/22470/Desktop/rock_jacket_mid-poly/scene.gltf");
-			//m_model = Hina::Model("C:/Users/22470/Desktop/game_ready_scifi_helmet/scene.gltf");
 		}
 	}
 

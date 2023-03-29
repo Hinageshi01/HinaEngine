@@ -33,7 +33,7 @@ private:
 	void ImportScene(const std::string &path);
 	void ProcessScene(const aiScene *pScene);
 	void ProcessNode(const aiScene *pScene, const aiNode *pNode);
-	void ProcessMesh(const aiScene *pScene, const aiMesh *pMesh);
+	void ProcessMesh(const aiMesh *pMesh);
 
 	Timer m_timer;
 	std::string m_path;

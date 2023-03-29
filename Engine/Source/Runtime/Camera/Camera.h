@@ -16,10 +16,10 @@ struct CameraInitializer
     CameraInitializer &operator=(CameraInitializer &&) = default;
     ~CameraInitializer() = default;
 
-    glm::vec3 m_position = { 0.0f, 0.0f, -5.0f };
+    glm::vec3 m_position = { 0.0f, 0.0f, 5.0f };
 
-    // Means that m_front will be inlitialied as (0.0f, 1.0f, 0.0f).
-    float m_yaw = glm::radians(90.0f);
+    // Means that m_front will be inlitialied as (0.0f, 0.0f, -1.0f).
+    float m_yaw = glm::radians(-90.0f);
     float m_pitch = glm::radians(0.0f);
     float m_zoom = glm::radians(45.0f);
     float m_near = 0.01f;

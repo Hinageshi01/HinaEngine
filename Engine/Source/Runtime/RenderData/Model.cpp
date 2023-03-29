@@ -31,10 +31,10 @@ Model::Model(std::string &&path) : m_path(std::move(path)) {
 
 void Model::Draw(const std::shared_ptr<Shader> &pShader, const glm::mat4 &trans) const {
     HN_PROFILE_FUNCTION();
-    m_meshs[0].Draw(pShader, trans);
-    // for(const auto &mesh : m_meshs) {
-    //     mesh.Draw(pShader, trans);
-    // }
+
+    for(const auto &mesh : m_meshs) {
+        mesh.Draw(pShader, trans);
+    }
 }
 
 void Model::ImportScene(const std::string &path) {
@@ -47,7 +47,7 @@ void Model::ImportScene(const std::string &path) {
 
     {
         HN_PROFILE_SCOPE("const aiScene *Importer::ReadFile(const std::string &pFile, unsigned int pFlags)");
-        pScene = importer.ReadFile(path, aiProcess_ConvertToLeftHanded | aiProcessPreset_TargetRealtime_MaxQuality | aiProcess_PreTransformVertices);
+        pScene = importer.ReadFile(path, aiProcess_GenBoundingBoxes | aiProcess_Triangulate | aiProcess_PreTransformVertices);
     }
 
     if(nullptr != pScene) {
@@ -86,7 +86,7 @@ void Model::ProcessNode(const aiScene *pScene, const aiNode *pNode) {
 
     for(size_t meshIndex = 0; meshIndex < pNode->mNumMeshes; ++meshIndex) {
         aiMesh *mesh = pScene->mMeshes[pNode->mMeshes[meshIndex]];
-        ProcessMesh(pScene, mesh);
+        ProcessMesh(mesh);
     }
     
     // Recursive.
@@ -95,7 +95,7 @@ void Model::ProcessNode(const aiScene *pScene, const aiNode *pNode) {
     }
 }
 
-void Model::ProcessMesh(const aiScene *pScene, const aiMesh *pMesh) {
+void Model::ProcessMesh(const aiMesh *pMesh) {
     HN_CORE_TRACE("");
     HN_CORE_TRACE("            Mesh name: {0}", pMesh->mName.C_Str());
     HN_CORE_TRACE("            Vertex count: {0}", pMesh->mNumVertices);
@@ -104,6 +104,8 @@ void Model::ProcessMesh(const aiScene *pScene, const aiMesh *pMesh) {
     const auto &aiAABB = pMesh->mAABB;
     m_aabb.AddPoint(Utils::GetAABBMax(aiAABB));
     m_aabb.AddPoint(Utils::GetAABBMin(aiAABB));
+
+    ////////////////////////////// VERTEX //////////////////////////////
 
     std::vector<Vertex> vertices;
     vertices.reserve(pMesh->mNumVertices);
@@ -149,19 +151,21 @@ void Model::ProcessMesh(const aiScene *pScene, const aiMesh *pMesh) {
         vertices.emplace_back(std::move(vertex));
     }
 
+    ////////////////////////////// INDEX //////////////////////////////
+
     HN_CORE_ASSERT(pMesh->mFaces[0].mNumIndices == 3, "Hina only supports triangle face!");
 
     std::vector<Index> indices;
     indices.reserve(pMesh->mNumFaces * 3);
     
-    // 5. Index
     for(size_t faceIndex = 0; faceIndex < pMesh->mNumFaces; ++faceIndex) {
         aiFace face = pMesh->mFaces[faceIndex];
-    
-        for(size_t indexIndex = 0; indexIndex < 3; ++indexIndex) {
+        for(size_t indexIndex = 0; indexIndex < face.mNumIndices; ++indexIndex) {
             indices.push_back(static_cast<Index>(face.mIndices[indexIndex]));
         }
     }
+
+    ////////////////////////////// MESH //////////////////////////////
 
     Mesh mesh;
     mesh.SetVertices(std::move(vertices));
