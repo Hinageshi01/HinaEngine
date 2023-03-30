@@ -177,11 +177,11 @@ void Model::ProcessMesh(const aiScene *pScene, const aiMesh *pMesh) {
 
     ////////////////////////////// MATERIAL //////////////////////////////
 
-    Material material;
+    Material material(m_materialType);
 
     if(pMesh->mMaterialIndex >= 0) {
         const aiMaterial *pMaterial = pScene->mMaterials[pMesh->mMaterialIndex];
-        material.Init(m_materialType, pMaterial);
+        material.Load(m_path, pMaterial);
     }
 
     ////////////////////////////// MESH //////////////////////////////
@@ -190,7 +190,9 @@ void Model::ProcessMesh(const aiScene *pScene, const aiMesh *pMesh) {
     mesh.SetVertices(std::move(vertices));
     mesh.SetIndices(std::move(indices));
     mesh.CreateVertexArray();
+
     mesh.Setmaterial(std::move(material));
+    
     m_meshs.emplace_back(std::move(mesh));
 }
 

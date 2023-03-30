@@ -24,6 +24,10 @@ public:
 	VertexArray &GetVertexArray() { return *m_pVertexArray; }
 	const VertexArray &GetVertexArray() const { return *m_pVertexArray; }
 
+	void Setmaterial(Material &&material) { m_material = std::move(material); }
+	Material &GetMaterial() { return m_material; }
+	const Material &GetMaterial() const { return m_material; }
+
 	void SetVertices(std::vector<Vertex> &&vertices) { m_vertices = std::move(vertices); }
 	void SetVertices(const std::vector<Vertex> &vertices) { m_vertices = vertices; }
 	void SetVertex(const size_t index, const Vertex &vertex) { m_vertices[index] = vertex; }
@@ -45,10 +49,6 @@ public:
 	Index &GetIndex(const size_t index) { return m_indices[index]; }
 	const Index &GetIndex(const size_t index) const { return m_indices.at(index); }
 	size_t GetIndicesCount() const { return m_indices.size(); }
-
-	void Setmaterial(Material &&material) { m_material = std::move(material); }
-	Material &GetMaterial() { return m_material; }
-	const Material &GetMaterial() const { return m_material; }
 
 private:
 	const float *GetVerticesData() const;

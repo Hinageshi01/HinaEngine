@@ -1,8 +1,12 @@
 #pragma once
 
-#include "hnpch.h"
-
 #include <glm/glm.hpp>
+
+#include <cstdint>
+#include <optional>
+#include <string>
+#include <unordered_map>
+#include <unordered_set>
 
 namespace Hina
 {
