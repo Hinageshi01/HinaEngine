@@ -87,18 +87,18 @@ public:
 
 		Hina::RenderCore::SetCameraController(m_cameraController);
 
+		m_pShader = Hina::Shader::Create(
+			"testShader",
+			Hina::Path::FromAsset("Shader/v_testShader.glsl"),
+			Hina::Path::FromAsset("Shader/f_testShader.glsl"));
+
 		// tmp
-		{
-			m_pShader = Hina::Shader::Create(
-				"testShader",
-				Hina::Path::FromAsset("Shader/v_testShader.glsl"),
-				Hina::Path::FromAsset("Shader/f_testShader.glsl"));
+		m_pTexture = Hina::Texture2D::Create(Hina::Path::FromAsset("Texture/japanese_stone_wall_diff.png"));
 
-			m_pTexture = Hina::Texture2D::Create(Hina::Path::FromAsset("Texture/japanese_stone_wall_diff.png"));
+		m_model = Hina::Model(Hina::Path::FromAsset("Model/officebot/scene.gltf"));
+		//m_model = Hina::Model("C:/Users/22470/Desktop/rock_jacket_mid-poly/scene.gltf");
 
-			m_model = Hina::Model(Hina::Path::FromAsset("Model/officebot/scene.gltf"));
-			//m_model = Hina::Model("C:/Users/22470/Desktop/rock_jacket_mid-poly/scene.gltf");
-		}
+		m_cameraController.FrameAll(m_model.GetAABB());
 	}
 
 	virtual void OnDetach() override {
@@ -138,6 +138,7 @@ public:
 
 private:
 	std::shared_ptr<Hina::Shader> m_pShader;
+	// tmp
 	std::shared_ptr<Hina::Texture2D> m_pTexture;
 
 	Hina::Model m_model;

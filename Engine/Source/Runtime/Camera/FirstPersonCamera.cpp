@@ -18,6 +18,11 @@ void FirstPersonCamera::OnEvent(Event &event) {
 	dispatcher.Dispatch<MouseScrollEvent>(BIND_EVENT_FN(FirstPersonCamera::OnMouseScroll));
 }
 
+void FirstPersonCamera::FrameAll(const AABB &aabb) {
+    m_camera->SetPosition(aabb.GetCentre() + aabb.GetSize());
+    m_camera->LookAt(aabb.GetCentre());
+}
+
 void FirstPersonCamera::OnKeyPress(const float deltaTime) {
     const float velocity = m_moveSensitive * deltaTime;
 

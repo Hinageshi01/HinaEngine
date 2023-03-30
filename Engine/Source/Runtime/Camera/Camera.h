@@ -46,7 +46,8 @@ public:
     glm::mat4 GetProjectionMatrix(const uint32_t width, const uint32_t height) const;
     glm::mat4 GetViewProjectionMatrix(const uint32_t width, const uint32_t height) const;
 
-    void RecalculateDirections();
+    void LookAt(const glm::vec3 &target);
+    void RecalculateDirections(const bool reCalculateFront = true);
 
     void SetPosition(const glm::vec3 &pos) { m_position = pos; }
     glm::vec3 &GetPosition() { return m_position; }

@@ -28,6 +28,7 @@ public:
 	void Draw(const std::shared_ptr<Shader> &pShader, const glm::mat4 &trans = glm::identity<glm::mat4>()) const;
 
 	const std::string &GetPath() { return m_path; }
+	const AABB &GetAABB() const { return m_aabb; }
 
 private:
 	void ImportScene(const std::string &path);

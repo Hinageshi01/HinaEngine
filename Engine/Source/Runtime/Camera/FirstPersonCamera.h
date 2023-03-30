@@ -2,6 +2,7 @@
 
 #include "Camera/CameraController.h"
 #include "Event/MouseEvent.h"
+#include "RenderData/AABB.h"
 
 namespace Hina
 {
@@ -22,6 +23,8 @@ public:
 	virtual void SetCamera(const std::shared_ptr<Camera> &pCamera) override { m_camera = pCamera; }
 	Camera &GetCamera() { return *m_camera; }
 	const Camera &GetCamera() const { return *m_camera; }
+
+	void FrameAll(const AABB &aabb);
 
 private:
 	void OnKeyPress(const float deltaTime);

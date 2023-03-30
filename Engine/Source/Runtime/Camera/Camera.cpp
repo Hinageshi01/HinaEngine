@@ -31,14 +31,24 @@ glm::mat4 Camera::GetViewProjectionMatrix(const uint32_t width, const uint32_t h
     return GetProjectionMatrix(width, height) * GetViewMatrix();
 }
 
-void Camera::RecalculateDirections() {
-    glm::vec3 front = {
-        cos(m_yaw) * cos(m_pitch),
-        sin(m_pitch),
-        sin(m_yaw) * cos(m_pitch)
-    };
+void Camera::LookAt(const glm::vec3 &target) {
+    m_front = glm::normalize(target - m_position);
+    m_yaw = glm::atan(m_front.z, m_front.x);
+    m_pitch = glm::asin(m_front.y);
 
-    m_front = glm::normalize(std::move(front));
+    RecalculateDirections(false);
+}
+
+void Camera::RecalculateDirections(const bool reCalculateFront) {
+    if(reCalculateFront) {
+        glm::vec3 front = {
+            cos(m_yaw) * cos(m_pitch),
+            sin(m_pitch),
+            sin(m_yaw) * cos(m_pitch)
+        };
+        m_front = glm::normalize(std::move(front));
+    }
+
     m_right = glm::normalize(glm::cross(m_front, m_worldUp));
     m_up    = glm::normalize(glm::cross(m_right, m_front));
 }
