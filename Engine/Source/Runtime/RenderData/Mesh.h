@@ -3,6 +3,7 @@
 #include "RenderCore/VertexArray.h"
 #include "RenderCore/Shader.h"
 #include "RenderData/Vertex.h"
+#include "RenderData/Material/Material.h"
 
 namespace Hina
 {
@@ -45,6 +46,10 @@ public:
 	const Index &GetIndex(const size_t index) const { return m_indices.at(index); }
 	size_t GetIndicesCount() const { return m_indices.size(); }
 
+	void Setmaterial(Material &&material) { m_material = std::move(material); }
+	Material &GetMaterial() { return m_material; }
+	const Material &GetMaterial() const { return m_material; }
+
 private:
 	const float *GetVerticesData() const;
 
@@ -52,7 +57,7 @@ private:
 
 	std::vector<Vertex> m_vertices;
 	std::vector<Index> m_indices;
-	// material
+	Material m_material;
 };
 
 } // namespace Hina

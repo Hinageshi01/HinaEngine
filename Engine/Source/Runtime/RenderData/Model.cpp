@@ -1,6 +1,9 @@
 #include "hnpch.h"
 #include "Model.h"
 
+#include <assimp/Importer.hpp>
+#include <assimp/postprocess.h>
+
 namespace Hina
 {
 
@@ -15,15 +18,19 @@ inline glm::vec3 GetAABBMin(const aiAABB &aabb) {
     return { aabb.mMin.x, aabb.mMin.y, aabb.mMin.x };
 }
 
-}
+} // namespace Utils
 
-Model::Model(const std::string &path) : m_path(path) {
+Model::Model(const MaterialType &type, const std::string &path)
+    : m_materialType(type), m_path(path) {
+
     HN_PROFILE_FUNCTION();
 
     ImportScene(m_path);
 }
 
-Model::Model(std::string &&path) : m_path(std::move(path)) {
+Model::Model(const MaterialType &type, std::string &&path)
+    : m_materialType(type), m_path(std::move(path)) {
+
     HN_PROFILE_FUNCTION();
 
     ImportScene(m_path);
@@ -70,6 +77,7 @@ void Model::ProcessScene(const aiScene *pScene) {
     HN_CORE_TRACE("    Mesh count: {0}", pScene->mNumMeshes);
     HN_CORE_TRACE("    Material count: {0}", pScene->mNumMaterials);
 
+    // Init m_aabb by the first AABB of meshes.
     const auto &aiAABB = pScene->mMeshes[0]->mAABB;
     m_aabb.SetMax(Utils::GetAABBMax(aiAABB));
     m_aabb.SetMin(Utils::GetAABBMin(aiAABB));
@@ -86,7 +94,7 @@ void Model::ProcessNode(const aiScene *pScene, const aiNode *pNode) {
 
     for(size_t meshIndex = 0; meshIndex < pNode->mNumMeshes; ++meshIndex) {
         aiMesh *mesh = pScene->mMeshes[pNode->mMeshes[meshIndex]];
-        ProcessMesh(mesh);
+        ProcessMesh(pScene, mesh);
     }
     
     // Recursive.
@@ -95,7 +103,7 @@ void Model::ProcessNode(const aiScene *pScene, const aiNode *pNode) {
     }
 }
 
-void Model::ProcessMesh(const aiMesh *pMesh) {
+void Model::ProcessMesh(const aiScene *pScene, const aiMesh *pMesh) {
     HN_CORE_TRACE("");
     HN_CORE_TRACE("            Mesh name: {0}", pMesh->mName.C_Str());
     HN_CORE_TRACE("            Vertex count: {0}", pMesh->mNumVertices);
@@ -148,6 +156,8 @@ void Model::ProcessMesh(const aiMesh *pMesh) {
             uv.y = aiUv.y;
         }
 
+        // TODO : Bone
+
         vertices.emplace_back(std::move(vertex));
     }
 
@@ -165,12 +175,22 @@ void Model::ProcessMesh(const aiMesh *pMesh) {
         }
     }
 
+    ////////////////////////////// MATERIAL //////////////////////////////
+
+    Material material;
+
+    if(pMesh->mMaterialIndex >= 0) {
+        const aiMaterial *pMaterial = pScene->mMaterials[pMesh->mMaterialIndex];
+        material.Init(m_materialType, pMaterial);
+    }
+
     ////////////////////////////// MESH //////////////////////////////
 
     Mesh mesh;
     mesh.SetVertices(std::move(vertices));
     mesh.SetIndices(std::move(indices));
     mesh.CreateVertexArray();
+    mesh.Setmaterial(std::move(material));
     m_meshs.emplace_back(std::move(mesh));
 }
 

@@ -5,9 +5,7 @@
 #include "Core/Timer.h"
 #include "RenderData/AABB.h"
 
-#include <assimp/Importer.hpp>
 #include <assimp/scene.h>
-#include <assimp/postprocess.h>
 
 namespace Hina
 {
@@ -15,8 +13,8 @@ namespace Hina
 class Model final
 {
 public:
-	explicit Model(const std::string &path);
-	explicit Model(std::string &&path);
+	Model(const MaterialType &type, const std::string &path);
+	Model(const MaterialType &type, std::string &&path);
 
 	Model() = default;
 	Model(const Model &) = default;
@@ -27,20 +25,22 @@ public:
 
 	void Draw(const std::shared_ptr<Shader> &pShader, const glm::mat4 &trans = glm::identity<glm::mat4>()) const;
 
-	const std::string &GetPath() { return m_path; }
+	const std::string &GetPath() const { return m_path; }
 	const AABB &GetAABB() const { return m_aabb; }
+	const MaterialType &GetMaterialType() const { return m_materialType; }
 
 private:
 	void ImportScene(const std::string &path);
 	void ProcessScene(const aiScene *pScene);
 	void ProcessNode(const aiScene *pScene, const aiNode *pNode);
-	void ProcessMesh(const aiMesh *pMesh);
+	void ProcessMesh(const aiScene *pScene, const aiMesh *pMesh);
 
 	Timer m_timer;
 	std::string m_path;
-
+	
 	AABB m_aabb;
 	std::vector<Mesh> m_meshs;
+	MaterialType m_materialType = MaterialType::None;
 };
 
 } // namespace Hina

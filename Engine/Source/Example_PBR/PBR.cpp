@@ -95,8 +95,8 @@ public:
 		// tmp
 		m_pTexture = Hina::Texture2D::Create(Hina::Path::FromAsset("Texture/japanese_stone_wall_diff.png"));
 
-		m_model = Hina::Model(Hina::Path::FromAsset("Model/officebot/scene.gltf"));
-		//m_model = Hina::Model("C:/Users/22470/Desktop/rock_jacket_mid-poly/scene.gltf");
+		m_model = Hina::Model(Hina::MaterialType::BasePBR, Hina::Path::FromAsset("Model/officebot/scene.gltf"));
+		//m_model = Hina::Model(Hina::MaterialType::BasePBR, "C:/Users/22470/Desktop/rock_jacket_mid-poly/scene.gltf");
 
 		m_cameraController.FrameAll(m_model.GetAABB());
 	}
