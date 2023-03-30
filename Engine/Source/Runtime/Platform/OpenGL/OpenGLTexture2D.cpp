@@ -57,7 +57,7 @@ OpenGLTexture2D::OpenGLTexture2D(const std::string &path) : m_path(path) {
 		stbi_image_free(data);
 	}
 	else {
-		HN_CORE_ERROR("Faild to load texture at {}.", m_path);
+		HN_CORE_ERROR("Faild to load texture at {0}", m_path);
 	}
 }
 

@@ -92,9 +92,6 @@ public:
 			Hina::Path::FromAsset("Shader/v_testShader.glsl"),
 			Hina::Path::FromAsset("Shader/f_testShader.glsl"));
 
-		// tmp
-		m_pTexture = Hina::Texture2D::Create(Hina::Path::FromAsset("Texture/japanese_stone_wall_diff.png"));
-
 		m_model = Hina::Model(Hina::MaterialType::BasePBR, Hina::Path::FromAsset("Model/officebot/scene.gltf"));
 		//m_model = Hina::Model(Hina::MaterialType::BasePBR, "C:/Users/22470/Desktop/rock_jacket_mid-poly/scene.gltf");
 
@@ -113,14 +110,6 @@ public:
 		Hina::RenderCore::SetClears(glm::vec4(0.7f, 0.8f, 0.8f, 1.0f), 1.0f);
 		Hina::RenderCore::SetDefaultMatrices();
 
-		// tmp
-		{
-			m_pShader->Bind();
-			m_pTexture->Bind(0);
-			m_pShader->SetInt("us_albedo", 0);
-			m_pShader->Unbind();
-		}
-		
 		Hina::RenderCore::BeginScene();
 		m_model.Draw(m_pShader);
 		Hina::RenderCore::EndScene();
@@ -137,11 +126,8 @@ public:
 	}
 
 private:
-	std::shared_ptr<Hina::Shader> m_pShader;
-	// tmp
-	std::shared_ptr<Hina::Texture2D> m_pTexture;
-
 	Hina::Model m_model;
+	std::shared_ptr<Hina::Shader> m_pShader;
 	Hina::FirstPersonCamera m_cameraController;
 };
 

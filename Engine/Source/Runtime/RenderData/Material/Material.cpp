@@ -81,6 +81,8 @@ void Material::InitBasePBR(const aiMaterial *pMaterial) {
 }
 
 void Material::LoadTexture(const TextureType &textureType, const std::string &relativePath) {
+	// TODO : Not sure if the texture will be load repeatedly.
+
 	m_loadTextureTypes.push_back(textureType);
 
 	std::string absolutePath = (std::filesystem::path(m_modelPath).parent_path() / relativePath).string();

@@ -54,7 +54,7 @@ void Model::ImportScene(const std::string &path) {
 
     {
         HN_PROFILE_SCOPE("const aiScene *Importer::ReadFile(const std::string &pFile, unsigned int pFlags)");
-        pScene = importer.ReadFile(path, aiProcess_GenBoundingBoxes | aiProcess_Triangulate | aiProcess_PreTransformVertices);
+        pScene = importer.ReadFile(path, aiProcessPreset_TargetRealtime_MaxQuality | aiProcess_GenBoundingBoxes | aiProcess_PreTransformVertices);
     }
 
     if(nullptr != pScene) {
