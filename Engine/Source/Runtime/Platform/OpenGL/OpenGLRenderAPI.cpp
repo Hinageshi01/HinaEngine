@@ -82,6 +82,9 @@ void OpenGLRenderAPI::SetClearStencil(const int stencial) {
 void OpenGLRenderAPI::Clear() {
 	HN_PROFILE_FUNCTION();
 
+	glUseProgram(0);
+	glBindVertexArray(0);
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 

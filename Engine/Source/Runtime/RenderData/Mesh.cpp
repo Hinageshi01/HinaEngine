@@ -9,6 +9,7 @@ namespace Hina
 void Mesh::Draw(const std::shared_ptr<Shader> &pShader, const glm::mat4 &trans) const {
 	HN_PROFILE_FUNCTION();
 
+	m_material.SubmitTextures(pShader);
 	RenderCore::Submit(pShader, m_pVertexArray, trans);
 }
 

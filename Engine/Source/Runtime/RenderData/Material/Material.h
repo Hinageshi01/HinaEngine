@@ -1,5 +1,6 @@
 #pragma once
 
+#include "RenderCore/Shader.h"
 #include "RenderCore/Texture2D.h"
 #include "RenderData/Material/MaterialDefines.h"
 #include "RenderData/Material/PropertyMap.hpp"
@@ -27,6 +28,8 @@ public:
 	Material(Material &&) = default;
 	Material &operator=(Material &&) = default;
 	~Material() = default;
+
+	void SubmitTextures(const std::shared_ptr<Shader> &pShader) const;
 
 	void Load(const std::string &path, const aiMaterial *pMaterial);
 

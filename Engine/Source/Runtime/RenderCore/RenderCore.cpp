@@ -106,6 +106,7 @@ void RenderCore::Submit(const std::shared_ptr<Shader> &shader, const std::shared
 	HN_PROFILE_FUNCTION();
 	
 	shader->Bind();
+
 	shader->SetMat4("u_model", transform);
 	shader->SetMat4("u_view", m_viewMatrix);
 	shader->SetMat4("u_projection", m_projectionMatrix);

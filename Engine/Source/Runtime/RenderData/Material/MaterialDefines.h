@@ -7,7 +7,7 @@ enum class PropertyGroup
 {
 	None = 0,
 
-	Ambient,
+	Albedo,
 	Normal,
 	Occlusion,
 	Roughness,

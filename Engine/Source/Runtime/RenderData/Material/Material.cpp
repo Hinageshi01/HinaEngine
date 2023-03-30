@@ -9,7 +9,7 @@ namespace Utils
 
 inline aiTextureType GetAssimpTextureType(const TextureType &type){
 	switch(type) {
-		case TextureType::Ambient:
+		case TextureType::Albedo:
 			return aiTextureType_BASE_COLOR;
 		case TextureType::Normal:
 			return aiTextureType_NORMALS;
@@ -27,12 +27,47 @@ inline aiTextureType GetAssimpTextureType(const TextureType &type){
 	}
 }
 
+inline std::string GetSamplerName(const TextureType &type) {
+	switch(type) {
+		case TextureType::Albedo:
+			return "s_albedo";
+		case TextureType::Normal:
+			return "s_normal";
+		case TextureType::ORM_Combine:
+			return "s_orm";
+		case TextureType::Emissive:
+			return "s_emissive";
+
+		default:
+			return "s_unknow";
+	}
+}
+
 const std::vector<TextureType> basePBRTextureTypes = {
-	TextureType::Ambient, TextureType::Normal, TextureType::ORM_Combine,
+	TextureType::Albedo, TextureType::Normal, TextureType::ORM_Combine,
 	// TextureType::Occlusion, TextureType::Roughness, TextureType::Metallic,
 };
 
 } // namespace Utils
+
+void Material::SubmitTextures(const std::shared_ptr<Shader> &pShader) const {
+	HN_CORE_ASSERT(m_textures.size() == m_loadTextureTypes.size(), "Loaded texture type mismatch!");
+
+	pShader->Bind();
+
+	int slot = 0;
+	for(size_t textureIndex = 0; textureIndex < m_textures.size(); ++textureIndex) {
+		const auto &texture = m_textures.at(textureIndex);
+		const auto &type = m_loadTextureTypes.at(textureIndex);
+
+		texture->Bind(slot);
+		pShader->SetInt(Utils::GetSamplerName(type), slot);
+
+		++slot;
+	}
+
+	pShader->Unbind();
+}
 
 void Material::Load(const std::string &path, const aiMaterial *pMaterial) {
 	HN_CORE_TRACE("");
