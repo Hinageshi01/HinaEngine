@@ -93,7 +93,7 @@ public:
 			Hina::Path::FromAsset("Shader/f_testShader.glsl"));
 
 		m_model = Hina::Model(Hina::MaterialType::BasePBR, Hina::Path::FromAsset("Model/officebot/scene.gltf"));
-		//m_model = Hina::Model(Hina::MaterialType::BasePBR, "C:/Users/22470/Desktop/rock_jacket_mid-poly/scene.gltf");
+		//m_model = Hina::Model(Hina::MaterialType::BasePBR, "C:/Users/22470/Desktop/game_ready_scifi_helmet_2/scene.gltf");
 
 		m_cameraController.FrameAll(m_model.GetAABB());
 	}

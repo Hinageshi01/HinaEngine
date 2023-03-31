@@ -16,4 +16,5 @@ uniform sampler2D s_emissive;
 void main()
 {
 	fragColor = texture(s_albedo, v_textureCoord);
+	fragColor = vec4(v_normal, 1.0);
 }

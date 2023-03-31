@@ -31,7 +31,8 @@ glm::vec3 AABB::GetCentre() const {
 
 float AABB::GetSize() const {
 	if(IsValid()) {
-		return (m_max - m_min).length();
+		const glm::vec3 diagonal = m_max - m_min;
+		return std::sqrtf(diagonal.x * diagonal.x + diagonal.y * diagonal.y + diagonal.z * diagonal.z);
 	}
 	else {
 		HN_CORE_ERROR("Bounding box invalid!");
