@@ -92,10 +92,17 @@ public:
 			Hina::Path::FromAsset("Shader/v_testShader.glsl"),
 			Hina::Path::FromAsset("Shader/f_testShader.glsl"));
 
-		m_model = Hina::Model(Hina::MaterialType::BasePBR, Hina::Path::FromAsset("Model/officebot/scene.gltf"));
-		//m_model = Hina::Model(Hina::MaterialType::BasePBR, "C:/Users/22470/Desktop/game_ready_scifi_helmet_2/scene.gltf");
+		//m_model = Hina::Model(Hina::MaterialType::BasePBR, "C:/Users/22470/Desktop/Models/desert_eagle_2/scene.gltf");
+		//m_model = Hina::Model(Hina::MaterialType::BasePBR, "C:/Users/22470/Desktop/Models/gas_bottles_set/scene.gltf");
+		//m_model = Hina::Model(Hina::MaterialType::BasePBR, "C:/Users/22470/Desktop/Models/old_wooden_chest/scene.gltf");
+		
+		//m_model = Hina::Model(Hina::MaterialType::BasePBR, "C:/Users/22470/Desktop/Models/platypus/scene.gltf");
+		//m_model = Hina::Model(Hina::MaterialType::BasePBR, "C:/Users/22470/Desktop/Models/spaceship_nortend/scene.gltf");
+		//m_model = Hina::Model(Hina::MaterialType::BasePBR, "C:/Users/22470/Desktop/Models/steampunk_handgun/scene.gltf");
 
+		// Some little trick to get a comfortable camera control feeling.
 		m_cameraController.FrameAll(m_model.GetAABB());
+		m_cameraController.SetSpeed(m_model.GetAABB().GetSize() * 1.8f);
 	}
 
 	virtual void OnDetach() override {
