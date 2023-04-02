@@ -2,8 +2,10 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/aee7dd99c5324998be06c0a1e53778f4)](https://www.codacy.com/gh/Hinageshi01/HinaEngine/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Hinageshi01/HinaEngine&amp;utm_campaign=Badge_Grade)
 
 ## Depends on
-- [VS2022](https://visualstudio.microsoft.com/downloads/)
 - [CMake](https://cmake.org/download/#latest)
+- [Premake 5](https://github.com/premake/premake-core)
+- [VS2022](https://visualstudio.microsoft.com/downloads/)
+
 
 ## Thirdparty
 - [assimp 5.2.5](https://github.com/assimp/assimp)
