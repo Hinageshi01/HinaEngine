@@ -16,8 +16,8 @@ jobs:
     - name: Add MSBuild to PATH.
       uses: microsoft/setup-msbuild@v1.1
 
-    - name: Make project.
-      run: ${{github.workspace}}/Make.bat
+    - name: Setup project.
+      run: ${{github.workspace}}/Setup.bat
 
     - name: Build x64 Debug.
       run: msbuild ${{github.workspace}}/HinaEngine.sln /p:Configuration=Debug /p:Platform=x64
