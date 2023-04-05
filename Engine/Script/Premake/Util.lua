@@ -1,4 +1,4 @@
-project("Remake")
+project("Setup")
 	kind("Utility")
 
 	location(IntermediatePath)
@@ -12,5 +12,5 @@ project("Remake")
 
 	postbuildcommands {
 		"cd "..RootPath,
-		"Make.bat",
+		"Setup.bat",
 	}

@@ -41,6 +41,6 @@ dofile("MakeEngine.lua")
 
 dofile("MakeExamples.lua")
 
-dofile("Utility.lua")
+dofile("Util.lua")
 
 dofile("Asset.lua")
