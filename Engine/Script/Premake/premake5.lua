@@ -39,7 +39,7 @@ dofile("MakeThirdParty.lua")
 
 dofile("MakeEngine.lua")
 
-dofile("MakeExamples.lua")
+dofile("MakeExample.lua")
 
 dofile("Util.lua")
 

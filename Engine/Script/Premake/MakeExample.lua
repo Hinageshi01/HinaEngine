@@ -1,3 +1,5 @@
+print("Generating examples...")
+
 print("Generating Example_PBR...")
 
 project("Example_PBR")
@@ -93,19 +95,7 @@ project("Example_PBR")
 	externalwarnings("Off")
 	
 	flags {
-		-- "FatalWarnings",
 		"MultiProcessorCompile",
 	}
-	
-	-- Copy dll into binary folder automatically.
-	-- filter { "configurations:Debug" }
-	-- 	postbuildcommands {
-	-- 		"copy \""..path.join(BinaryPath, "Debug-x64\\Hina\\Hinad.dll\" \"")..path.join(BinaryPath, "Debug-x64\\PBR\\Hinad.dll\" /y")
-	-- 	}
-	-- filter { "configurations:Release" }
-	-- 	postbuildcommands {
-	-- 		"copy \""..path.join(BinaryPath, "Release-x64\\Hina\\Hina.dll\" \"")..path.join(BinaryPath, "Release-x64\\PBR\\Hina.dll\" /y")
-	-- 	}
-	-- filter {}
 
 print("")
