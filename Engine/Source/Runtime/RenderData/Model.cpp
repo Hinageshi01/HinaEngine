@@ -20,16 +20,16 @@ inline glm::vec3 GetAABBMin(const aiAABB &aabb) {
 
 } // namespace Utils
 
-Model::Model(const MaterialType &type, const std::string &path)
-    : m_materialType(type), m_path(path) {
+Model::Model(const std::string &name, const MaterialType &type, const std::string &path)
+    : m_materialType(type), m_name(name), m_path(path) {
 
     HN_PROFILE_FUNCTION();
 
     ImportScene(m_path);
 }
 
-Model::Model(const MaterialType &type, std::string &&path)
-    : m_materialType(type), m_path(std::move(path)) {
+Model::Model(std::string &&name, const MaterialType &type, std::string &&path)
+    : m_materialType(type), m_name(std::move(name)), m_path(std::move(path)) {
 
     HN_PROFILE_FUNCTION();
 
@@ -39,8 +39,10 @@ Model::Model(const MaterialType &type, std::string &&path)
 void Model::Draw(const std::shared_ptr<Shader> &pShader, const glm::mat4 &trans) const {
     HN_PROFILE_FUNCTION();
 
-    for(const auto &mesh : m_meshs) {
-        mesh.Draw(pShader, trans);
+    if(m_isLoaded) {
+        for(const auto &mesh : m_meshs) {
+            mesh.Draw(pShader, trans);
+        }
     }
 }
 
@@ -57,21 +59,23 @@ void Model::ImportScene(const std::string &path) {
         pScene = importer.ReadFile(path, aiProcessPreset_TargetRealtime_MaxQuality | aiProcess_GenBoundingBoxes | aiProcess_PreTransformVertices);
     }
 
-    if(nullptr != pScene) {
+    if(pScene) {
         ProcessScene(pScene);
+
+        m_isLoaded = true;
+
+        HN_CORE_TRACE("");
+        HN_CORE_TRACE("    Loading model used {0} seconds", m_timer.ElapsedSeconds());
+        HN_CORE_TRACE("    {0} aabb max: {1}", m_name, m_aabb.GetMax());
+        HN_CORE_TRACE("    {0} aabb min: {1}", m_name, m_aabb.GetMin());
     }
     else {
         HN_CORE_ERROR("Import model failed at {0}", path);
     }
-
-    HN_CORE_TRACE("");
-    HN_CORE_TRACE("    Loading model used {0} seconds", m_timer.ElapsedSeconds());
-    HN_CORE_TRACE("    Model aabb max : {0}", m_aabb.GetMax());
-    HN_CORE_TRACE("    Model aabb min : {0}", m_aabb.GetMin());
 }
 
 void Model::ProcessScene(const aiScene *pScene) {
-    HN_CORE_INFO("Loading model {0}", m_path);
+    HN_CORE_INFO("Loading model {0} at {1}", m_name, m_path);
     HN_CORE_TRACE("Model details:");
     HN_CORE_TRACE("    Scene name: {0}", pScene->mName.C_Str());
     HN_CORE_TRACE("    Mesh count: {0}", pScene->mNumMeshes);
