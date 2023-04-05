@@ -108,7 +108,7 @@ void Material::InitBasePBR(const aiMaterial *pMaterial) {
 			HN_CORE_TRACE("                Texture type {0} path: {1}", GetMaterialPropertyGroupName(textureType), texturePath);
 
 			std::string key = GetMaterialPropertyTextureKey(textureType);
-			m_propertyGroups.Add(key, texturePath);
+			m_propertyGroups.Add(std::move(key), texturePath);
 
 			LoadTexture(textureType, texturePath);
 		}
@@ -121,7 +121,7 @@ void Material::LoadTexture(const TextureType &textureType, const std::string &re
 	m_loadTextureTypes.push_back(textureType);
 
 	std::string absolutePath = (std::filesystem::path(m_modelPath).parent_path() / relativePath).string();
-	m_textures.push_back(Texture2D::Create(absolutePath));
+	m_textures.push_back(Texture2D::Create(std::move(absolutePath)));
 }
 
 } // namespace Hina

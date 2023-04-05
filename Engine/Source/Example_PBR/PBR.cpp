@@ -96,9 +96,8 @@ public:
 		//m_model = Hina::Model("Bottle", Hina::MaterialType::BasePBR, "C:/Users/22470/Desktop/Models/gas_bottles_set/scene.gltf");
 		//m_model = Hina::Model("Chest", Hina::MaterialType::BasePBR, "C:/Users/22470/Desktop/Models/old_wooden_chest/scene.gltf");
 		
-		//m_model = Hina::Model(Hina::MaterialType::BasePBR, "C:/Users/22470/Desktop/Models/platypus/scene.gltf");
-		//m_model = Hina::Model(Hina::MaterialType::BasePBR, "C:/Users/22470/Desktop/Models/spaceship_nortend/scene.gltf");
-		//m_model = Hina::Model(Hina::MaterialType::BasePBR, "C:/Users/22470/Desktop/Models/steampunk_handgun/scene.gltf");
+		//m_model = Hina::Model("Spaceship", Hina::MaterialType::BasePBR, "C:/Users/22470/Desktop/Models/spaceship_nortend/scene.gltf");
+		m_model = Hina::Model("", Hina::MaterialType::BasePBR, "C:/Users/22470/Desktop/Models/steampunk_handgun/scene.gltf");
 
 		// Some little trick to get a comfortable camera controling.
 		if(m_model.IsLoaded()) {
