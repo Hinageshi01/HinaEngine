@@ -113,6 +113,11 @@ void Model::ProcessMesh(const aiScene *pScene, const aiMesh *pMesh) {
     HN_CORE_TRACE("            Vertex count: {0}", pMesh->mNumVertices);
     HN_CORE_TRACE("            Index count: {0}", pMesh->mNumFaces * 3);
 
+    if(pMesh->mFaces[0].mNumIndices != 3) {
+        HN_CORE_WARN("Hina only supports triangle face!");
+        return;
+    }
+
     const auto &aiAABB = pMesh->mAABB;
     m_aabb.AddPoint(Utils::GetAABBMax(aiAABB));
     m_aabb.AddPoint(Utils::GetAABBMin(aiAABB));
@@ -167,14 +172,12 @@ void Model::ProcessMesh(const aiScene *pScene, const aiMesh *pMesh) {
 
     ////////////////////////////// INDEX //////////////////////////////
 
-    HN_CORE_ASSERT(pMesh->mFaces[0].mNumIndices == 3, "Hina only supports triangle face!");
-
     std::vector<Index> indices;
     indices.reserve(pMesh->mNumFaces * 3);
     
     for(size_t faceIndex = 0; faceIndex < pMesh->mNumFaces; ++faceIndex) {
         aiFace face = pMesh->mFaces[faceIndex];
-        for(size_t indexIndex = 0; indexIndex < face.mNumIndices; ++indexIndex) {
+        for(size_t indexIndex = 0; indexIndex < 3; ++indexIndex) {
             indices.push_back(static_cast<Index>(face.mIndices[indexIndex]));
         }
     }

@@ -37,7 +37,7 @@ enum class Property
 constexpr const char *PropertyGroupName[] =
 {
 	"None",
-	"Ambient",
+	"Albedo",
 	"Normal",
 	"Occlusion",
 	"Roughness",
