@@ -49,8 +49,6 @@ private:
 	EditorProfiler m_profiler;
 
 	glm::vec2 m_primaryFramebufferSize = glm::vec2(0.0f, 0.0f);
-
-	bool m_blockEvents = false;
 };
 
 } // namespace Hina

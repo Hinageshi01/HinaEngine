@@ -50,12 +50,7 @@ void EditorLayer::OnImGuiRender() {
 }
 
 void EditorLayer::OnEvent(Event &event) {
-	// tmp
-	if(m_blockEvents) {
-		ImGuiIO &io = ImGui::GetIO();
-		event.m_isHandled |= event.IsInCategory(EventCategory::Mouse);
-		event.m_isHandled |= event.IsInCategory(EventCategory::Keyboard);
-	}
+
 }
 
 void EditorLayer::ShowDockSpace() {
@@ -99,10 +94,8 @@ void EditorLayer::ShowScene() {
 
 	ImGui::Begin("Scene");
 
-	m_blockEvents = !ImGui::IsWindowFocused();
-
 	ImGui::Image((void *)(uint64_t)RenderCore::GetFramebufferColorAttachmentRenderID(),
-		ImGui::GetWindowSize(), ImVec2(0, 1), ImVec2(1, 0));
+		ImGui::GetContentRegionAvail(), ImVec2(0, 1), ImVec2(1, 0));
 
 	glm::vec2 crtSceneSize = { ImGui::GetWindowSize().x, ImGui::GetWindowSize().y };
 	if(m_primaryFramebufferSize != crtSceneSize) {
