@@ -67,8 +67,8 @@ void FirstPersonCamera::OnMouseMove() {
 }
 
 bool FirstPersonCamera::OnMouseScroll(const MouseScrollEvent &event) {
-    m_camera->UpdateZoom(-m_scrollSensitive * event.GetYOffset());
-    m_camera->GetZoom() = std::clamp(m_camera->GetZoom(), 1.0f, 45.0f);
+    const float zoom = m_camera->GetZoom() - m_scrollSensitive * event.GetYOffset();
+    m_camera->SetZoom(std::clamp(zoom, glm::radians(5.0f), glm::radians(45.0f)));
 
     return true;
 }

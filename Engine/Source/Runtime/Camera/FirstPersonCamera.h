@@ -39,7 +39,7 @@ private:
 
 	float m_moveSensitive = 2.5f;
 	float m_rotateSensitive = 0.002f;
-	float m_scrollSensitive = 1.0f;
+	float m_scrollSensitive = 0.1f;
 };
 
 } // namespace Hina
