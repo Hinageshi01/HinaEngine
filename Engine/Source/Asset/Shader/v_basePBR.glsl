@@ -3,13 +3,13 @@
 layout(location = 0) in vec3 a_position;
 layout(location = 1) in vec3 a_normal;
 layout(location = 2) in vec3 a_tangent;
-layout(location = 3) in vec2 a_textureCoord;
+layout(location = 3) in vec2 a_uv0;
 
 out vec3 v_worldPos;
 out vec3 v_normal;
 out vec3 v_tangent;
 out vec3 v_bitangent;
-out vec2 v_textureCoord;
+out vec2 v_uv0;
 
 uniform mat4 u_model;
 uniform mat4 u_view;
@@ -26,5 +26,5 @@ void main()
 	v_tangent = normalize(modelInvTrans * a_tangent);
 	v_bitangent = normalize(cross(v_normal, v_tangent));
 
-	v_textureCoord = a_textureCoord;
+	v_uv0 = a_uv0;
 }

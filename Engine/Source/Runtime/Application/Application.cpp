@@ -44,9 +44,9 @@ void Application::Run() {
 	while(m_isRunning) {
 		HN_PROFILE_SCOPE("[ Main Loop ]");
 
-		const float crtFrameTime = m_window->GetTime();
-		const DeltaTime deltaTime = crtFrameTime - m_lastFrameTime;
-		m_lastFrameTime = crtFrameTime;
+		m_crtFrameTime = m_window->GetTime();
+		const DeltaTime deltaTime = m_crtFrameTime - m_lastFrameTime;
+		m_lastFrameTime = m_crtFrameTime;
 
 		if(!m_isMinimized) {
 			{

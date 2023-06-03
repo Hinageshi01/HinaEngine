@@ -111,6 +111,8 @@ void RenderCore::Submit(const std::shared_ptr<Shader> &shader, const std::shared
 	shader->SetMat4("u_view", m_viewMatrix);
 	shader->SetMat4("u_projection", m_projectionMatrix);
 
+	shader->SetVec3("u_cameraPos", m_pCamera.get()->GetPosition());
+
 	RenderCommand::DrawIndexed(vertexArray);
 
 	shader->Unbind();

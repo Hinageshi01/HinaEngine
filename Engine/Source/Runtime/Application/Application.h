@@ -42,6 +42,8 @@ public:
 
 	Scene &GetScene() { return m_scene; }
 	const Scene &GetScene() const { return m_scene; }
+
+	const float &GetCrtTime() { return m_crtFrameTime; }
 	
 private:
 	static Application *m_instance;
@@ -59,6 +61,7 @@ private:
 	bool m_isRunning = false;
 	bool m_isMinimized = false;
 	float m_lastFrameTime = 0.0f;
+	float m_crtFrameTime = 0.0f;
 };
 
 // To be defined in example.

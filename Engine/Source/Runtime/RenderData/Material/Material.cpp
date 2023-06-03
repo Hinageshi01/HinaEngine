@@ -1,6 +1,8 @@
 #include "hnpch.h"
 #include "Material.h"
 
+#include "Path/Path.h"
+
 namespace Hina
 {
 
@@ -34,9 +36,11 @@ inline std::string GetSamplerName(const TextureType &type) {
 		case TextureType::Normal:
 			return "s_normal";
 		case TextureType::ORM_Combine:
-			return "s_orm";
+			return "s_ORM";
 		case TextureType::Emissive:
 			return "s_emissive";
+		case TextureType::IBL_BRDF_LUT:
+			return "s_IBL_BRDF_LUT";
 
 		default:
 			return "s_unknow";
@@ -113,6 +117,9 @@ void Material::InitBasePBR(const aiMaterial *pMaterial) {
 			LoadTexture(textureType, texturePath);
 		}
 	}
+
+	m_textures.push_back(Texture2D::Create(Path::FromAsset("Texture/ibl_brdf_lut.png")));
+	m_loadTextureTypes.push_back(TextureType::IBL_BRDF_LUT);
 }
 
 void Material::LoadTexture(const TextureType &textureType, const std::string &relativePath) {
