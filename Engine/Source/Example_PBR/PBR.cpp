@@ -24,10 +24,7 @@ public:
 			Hina::Path::FromAsset("Shader/v_testShader.glsl"),
 			Hina::Path::FromAsset("Shader/f_testShader.glsl"));
 
-		//m_model = Hina::Model("Gun", Hina::MaterialType::BasePBR, "C:/Users/22470/Desktop/Models/desert_eagle_2/scene.gltf");
-		//m_model = Hina::Model("Bottle", Hina::MaterialType::BasePBR, "C:/Users/22470/Desktop/Models/gas_bottles_set/scene.gltf");
-		//m_model = Hina::Model("Chest", Hina::MaterialType::BasePBR, "C:/Users/22470/Desktop/Models/old_wooden_chest/scene.gltf");
-		//m_model = Hina::Model("Tortoise", Hina::MaterialType::BasePBR, "C:/Users/22470/Desktop/Models/tortoise/scene.gltf");
+		m_model = Hina::Model("Gun", Hina::MaterialType::BasePBR, Hina::Path::FromAsset("Model/desert_eagle_2/scene.gltf"));
 
 		// Some little trick to get a comfortable camera controling.
 		if(m_model.IsLoaded()) {
