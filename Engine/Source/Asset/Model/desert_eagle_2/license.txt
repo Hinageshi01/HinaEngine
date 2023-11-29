@@ -1,0 +1,11 @@
+Model Information:
+* title:	Desert Eagle
+* source:	https://sketchfab.com/3d-models/desert-eagle-cabde59f5cf24effaf80536e35d04e95
+* author:	ELIZION (https://sketchfab.com/ELIZION)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Desert Eagle" (https://sketchfab.com/3d-models/desert-eagle-cabde59f5cf24effaf80536e35d04e95) by ELIZION (https://sketchfab.com/ELIZION) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

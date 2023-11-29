@@ -16,6 +16,8 @@ enum class PropertyGroup
 
 	Emissive,
 
+	IBL_BRDF_LUT,
+
 	Count,
 };
 
@@ -44,6 +46,7 @@ constexpr const char *PropertyGroupName[] =
 	"Metallic",
 	"ORM_Combine",
 	"Emissive",
+	"IBL_BRDF_LUT",
 };
 
 constexpr const char *PropertyName[] =
